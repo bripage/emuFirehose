@@ -40,8 +40,7 @@ void get_data_and_distribute() {
 
 	long chunk_elements = 40000000 ;
 	long chunk_size = chunk_elements * sizeof(struct packet);
-	long chunk_count, final_chunk_size, final_chunk_elements;
-	char* buffer;
+	long chunk_count = 0, final_chunk_size = 0, final_chunk_elements = 0;
 	struct packet* binBuffer;
 
 	if (file_packets < 40000000){

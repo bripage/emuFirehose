@@ -13,7 +13,7 @@ void recursive_spawn(long low, long high){
 		if (count <= 1) break;
 		// Invariant: count >= 2
 		unsigned long mid = low + count / 2;
-		cilk_migrate_hint(&result[mid]);
+		cilk_migrate_hint(&hash_table[mid]);
 		cilk_spawn recursive_spawn(mid, high);
 
 		high = mid;
@@ -25,8 +25,9 @@ void recursive_spawn(long low, long high){
 }
 
 void spray(long i, long n){
-	long addr, val, flag;
-	struct packet * wln = workload_list[n];
+	unsigned long addr;
+	long val, flag;
+	struct packet * wln = workload_dist[n];
 	long local_list_end = dist_end;
 
 	while (i < local_list_end) {

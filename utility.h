@@ -1,5 +1,5 @@
-#ifndef EMUFIREHOSE_UTILITY_H
-#define EMUFIREHOSE_UTILITY_H
+//#ifndef EMUFIREHOSE_UTILITY_H
+//#define EMUFIREHOSE_UTILITY_H
 
 #include "emu.h"
 #include "stdlib.h"
@@ -30,4 +30,4 @@ void parse_args(int argc, char * argv[]);
 void init();
 void cleanup();
 
-#endif //EMUFIREHOSE_UTILITY_H
+//#endif //EMUFIREHOSE_UTILITY_H

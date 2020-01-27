@@ -9,6 +9,13 @@
 #include "oah.h"
 #include <math.h>
 
+// Structure to hold packets in workload list
+struct packet {
+    unsigned long address;
+    long val;
+    long flag;
+};
+
 extern replicated struct packet ** workload_dist;
 extern replicated long PACKET_COUNT;
 extern replicated long dist_end;

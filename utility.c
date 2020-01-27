@@ -2,7 +2,6 @@
 // Created by bpage1 on 1/24/20.
 //
 #include "utility.h"
-#include "structs.h"
 
 void parse_args(int argc, char * argv[]) {
     size_t status;
@@ -36,25 +35,25 @@ void get_data_and_distribute() {
     size_t status;
     long i, file_size, file_pin;
     unsigned long packet_address;
-    char packet_val, packet_flag;
+    long packet_val, packet_flag;
     long nodelet, index_i = 0;
 
 	long chunk_elements = 40000000 ;
-	long chunk_size = chunk_elements * sizeof(packet);
+	long chunk_size = chunk_elements * sizeof(struct packet);
 	long chunk_count, final_chunk_size, final_chunk_elements;
 	char* buffer;
 	struct packet* binBuffer;
 
 	if (file_packets < 40000000){
-		chunk_size = file_packets  * sizeof(packet);
+		chunk_size = file_packets  * sizeof(struct packet);
 		chunk_elements = file_packets;
 		chunk_count = 1;
 		final_chunk_size = 0;
 	} else {
-		file_size = (file_packets+1) * sizeof(packet);
+		file_size = (file_packets+1) * sizeof(struct packet);
 		chunk_count = (file_packets) / chunk_elements;
 		final_chunk_elements = file_packets - (chunk_count * chunk_elements);
-		final_chunk_size = final_chunk_elements * sizeof(packet);
+		final_chunk_size = final_chunk_elements * sizeof(struct packet);
 
 		if (final_chunk_size != 0){
 			chunk_count++;
@@ -62,7 +61,7 @@ void get_data_and_distribute() {
 	}
 	printf("chunk_elements = %ld, chunk_size = %ld, chunk_count = %ld, final_chunk_elements = %ld, final_chunk_size = %ld\n", chunk_elements, chunk_size, chunk_count, final_chunk_elements, final_chunk_size);
 	fflush(stdout);
-	binBuffer = (packet *) malloc(chunk_size);
+	binBuffer = (struct packet *) malloc(chunk_size);
 	printf("Done allocating initial buffer chunk\n");
 	fflush(stdout);
 	if (binBuffer == NULL) {
@@ -70,7 +69,7 @@ void get_data_and_distribute() {
 		exit(1);
 	}
 
-	status = fread(binBuffer, sizeof(packet), chunk_elements, ifp);
+	status = fread(binBuffer, sizeof(struct packet), chunk_elements, ifp);
 	if (status != chunk_elements) {
 		printf("Error in reading file. %ld != %ld\n", status, chunk_size);
 		fflush(stdout);
@@ -105,7 +104,7 @@ void get_data_and_distribute() {
 				free(binBuffer);
 				printf("allocating buffer for final chunk\n");
 				fflush(stdout);
-				binBuffer = (packet *) malloc(final_chunk_size);
+				binBuffer = (struct packet *) malloc(final_chunk_size);
 
 				status = fread(binBuffer, 1, final_chunk_size, ifp);
 				if (status != final_chunk_size) {
@@ -152,7 +151,6 @@ void init(){
     printf("Replicated init start.\n");
     fflush(stdout);
     mw_replicated_init(&nodelet_count, nc);
-    mw_replicated_init(&PACKET_COUNT, args->PACKET_COUNT);
 
 	long * h = (long *) mw_malloc1dlong(100000);
 	printf("h allocated\n");

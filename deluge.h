@@ -19,7 +19,7 @@ extern replicated long nodelet_count;
 extern replicated long * hash_table;
 extern replicated long * hash_table_state;
 extern long * packet_index;
-
+struct packet;
 
 void spray(long i, long n);
 void recursive_spawn(long low, long high);

@@ -9,7 +9,6 @@
 #include "oah.h"
 #include <math.h>
 
-
 extern replicated struct packet ** workload_dist;
 extern replicated long PACKET_COUNT;
 extern replicated long dist_end;

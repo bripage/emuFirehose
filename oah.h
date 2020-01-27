@@ -14,6 +14,7 @@
 
 extern replicated long * hash_table;
 extern replicated long * hash_table_state;
+struct packet;
 
 void handle_packet(unsigned long address, long val, long flag);
 

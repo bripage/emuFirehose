@@ -36,11 +36,11 @@ void handle_packet(unsigned long address, long val, long flag) {
 		// empty slot, add or update the state for the given location and key
 		hash_table[i] = id;
 		hash_table_state[i]++;
-		alert_check(i);
+		alert_check(i, id);
 	}
 }
 
-void alert_check(long i){
+void alert_check(long i, unsigned long id){
 	if (hash_table_state[i] == alert_threshold) {
 		printf("Alert @ %ul\n", id);
 		hash_table_state[i] = 0;

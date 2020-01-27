@@ -18,5 +18,6 @@ extern replicated long * hash_table_state;
 struct packet;
 
 void handle_packet(unsigned long address, long val, long flag);
+void alert_check(long i, unsigned long id);
 
 #endif //EMUFIREHOSE_OAH_H

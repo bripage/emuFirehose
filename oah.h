@@ -10,7 +10,7 @@
 #include "fcntl.h"
 #include "oah.h"
 #include <math.h>
-#include "structdef.h"
+
 
 extern replicated long * hash_table;
 extern replicated long * hash_table_state;

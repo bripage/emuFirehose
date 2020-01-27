@@ -2,6 +2,7 @@
 // Created by Brian Page on 2020-01-27.
 //
 #include "deluge.h"
+#include "structdef.h"
 
 void recursive_spawn(long low, long high){
 	long i;

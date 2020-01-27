@@ -4,6 +4,7 @@
 #indlude "utility.h"
 #include "firehose.h"
 #include "stdint.h"
+#include "structdef.h"
 
 noinline long main(int argc, char **argv) {
     printf("%d\n", argc);

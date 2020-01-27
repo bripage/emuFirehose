@@ -2,6 +2,7 @@
 // Created by Brian Page on 2020-01-26.
 //
 #include "oah.h"
+#include "structdef.h"
 
 #define HASHTABLESIZE 100000
 #define alert_threshold 16

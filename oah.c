@@ -10,7 +10,7 @@
 void handle_packet(unsigned long address, long val, long flag) {
 	unsigned long id = address;
 	long hash = id % HASHTABLESIZE;
-	i = hash;
+	long i = hash;
 
 	if (hash_table[i] == -1 || hash_table[i] == id){
 		// insert and update state table

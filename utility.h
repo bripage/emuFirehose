@@ -26,6 +26,8 @@ extern long * packet_index;
 extern long file_packets;
 extern FILE * ifp;
 
+struct packet;
+
 void parse_args(int argc, char * argv[]);
 void init();
 void cleanup();

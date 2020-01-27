@@ -23,7 +23,7 @@ void parse_args(int argc, char * argv[]) {
 	}
 	printf("Packet Count = %ld\n", fbuf);
 	fflush(stdout);
-	file_packets = fbuf[0];
+	file_packets = fbuf;
 }
 
 long init_dist_end(long nodelet)
@@ -33,19 +33,18 @@ long init_dist_end(long nodelet)
 
 void get_data_and_distribute() {
     size_t status;
-    long file_size, file_pin;
+    long i, file_size, file_pin;
     unsigned long packet_address;
     char packet_val, packet_flag;
-    char *binBuffer;
     long nodelet, index_i = 0;
 
-	long chunk_elements = 100000000 ;
+	long chunk_elements = 40000000 ;
 	long chunk_size = chunk_elements * sizeof(packet);
 	long chunk_count, final_chunk_size, final_chunk_elements;
 	char* buffer;
 	packet* binBuffer;
 
-	if (file_packets < 100000000){
+	if (file_packets < 40000000){
 		chunk_size = file_packets  * sizeof(packet);
 		chunk_elements = file_packets;
 		chunk_count = 1;
@@ -62,7 +61,7 @@ void get_data_and_distribute() {
 	}
 	printf("chunk_elements = %ld, chunk_size = %ld, chunk_count = %ld, final_chunk_elements = %ld, final_chunk_size = %ld\n", chunk_elements, chunk_size, chunk_count, final_chunk_elements, final_chunk_size);
 	fflush(stdout);
-	binBuffer = (long *) malloc(chunk_size);
+	binBuffer = (packet *) malloc(chunk_size);
 	printf("Done allocating initial buffer chunk\n");
 	fflush(stdout);
 	if (binBuffer == NULL) {
@@ -79,7 +78,7 @@ void get_data_and_distribute() {
 	printf("file copied into buffer\n");
 	fflush(stdout);
 
-	long bufPtr;
+	long bufPtr, index_n;
 	for (i = 0; i < chunk_count; i++) {
 		printf("%ld\n", i);
 		fflush(stdout);
@@ -105,7 +104,7 @@ void get_data_and_distribute() {
 				free(binBuffer);
 				printf("allocating buffer for final chunk\n");
 				fflush(stdout);
-				binBuffer = (long *) malloc(final_chunk_size);
+				binBuffer = (packet *) malloc(final_chunk_size);
 
 				status = fread(binBuffer, 1, final_chunk_size, ifp);
 				if (status != final_chunk_size) {

@@ -16,7 +16,7 @@ void handle_packet(unsigned long address, long val, long flag) {
 		// insert and update state table
 		hash_table[i] = id;
 		hash_table_state[i]++;
-		alert_check(i);
+		alert_check(i, id);
 	} else {
 		// slot take, find an empty one
 		if (i+1 == HASHTABLESIZE) {

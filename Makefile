@@ -2,10 +2,10 @@ CC=/tools/emu/emu-19.10/bin/emu-cc
 CFILES=$(wildcard *.c)
 
 all:
-	$(CC) -o spmv.mwx $(CFILES)	
+	$(CC) -o firehose.mwx $(CFILES)
 
 clean:
-	rm -f spmv.mwx
-	rm -f spmv.cdc
-	rm -f spmv.hdd
-	rm -f spmv.vsf
+	rm -f firehose.mwx
+	rm -f firehose.cdc
+	rm -f firehose.hdd
+	rm -f firehose.vsf

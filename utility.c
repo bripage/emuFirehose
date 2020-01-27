@@ -90,9 +90,9 @@ void get_data_and_distribute() {
 			nodelet = index_i % 8;
 
 			index_n = packet_index[nodelet]; // get the element ID of the next empty nnz struct on the nodelet
-			workload_dist[nodelet][index_n].address = address;
-			workload_dist[nodelet][index_n].val = val;
-			workload_dist[nodelet][index_n].flag = flag;
+			workload_dist[nodelet][index_n].address = packet_address;
+			workload_dist[nodelet][index_n].val = packet_val;
+			workload_dist[nodelet][index_n].flag = packet_flag;
 			packet_index[nodelet]++; // increase nnz count for the nodelet we just added it to
 			index_i++;
 		}
@@ -132,11 +132,14 @@ void get_data_and_distribute() {
 	fflush(stdout);
 
 	// Mark list end by setting row and column values to -1
+	/*
 	for (i = 0; i < nodelet_count; i++) {
 		index_n = packet_index[i];
-		workload_dist[i][packet_index[i]].row = -1;
-		workload_dist[i][packet_index[i]].col = -1;
+		workload_dist[i][packet_index[i]].address = -1;
+		workload_dist[i][packet_index[i]].val = -1;
+        workload_dist[i][packet_index[i]].val = -1;
 	}
+	*/
 
 	for (i = 0; i < nodelet_count; i++){
 		printf("index[%d] = %d\n", i, packet_index[i]);

@@ -3,13 +3,6 @@
 //
 #include "utility.h"
 
-// Structure to hold non zero elements in workload list
-struct packet {
-    unsigned long address;
-    long val;
-    long flag;
-};
-
 void parse_args(int argc, char * argv[]) {
     size_t status;
 

@@ -19,6 +19,7 @@ replicated long * hash_table;
 replicated long * hash_table_state;
 long * packet_index;
 long file_packets;
+FILE * ifp;
 
 
 #endif //EMUFIREHOSE_FIREHOSE_H

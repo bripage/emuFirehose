@@ -2,6 +2,7 @@
 // Created by bpage1 on 1/24/20.
 //
 #include "utility.h"
+#include "structs.h"
 
 void parse_args(int argc, char * argv[]) {
     size_t status;

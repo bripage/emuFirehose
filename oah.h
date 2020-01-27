@@ -12,9 +12,9 @@
 #include "oah.h"
 #include <math.h>
 
-
-extern replicated long * hash_table;
-extern replicated long * hash_table_state;
+extern replicated unsigned * hash_table;
+extern replicated long * hash_state;
+extern replicated long * hash_state2;
 struct packet;
 
 void handle_packet(unsigned long address, long val, long flag);

@@ -16,7 +16,8 @@ extern replicated struct packet ** workload_dist;
 extern replicated long dist_end;
 extern replicated long nodelet_count;
 extern replicated long * hash_table;
-extern replicated long * hash_table_state;
+extern replicated long * hash_state;
+extern replicated long * hash_state2;
 extern long * packet_index;
 struct packet;
 

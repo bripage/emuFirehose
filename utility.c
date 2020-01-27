@@ -27,8 +27,7 @@ void parse_args(int argc, char * argv[]) {
 	file_packets = fbuf;
 }
 
-long init_dist_end(long nodelet)
-{
+long init_dist_end(long nodelet) {
 	return packet_index[nodelet];
 }
 
@@ -155,7 +154,7 @@ void init(){
     fflush(stdout);
     mw_replicated_init(&nodelet_count, nc);
 
-	long * h = (long *) mw_malloc1dlong(100000);
+    unsigned long * h = (unsigned long *) mw_malloc1dlong(100000);
 	printf("h allocated\n");
 	fflush(stdout);
 	if (h == NULL) {
@@ -170,18 +169,32 @@ void init(){
 	}
 
 	long * hs = (long *) mw_malloc1dlong(100000);
-	printf("h allocated\n");
+	printf("hs allocated\n");
 	fflush(stdout);
 	if (hs == NULL) {
-		printf("Cannot allocate memory for hash table.\n");
+		printf("Cannot allocate memory for hash_sate.\n");
 		exit(1);
 	}
-	printf("checked h.\n");
+	printf("checked hs.\n");
 	fflush(stdout);
-	mw_replicated_init(&hash_table_state, hs);
+	mw_replicated_init(&hash_state, hs);
 	for (i = 0; i < 100000; i++){
-		hash_table_state[i] = -1;
+		hash_state[i] = 0;
 	}
+
+    long * hs2 = (long *) mw_malloc1dlong(100000);
+    printf("hs2 allocated\n");
+    fflush(stdout);
+    if (hs == NULL) {
+        printf("Cannot allocate memory for hash_state2.\n");
+        exit(1);
+    }
+    printf("checked hs2.\n");
+    fflush(stdout);
+    mw_replicated_init(&hash_state2, hs2);
+    for (i = 0; i < 100000; i++){
+        hash_state2[i] = 0;
+    }
 
     struct element ** wd;
     long packets_per_nodelet = ceil(PACKET_COUNT/nc);

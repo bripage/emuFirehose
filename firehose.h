@@ -9,8 +9,9 @@
 #include "time.h"
 #include "stdlib.h"
 #include "stdint.h"
+#include "structdef.h"
 
-replicated struct element ** workload_dist;
+replicated struct packet ** workload_dist;
 replicated long PACKET_COUNT;
 replicated long dist_end;
 replicated long nodelet_count;

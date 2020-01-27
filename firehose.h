@@ -8,7 +8,6 @@
 #include "fcntl.h"
 #include "time.h"
 #include "stdlib.h"
-#include "utility.h"
 #include "stdint.h"
 
 replicated struct element ** workload_dist;

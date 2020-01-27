@@ -3,6 +3,13 @@
 //
 #include "utility.h"
 
+// Structure to hold non zero elements in workload list
+struct packet {
+    unsigned long address;
+    long val;
+    long flag;
+};
+
 void parse_args(int argc, char * argv[]) {
     size_t status;
 
@@ -15,7 +22,7 @@ void parse_args(int argc, char * argv[]) {
 
     // get packet count from file header
 	long fbuf;
-	status = fread(fbuf, sizeof(long), 1, ifp);
+	status = fread(&fbuf, sizeof(long), 1, ifp);
 	if (status != 1) {
 		printf("Error could not read data header\n");
 		fflush(stdout);
@@ -42,7 +49,7 @@ void get_data_and_distribute() {
 	long chunk_size = chunk_elements * sizeof(packet);
 	long chunk_count, final_chunk_size, final_chunk_elements;
 	char* buffer;
-	packet* binBuffer;
+	struct packet* binBuffer;
 
 	if (file_packets < 40000000){
 		chunk_size = file_packets  * sizeof(packet);

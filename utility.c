@@ -3,69 +3,184 @@
 //
 #include "utility.h"
 
-void parse_args(struct spmv_args * spmv_args, int argc, char * argv[]) {
+void parse_args(int argc, char * argv[]) {
     size_t status;
 
     // Open Input File
-    ifp = fopen(argv[1], "r");
+    ifp = fopen(argv[1], "rb");
     if (ifp == NULL) {
         printf("Failed to open input file.\n");
         exit(1);
     }
 
-    binary_input = atoi(argv[2]);
-    printf("binary_input = %ld\n", binary_input);
-    fflush(stdout);
+    // get packet count from file header
+	long fbuf;
+	status = fread(fbuf, sizeof(long), 1, ifp);
+	if (status != 1) {
+		printf("Error could not read data header\n");
+		fflush(stdout);
+		exit(1);
+	}
+	printf("Packet Count = %ld\n", fbuf);
+	fflush(stdout);
+	file_packets = fbuf[0];
+}
 
-    args->PACKET_COUNT = atol(argv[3]);
-    printf("Packet Count = %ld\n", spmv_args->PACKET_COUNT);
-    fflush(stdout);
+long init_dist_end(long nodelet)
+{
+	return packet_index[nodelet];
 }
 
 void get_data_and_distribute() {
     size_t status;
     long file_size, file_pin;
-    unsigned long packet_id;
-    char val, flag;
-    char *buffer;
+    unsigned long packet_address;
+    char packet_val, packet_flag;
+    char *binBuffer;
+    long nodelet, index_i = 0;
 
-    // obtain file size:
-    file_pin = ftell(ifp);
-    fseek(ifp, 0, SEEK_END);
-    file_size = ftell(ifp);
-    file_size -= file_pin;
-    rewind(ifp);
+	long chunk_elements = 100000000 ;
+	long chunk_size = chunk_elements * sizeof(packet);
+	long chunk_count, final_chunk_size, final_chunk_elements;
+	char* buffer;
+	packet* binBuffer;
 
-    // allocate memory for buffer
-    printf("Starting Buffer Allocation\n");
-    fflush(stdout);
-    buffer = (char *) malloc(sizeof(char) * (file_size));
-    printf("Done allocating buffer\n");
-    fflush(stdout);
-    if (buffer == NULL) {
-        printf("Failed to allocate buffer.\n");
-        exit(1);
-    }
+	if (file_packets < 100000000){
+		chunk_size = file_packets  * sizeof(packet);
+		chunk_elements = file_packets;
+		chunk_count = 1;
+		final_chunk_size = 0;
+	} else {
+		file_size = (file_packets+1) * sizeof(packet);
+		chunk_count = (file_packets) / chunk_elements;
+		final_chunk_elements = file_packets - (chunk_count * chunk_elements);
+		final_chunk_size = final_chunk_elements * sizeof(packet);
 
-    status = fread(buffer, 1, file_size, ifp);
-    // copy the file into the buffer
-    if (status != file_size) {
-        printf("Error in reading file.\n");
-        exit(1);
-    }
-    printf("file copied into buffer\n");
-    fflush(stdout);
+		if (final_chunk_size != 0){
+			chunk_count++;
+		}
+	}
+	printf("chunk_elements = %ld, chunk_size = %ld, chunk_count = %ld, final_chunk_elements = %ld, final_chunk_size = %ld\n", chunk_elements, chunk_size, chunk_count, final_chunk_elements, final_chunk_size);
+	fflush(stdout);
+	binBuffer = (long *) malloc(chunk_size);
+	printf("Done allocating initial buffer chunk\n");
+	fflush(stdout);
+	if (binBuffer == NULL) {
+		printf("Failed to allocate initial buffer chunk.\n");
+		exit(1);
+	}
 
+	status = fread(binBuffer, sizeof(packet), chunk_elements, ifp);
+	if (status != chunk_elements) {
+		printf("Error in reading file. %ld != %ld\n", status, chunk_size);
+		fflush(stdout);
+		exit(1);
+	}
+	printf("file copied into buffer\n");
+	fflush(stdout);
 
+	long bufPtr;
+	for (i = 0; i < chunk_count; i++) {
+		printf("%ld\n", i);
+		fflush(stdout);
+		for (bufPtr = 0; bufPtr < chunk_elements; bufPtr++) {
+			packet_address = binBuffer[bufPtr].address;
+			packet_val = binBuffer[bufPtr].val;
+			packet_flag = binBuffer[bufPtr].flag;
+
+			nodelet = index_i % 8;
+
+			index_n = packet_index[nodelet]; // get the element ID of the next empty nnz struct on the nodelet
+			workload_dist[nodelet][index_n].address = address;
+			workload_dist[nodelet][index_n].val = val;
+			workload_dist[nodelet][index_n].flag = flag;
+			packet_index[nodelet]++; // increase nnz count for the nodelet we just added it to
+			index_i++;
+		}
+
+		if (chunk_count > 1 && i != chunk_count-1) {
+			if (i+1 == chunk_count-1) {
+				printf("about to free buffer\n");
+				fflush(stdout);
+				free(binBuffer);
+				printf("allocating buffer for final chunk\n");
+				fflush(stdout);
+				binBuffer = (long *) malloc(final_chunk_size);
+
+				status = fread(binBuffer, 1, final_chunk_size, ifp);
+				if (status != final_chunk_size) {
+					printf("Error in reading final file chunk\n");
+					exit(1);
+				}
+				printf("final file chunk copied into buffer\n");
+				fflush(stdout);
+				chunk_elements = final_chunk_elements;
+			} else {
+				printf("reading in next chunk\n");
+				fflush(stdout);
+				status = fread(binBuffer, 1, chunk_size, ifp);
+				if (status != chunk_size) {
+					printf("Error in reading file chunk %ld\n", i);
+					exit(1);
+				}
+				printf("file chunk %ld copied into buffer\n", i);
+				fflush(stdout);
+			}
+		}
+	}
+	free(binBuffer);
+	printf("done reading matrix from buffer\n");
+	fflush(stdout);
+
+	// Mark list end by setting row and column values to -1
+	for (i = 0; i < nodelet_count; i++) {
+		index_n = packet_index[i];
+		workload_dist[i][packet_index[i]].row = -1;
+		workload_dist[i][packet_index[i]].col = -1;
+	}
+
+	for (i = 0; i < nodelet_count; i++){
+		printf("index[%d] = %d\n", i, packet_index[i]);
+	}
+
+	mw_replicated_init_multiple(&dist_end, init_dist_end);
 }
 
-void init(struct * args){
+void init(){
     long i, j;
     long nc = NODELETS();
     printf("Replicated init start.\n");
     fflush(stdout);
     mw_replicated_init(&nodelet_count, nc);
     mw_replicated_init(&PACKET_COUNT, args->PACKET_COUNT);
+
+	long * h = (long *) mw_malloc1dlong(100000);
+	printf("h allocated\n");
+	fflush(stdout);
+	if (h == NULL) {
+		printf("Cannot allocate memory for hash table.\n");
+		exit(1);
+	}
+	printf("checked h.\n");
+	fflush(stdout);
+	mw_replicated_init(&hash_table, h);
+	for (i = 0; i < 100000; i++){
+		hash_table[i] = -1;
+	}
+
+	long * hs = (long *) mw_malloc1dlong(100000);
+	printf("h allocated\n");
+	fflush(stdout);
+	if (hs == NULL) {
+		printf("Cannot allocate memory for hash table.\n");
+		exit(1);
+	}
+	printf("checked h.\n");
+	fflush(stdout);
+	mw_replicated_init(&hash_table_state, hs);
+	for (i = 0; i < 100000; i++){
+		hash_table_state[i] = -1;
+	}
 
     struct element ** wd;
     long packets_per_nodelet = ceil(PACKET_COUNT/nc);

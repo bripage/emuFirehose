@@ -20,17 +20,19 @@ noinline long main(int argc, char **argv) {
     parse_args(&spmv_args, argc, argv);
 
     printf("Initialization start.\n");
-    init(&spmv_args);
+    init();
     printf("Initialization end.\n");
 
     printf("Calling MIGRATE().\n");
     fflush(stdout);
+    MIGRATE(&hash_table[0]);
 
-    MIGRATE(&X[0]);
+	cilk_spawn
+	recursive_spawn(0, NODELETS());
+	cilk_sync;
 
 
 
     cleanup();
-
     return 0;
 }

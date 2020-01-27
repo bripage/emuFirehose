@@ -12,10 +12,12 @@
 
 replicated struct element ** workload_dist;
 replicated long PACKET_COUNT;
-replicated long local_dist_end;
+replicated long dist_end;
 replicated long nodelet_count;
-long binary_input;
+replicated long * hash_table;
+replicated long * hash_table_state;
 long * packet_index;
+long file_packets;
 
 
 #endif //EMUFIREHOSE_FIREHOSE_H

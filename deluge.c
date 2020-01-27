@@ -27,13 +27,13 @@ void recursive_spawn(long low, long high){
 void spray(long i, long n){
 	unsigned long addr;
 	long val, flag;
-	struct packet * wln = workload_dist[n];
+	struct packet * wdn = workload_dist[n];
 	long local_list_end = dist_end;
 
 	while (i < local_list_end) {
-		addr = wln[i].address;
-		val = wln[i].val;
-		flag = wln[i].flag;
+		addr = wdn[i].address;
+		val = wdn[i].val;
+		flag = wdn[i].flag;
 
 		handle_packet(addr, val, flag);
 

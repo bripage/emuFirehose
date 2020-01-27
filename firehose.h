@@ -9,6 +9,7 @@
 #include "time.h"
 #include "stdlib.h"
 #include "utility.h"
+#include "structdef.h"
 
 replicated struct element ** workload_dist;
 replicated long PACKET_COUNT;

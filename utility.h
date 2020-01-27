@@ -8,13 +8,7 @@
 #include "fcntl.h"
 #include "oah.h"
 #include <math.h>
-
-// Structure to hold packets in workload list
-struct packet {
-    unsigned long address;
-    long val;
-    long flag;
-};
+#include "structdef.h"
 
 extern replicated struct packet ** workload_dist;
 extern replicated long PACKET_COUNT;

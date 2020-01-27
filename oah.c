@@ -6,8 +6,8 @@
 #define HASHTABLESIZE 100000
 #define alert_threshold 16
 
-void handle_packet(long address, long val, long flag) {
-	long id = address;
+void handle_packet(unsigned long address, long val, long flag) {
+	unsigned long id = address;
 	long hash = id % HASHTABLESIZE;
 	i = hash;
 

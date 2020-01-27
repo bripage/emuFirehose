@@ -10,11 +10,11 @@
 #include "fcntl.h"
 #include "oah.h"
 #include <math.h>
+#include "structdef.h"
 
 extern replicated long * hash_table;
 extern replicated long * hash_table_state;
-struct packet;
 
-void handle_packet(long address, long val, long flag);
+void handle_packet(unsigned long address, long val, long flag);
 
 #endif //EMUFIREHOSE_OAH_H

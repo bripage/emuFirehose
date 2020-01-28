@@ -9,6 +9,8 @@
 #include "unistd.h"
 #include "stddef.h"
 #include "fcntl.h"
+#include "time.h"
+#include "stdint.h"
 #include "oah.h"
 #include <math.h>
 

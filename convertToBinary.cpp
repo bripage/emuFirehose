@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
         //std::ofstream fout(outFile.c_str(), std::ios::out | std::ios::binary);
         FILE *fout;
         fout = fopen(binMatName.c_str(), "ab");
-	    fwrite(&total_packets, sizeof(long), 1, fout);
+	    if (iteration == 0) fwrite(&total_packets, sizeof(long), 1, fout);
 
         //for (i = 0; i < (file_length*3); i++) {
         for (i = 0; i < (datums*3); i++) {

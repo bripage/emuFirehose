@@ -79,7 +79,7 @@ void spray(long i, long n){
             }
         }
 
-		printf("%ld handled packet %ld\n", n , i);
+		//printf("%ld handled packet %ld\n", n , i);
         fflush(stdout);
 
 		i+=THREADS_PER_NODELET;

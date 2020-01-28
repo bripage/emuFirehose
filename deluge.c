@@ -21,6 +21,8 @@ void recursive_spawn(long low, long high){
 	}
 
 	for (i = 0; i < THREADS_PER_NODELET; i++) {
+	    printf("thread %ld on nodelet %ld lanching spray()\n", i, nodelet);
+        fflush(stdout);
 		cilk_spawn spray(i, nodelet);
 	}
 }
@@ -37,6 +39,8 @@ void spray(long i, long n){
 		flag = wdn[i].flag;
 
 		handle_packet(addr, val, flag);
+        printf("%ld handled packet %ld\n", n , i);
+        fflush(stdout);
 
 		i+=THREADS_PER_NODELET;
 	}

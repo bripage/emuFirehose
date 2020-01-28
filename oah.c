@@ -9,7 +9,7 @@
 
 void handle_packet(unsigned long address, long val, long flag) {
 	unsigned long id = address;
-	long hash = id % HASHTABLESIZE;
+	long hash = id % HASHTABLESIZE; //inline this
 	long i = hash, state = 0;
 
 	long acquire = ATOMIC_CAS(&hash_table[i], id, -1);
@@ -29,6 +29,7 @@ void handle_packet(unsigned long address, long val, long flag) {
 		while (acquire != -1 || acquire != id){
 			if (i == hash){
 				printf("ERROR: Hash table FULL\n");
+                fflush(stdout);
 				exit(1);
 			}
 			i++;
@@ -37,12 +38,13 @@ void handle_packet(unsigned long address, long val, long flag) {
 		// now that we have either found the key in the hashtable or located an
 		// empty slot, add or update the state for the given location and key
         state = ATOMIC_ADDM(&hash_state[i], 1);
-		alert_check(state, id);
+		alert_check(state, id); //inline this
 	}
 }
 
 void alert_check(long state, unsigned long id){
 	if (state % alert_threshold == 0) {
 		printf("Alert @ %lu\n", id);
+        fflush(stdout);
 	}
 }

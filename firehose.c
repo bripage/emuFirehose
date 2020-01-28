@@ -29,8 +29,12 @@ noinline long main(int argc, char **argv) {
     MIGRATE(&hash_table[0]);
 
 	cilk_spawn
+	print("Calling recursive_spawn()");
+    fflush(stdout);
 	recursive_spawn(0, NODELETS());
 	cilk_sync;
+	printf("***Computation Complete***");
+    fflush(stdout);
 
 
 

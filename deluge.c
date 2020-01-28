@@ -28,11 +28,11 @@ void recursive_spawn(long low, long high){
 }
 
 void spray(long i, long n){
-	unsigned long addr;
+	unsigned long addr, acquire;
 	long val, flag;
 	struct packet * wdn = workload_dist[n];
 	long local_list_end = dist_end;
-    long hash, i, state = 0, acquire;
+    long hash, j, state = 0;
 
 	while (i < local_list_end) {
 		addr = wdn[i].address;
@@ -42,39 +42,39 @@ void spray(long i, long n){
 		//handle_packet(addr, val, flag);
         //unsigned long id = address;
         hash = addr % 100000; //inline this
-        i = hash;
+        j = hash;
 
-        acquire = ATOMIC_CAS(&hash_table[i], addr, -1);
+        acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         if (acquire == -1 || acquire == addr){
             // insert and update state table
-            state = ATOMIC_ADDM(&hash_state[i], 1);
+            state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
                 printf("Alert @ %lu\n", addr);
                 fflush(stdout);
             }
         } else {
             // slot take, find an empty one
-            if (i+1 == 100000) {
-                i = 0;
+            if (j+1 == 100000) {
+                j = 0;
             } else {
-                i++;
+                j++;
             }
 
-            acquire = ATOMIC_CAS(&hash_table[i], addr, -1);
+            acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
             while (acquire != -1 || acquire != addr){
                 if (i == hash){
                     printf("ERROR: Hash table FULL\n");
                     fflush(stdout);
                     exit(1);
                 }
-                i++;
+                j++;
             }
 
             // now that we have either found the key in the hashtable or located an
             // empty slot, add or update the state for the given location and key
-            state = ATOMIC_ADDM(&hash_state[i], 1);
+            state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
-                printf("Alert @ %lu\n", id);
+                printf("Alert @ %lu\n", addr);
                 fflush(stdout);
             }
         }

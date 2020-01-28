@@ -56,13 +56,13 @@ int main(int argc, char **argv) {
                     line.erase(0, pos + 1);
                     val = ::atol(token.c_str());
                     flag = ::atol(line.c_str());
-                }
 
-                printf("%ld %ld %ld %ld\n", address, val, flag, j);
-                buffer[j] = address;
-                buffer[j + 1] = val;
-                buffer[j + 2] = flag;
-                j += 3;
+	                //printf("%ld %ld %ld %ld\n", address, val, flag, j);
+	                buffer[j] = address;
+	                buffer[j + 1] = val;
+	                buffer[j + 2] = flag;
+	                j += 3;
+                }
             } else {
                 // do nothing
             }

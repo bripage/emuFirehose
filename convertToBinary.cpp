@@ -14,6 +14,7 @@ int main(int argc, char **argv) {
     long file_count = std::atoi(argv[3]);
     long file_length = std::atoi(argv[4]);
     long last_file_length = std::atoi(argv[5]);
+    long total_packets = std::atoi(argv[6]);
 
     long datums = 100;
     long address, val, flag;
@@ -73,6 +74,7 @@ int main(int argc, char **argv) {
         //std::ofstream fout(outFile.c_str(), std::ios::out | std::ios::binary);
         FILE *fout;
         fout = fopen(binMatName.c_str(), "ab");
+	    fwrite(&total_packets, sizeof(long), 1, fout);
 
         //for (i = 0; i < (file_length*3); i++) {
         for (i = 0; i < (datums*3); i++) {

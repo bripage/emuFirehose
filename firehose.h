@@ -15,7 +15,7 @@ replicated struct packet ** workload_dist;
 replicated long PACKET_COUNT;
 replicated long dist_end;
 replicated long nodelet_count;
-replicated long * hash_table;
+replicated unsigned long * hash_table;
 replicated long * hash_state;
 replicated long * hash_state2;
 long * packet_index;

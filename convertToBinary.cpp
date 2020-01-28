@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
             exit(1);
         }
 
-        buffer = (long *) malloc(((datums) * 3) * sizeof(long));
+        buffer = (long *) malloc(((file_length) * 3) * sizeof(long));
 
         std::cout << "mat file opened" << std::endl;
         std::string line;
@@ -75,8 +75,8 @@ int main(int argc, char **argv) {
         fout = fopen(binMatName.c_str(), "ab");
 	    if (iteration == 0) fwrite(&datums, sizeof(long), 1, fout);
 
-        //for (i = 0; i < (file_length*3); i++) {
-        for (i = 0; i < (datums*3); i++) {
+        for (i = 0; i < (file_length*3); i++) {
+        //for (i = 0; i < (datums*3); i++) {
             fwrite(&buffer[i], sizeof(long), 1, fout);
         }
         fclose(fout);

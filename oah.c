@@ -44,6 +44,5 @@ void handle_packet(unsigned long address, long val, long flag) {
 void alert_check(long state, unsigned long id){
 	if (state % alert_threshold == 0) {
 		printf("Alert @ %ul\n", id);
-		hash_table_state[i] = 0;
 	}
 }

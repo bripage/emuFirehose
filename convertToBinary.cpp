@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
                     flag = ::atol(line.c_str());
                 }
 
-                printf("%ld %ld %ld %ld\n", tempRow, tempCol, tempData, j);
+                printf("%ld %ld %ld %ld\n", address, val, flag, j);
                 buffer[j] = address;
                 buffer[j + 1] = val;
                 buffer[j + 2] = flag;
@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
         //std::ofstream fout(outFile.c_str(), std::ios::out | std::ios::binary);
         FILE *fout;
         fout = fopen(binMatName.c_str(), "ab");
-	    if (iteration == 0) fwrite(&total_packets, sizeof(long), 1, fout);
+	    if (iteration == 0) fwrite(&datums, sizeof(long), 1, fout);
 
         //for (i = 0; i < (file_length*3); i++) {
         for (i = 0; i < (datums*3); i++) {

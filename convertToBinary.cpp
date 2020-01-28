@@ -14,9 +14,8 @@ int main(int argc, char **argv) {
     long file_count = std::atoi(argv[3]);
     long file_length = std::atoi(argv[4]);
     long last_file_length = std::atoi(argv[5]);
-    long total_packets = std::atoi(argv[6]);
+    long datums = std::atoi(argv[6]);
 
-    long datums = 100;
     long address, val, flag;
     long* buffer;
 
@@ -59,7 +58,7 @@ int main(int argc, char **argv) {
                     flag = ::atol(line.c_str());
                 }
 
-                //printf("%ld %ld %ld\n", tempRow, tempCol, tempData);
+                printf("%ld %ld %ld %ld\n", tempRow, tempCol, tempData, j);
                 buffer[j] = address;
                 buffer[j + 1] = val;
                 buffer[j + 2] = flag;

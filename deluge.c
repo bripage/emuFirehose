@@ -21,7 +21,7 @@ void recursive_spawn(long low, long high){
 	}
 
 	for (i = 0; i < THREADS_PER_NODELET+1; i++) {
-		if (i == THREADS_PER_NODELET) {
+		if (i == 0) {
 			// handle alert printfs with this single thread
 			printf("thread %ld on nodelet %ld lanching alarm_control()\n", i, nodelet);
 			fflush(stdout);
@@ -29,7 +29,7 @@ void recursive_spawn(long low, long high){
 		} else {
 			printf("thread %ld on nodelet %ld lanching spray()\n", i, nodelet);
 			fflush(stdout);
-			cilk_spawn spray(i, nodelet);
+			cilk_spawn spray(i-1, nodelet);
 		}
 	}
 }

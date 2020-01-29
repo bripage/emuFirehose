@@ -62,7 +62,7 @@ void spray(long i, long n){
 	            do {
 		            queue_i = ATOMIC_ADDM(&aq_index[n], 1);
 		            queue_slot = queue_i % 1000;
-		            acquire_aq = ATOMIC_CAS(&alarm_queue[queue_slot], addr, 0);
+		            acquire_aq = ATOMIC_ADDM(&alarm_queue[queue_slot], addr, 0);
 	            } while (acquire_aq != 0); // if the queue slot is taken go around until you find one!
             }
         } else {    // slot taken, find an empty one
@@ -91,7 +91,7 @@ void spray(long i, long n){
 	            do {
 		            queue_i = ATOMIC_ADDM(&aq_index[n], 1);
 		            queue_slot = queue_i % 1000;
-		            acquire_aq = ATOMIC_CAS(&alarm_queue[queue_slot], addr, 0);
+		            acquire_aq = ATOMIC_ADDM(&alarm_queue[queue_slot], addr, 0);
 	            } while (acquire_aq != 0); // if the queue slot is taken go around until you find one!
             }
         }

@@ -224,6 +224,7 @@ void init(){
 			a[j] = 0;
 		}
 	}
+	MIGRATE(&alarm_queue[0]);
 
 	long * ai = (long *) mw_malloc1dlong(nodelet_count * sizeof(long));
 	mw_replicated_init(&aq_index, ai);

@@ -21,7 +21,7 @@ void recursive_spawn(long low, long high){
 	}
 
 	for (i = 0; i < THREADS_PER_NODELET; i++) {
-		//cilk_spawn spray(i, nodelet);
+		cilk_spawn spray(i, nodelet);
 	}
 }
 
@@ -42,12 +42,13 @@ void spray(long i, long n){
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
+
             hits = ATOMIC_ADDM(&address_hits[j], 1);
             if (hits % 24 == 0) {
                 REMOTE_ADD(&event_count, 1);
                 //payload_sum = ATOMIC_ADDM(&hash_state2[j], 1);
                 payload = ATOMIC_ADDM(&payload_state[j], val);
-                ATOMIC_SWAP(payload_state[j], 0);
+                ATOMIC_SWAP(&payload_state[j], 0);
                 if (payload <= 5 && flag == 1){
                     REMOTE_ADD(&true_positive, 1);
                 } else if (payload <= 5 && flag == 0){
@@ -58,6 +59,7 @@ void spray(long i, long n){
                     REMOTE_ADD(&true_negative, 1);
                 }
             }
+
         } else {    // slot taken, find an empty one
             if (j+1 == 100000) {
                 j = 0;
@@ -81,7 +83,7 @@ void spray(long i, long n){
             if (hits % 24 == 0) {
                 REMOTE_ADD(&event_count, 1);
                 payload = ATOMIC_ADDM(&payload_state[j], val);
-                ATOMIC_SWAP(payload_state[j], 0);
+                ATOMIC_SWAP(&payload_state[j], 0);
                 if (payload <= 5 && flag == 1) {
                     REMOTE_ADD(&true_positive, 1);
                 } else if (payload <= 5 && flag == 0) {

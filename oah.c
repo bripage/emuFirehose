@@ -19,7 +19,7 @@ void handle_packet(unsigned long address, long val, long flag) {
         if (hits % 24 == 0) {
             REMOTE_ADD(&event_count, 1);
             payload = ATOMIC_ADDM(&payload_state[i], val);
-            ATOMIC_SWAP(payload_state[i], 0);
+            ATOMIC_SWAP(&payload_state[i], 0);
             if (payload <= 5 && flag == 1) {
                 REMOTE_ADD(&true_positive, 1);
             } else if (payload <= 5 && flag == 0) {
@@ -54,7 +54,7 @@ void handle_packet(unsigned long address, long val, long flag) {
         if (hits % 24 == 0) {
             REMOTE_ADD(&event_count, 1);
             payload = ATOMIC_ADDM(&payload_state[i], val);
-            ATOMIC_SWAP(payload_state[i], 0);
+            ATOMIC_SWAP(&payload_state[i], 0);
             if (payload <= 5 && flag == 1) {
                 REMOTE_ADD(&true_positive, 1);
             } else if (payload <= 5 && flag == 0) {

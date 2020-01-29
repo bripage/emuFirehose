@@ -57,8 +57,8 @@ void spray(long i, long n){
             // insert and update state table
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
-                printf("Alert @ %lu\n", addr);
-                fflush(stdout);
+                //printf("Alert @ %lu\n", addr);
+                //fflush(stdout);
 	            do {
 		            queue_i = ATOMIC_ADDM(&aq_index[n], 1);
 		            queue_slot = queue_i % 1000;
@@ -86,8 +86,8 @@ void spray(long i, long n){
             // empty slot, add or update the state for the given location and key
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
-                printf("Alert @ %lu\n", addr);
-                fflush(stdout);
+                //printf("Alert @ %lu\n", addr);
+                //fflush(stdout);
 	            do {
 		            queue_i = ATOMIC_ADDM(&aq_index[n], 1);
 		            queue_slot = queue_i % 1000;

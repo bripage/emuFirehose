@@ -51,10 +51,11 @@ void spray(long i, long n, long * print_lock){
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
                 while (ATOMIC_CAS(&print_lock, 1, 0)) {
-	                printf("Alert @ %lu\n", addr);
-	                fflush(stdout);
-	                ATOMIC_SWAP(&print_lock, 0);
+                    // spin while waiting to acquire print_lock;
                 }
+                printf("Alert @ %lu\n", addr);
+	            fflush(stdout);
+	            ATOMIC_SWAP(&print_lock, 0);
             }
         } else {    // slot taken, find an empty one
             if (j+1 == 100000) {
@@ -78,10 +79,11 @@ void spray(long i, long n, long * print_lock){
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
 	            while (ATOMIC_CAS(&print_lock, 1, 0)) {
-		            printf("Alert @ %lu\n", addr);
-		            fflush(stdout);
-		            ATOMIC_SWAP(&print_lock, 0);
+		            // spin while waiting to acquire print_lock;
 	            }
+	            printf("Alert @ %lu\n", addr);
+	            fflush(stdout);
+	            ATOMIC_SWAP(&print_lock, 0);
             }
         }
 

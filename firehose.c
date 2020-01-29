@@ -32,7 +32,7 @@ noinline long main(int argc, char **argv) {
 	cilk_spawn
 	printf("Calling recursive_spawn()\n");
     fflush(stdout);
-	//recursive_spawn(0, NODELETS());
+	recursive_spawn(0, NODELETS());
 	cilk_sync;
 	printf("***Computation Complete***\n");
     fflush(stdout);
@@ -49,14 +49,14 @@ noinline long main(int argc, char **argv) {
             unique_keys++;
         }
     }
-    printf("Datums Received: %ld", file_packets);
-    printf("Unique Keys: %ld", 0);
-    printf("Max occurance of any key: %ld", max_occurance);
-    printf("Event Count: %ld", event_count);
-    printf("True Anomalies: %ld", true_positive);
-    printf("False Positives: %ld", false_positve);
-    printf("True Negatives: %ld", true_negative);
-    printf("False Negatives: %ld", false_negative);
+    printf("Datums Received: %ld\n", file_packets);
+    printf("Unique Keys: %ld\n", 0);
+    printf("Max occurance of any key: %ld\n", max_occurance);
+    printf("Event Count: %ld\n", event_count);
+    printf("True Anomalies: %ld\n", true_positive);
+    printf("False Positives: %ld\n", false_positve);
+    printf("True Negatives: %ld\n", true_negative);
+    printf("False Negatives: %ld\n", false_negative);
     fflush(stdout);
 
     cleanup();

@@ -21,7 +21,7 @@ void recursive_spawn(long low, long high){
 	}
 
 	for (i = 0; i < THREADS_PER_NODELET; i++) {
-		cilk_spawn spray(i, nodelet);
+		//cilk_spawn spray(i, nodelet);
 	}
 }
 

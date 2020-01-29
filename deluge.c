@@ -108,7 +108,7 @@ void alarm_control(long i, long n){
 	long j, addr;
 
 	while (comp_done[n] != THREADS_PER_NODELET){
-		printf("comp_done = %ld\n", comp_done[n]);
+		//printf("comp_done = %ld\n", comp_done[n]);
 		fflush(stdout);
 		for (j = 0; j < 1000; j++){
 			addr = alarm_queue[j];

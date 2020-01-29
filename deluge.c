@@ -59,11 +59,11 @@ void spray(long i, long n){
             if (state % 24 == 0) {
                 //printf("Alert @ %lu\n", addr);
                 //fflush(stdout);
-	            do {
-		            queue_i = ATOMIC_ADDM(&aq_index[n], 1);
+	            //do {
+		            queue_i = ATOMIC_ADDMS(&aq_index[n], 1);
 		            queue_slot = queue_i % 1000;
 		            acquire_aq = ATOMIC_ADDMS(&alarm_queue[queue_slot], addr);
-	            } while (acquire_aq != 0); // if the queue slot is taken go around until you find one!
+	            //} while (acquire_aq != 0); // if the queue slot is taken go around until you find one!
             }
         } else {    // slot taken, find an empty one
             if (j+1 == 100000) {
@@ -88,11 +88,11 @@ void spray(long i, long n){
             if (state % 24 == 0) {
                 //printf("Alert @ %lu\n", addr);
                 //fflush(stdout);
-	            do {
-		            queue_i = ATOMIC_ADDM(&aq_index[n], 1);
+	            //do {
+		            queue_i = ATOMIC_ADDMS(&aq_index[n], 1);
 		            queue_slot = queue_i % 1000;
 		            acquire_aq = ATOMIC_ADDMS(&alarm_queue[queue_slot], addr);
-	            } while (acquire_aq != 0); // if the queue slot is taken go around until you find one!
+	            //} while (acquire_aq != 0); // if the queue slot is taken go around until you find one!
             }
         }
 

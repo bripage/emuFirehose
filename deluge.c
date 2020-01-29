@@ -20,7 +20,7 @@ void recursive_spawn(long low, long high){
 		high = mid;
 	}
 
-	long print_lock = 0
+	long print_lock = 0;
 	for (i = 0; i < THREADS_PER_NODELET; i++) {
 		//printf("thread %ld on nodelet %ld lanching spray()\n", i, nodelet);
 		fflush(stdout);

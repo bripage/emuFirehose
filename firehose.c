@@ -58,7 +58,7 @@ noinline long main(int argc, char **argv) {
     printf("True Negatives: %ld", true_negative);
     printf("False Negatives: %ld", false_negative);
     fflush(stdout);
-*/
+
     cleanup();
     return 0;
 }

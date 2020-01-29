@@ -10,15 +10,15 @@
 void handle_packet(unsigned long address, long val, long flag) {
 	unsigned long id = address;
 	long hash = id % HASHTABLESIZE; //inline this
-	long i = hash, hits = 0;
+	long i = hash, hits = 0, payload;
 
 	long acquire = ATOMIC_CAS(&hash_table[i], id, -1);
 	if (acquire == -1 || acquire == id){
 		// insert and update state table
-        hits = ATOMIC_ADDM(&address_hits[j], 1);
+        hits = ATOMIC_ADDM(&address_hits[ji], 1);
         if (hits % 24 == 0) {
             REMOTE_ADD(&event_count, 1);
-            payload = ATOMIC_ADDM(&payload_state[j], val);
+            payload = ATOMIC_ADDM(&payload_state[i], val);
             ATOMIC_SWAP(payload_state[j], 0);
             if (payload <= 5 && flag == 1) {
                 REMOTE_ADD(&true_positive, 1);

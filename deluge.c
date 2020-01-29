@@ -20,13 +20,6 @@ void recursive_spawn(long low, long high){
 		high = mid;
 	}
 
-	printf("Alert @ %lu\n", addr);
-	fflush(stdout);
-	unsigned long * aq = alarm_queue[nodelet];
-	for (i = 0; i < 1000; i++) {
-		alarm_queue[i] = 0;
-	}
-
 	for (i = 0; i < THREADS_PER_NODELET+1; i++) {
 		if (i == 0) {
 			// handle alert printfs with this single thread

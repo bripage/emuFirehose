@@ -214,8 +214,6 @@ void init(){
 
 	unsigned long ** aq = (unsigned long *) mw_malloc2d(nodelet_count, 1000 * sizeof(unsigned long));
 	mw_replicated_init(&alarm_queue, aq);
-	printf("Alert @ %lu\n", addr);
-	fflush(stdout);
 	for (i = 0; i < nodelet_count; i++) {
 		unsigned long * a = alarm_queue[i];
 		MIGRATE(&alarm_queue[i]);

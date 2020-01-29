@@ -20,9 +20,6 @@ extern long * packet_index;
 extern long file_packets;
 extern FILE * ifp;
 struct packet;
-extern replicated unsigned long ** alarm_queue;
-extern replicated long * aq_index;
-extern replicated long * comp_done;
 
 void parse_args(int argc, char * argv[]);
 void init();

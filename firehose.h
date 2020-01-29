@@ -21,10 +21,5 @@ replicated long * hash_state2;
 long * packet_index;
 long file_packets;
 FILE * ifp;
-replicated unsigned long ** alarm_queue;
-replicated long * aq_index;
-replicated long * comp_done;
-
-
 
 #endif //EMUFIREHOSE_FIREHOSE_H

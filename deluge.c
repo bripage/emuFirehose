@@ -52,6 +52,8 @@ void spray(long i, long n, long * print_lock){
             if (state % 24 == 0) {
             	do {
 		            acquire_pl = ATOMIC_CAS(&print_lock, 1, 0);
+		            printf("acquire_pl = %lu\n", acquire_pl);
+		            fflush(stdout);
 	            } while (acquire_pl);
                 printf("Alert @ %lu\n", addr);
 	            fflush(stdout);
@@ -80,6 +82,8 @@ void spray(long i, long n, long * print_lock){
             if (state % 24 == 0) {
 	            do {
 		            acquire_pl = ATOMIC_CAS(&print_lock, 1, 0);
+		            printf("acquire_pl = %lu\n", acquire_pl);
+		            fflush(stdout);
 	            } while (acquire_pl);
 	            printf("Alert @ %lu\n", addr);
 	            fflush(stdout);

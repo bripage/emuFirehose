@@ -20,6 +20,8 @@ void recursive_spawn(long low, long high){
 		high = mid;
 	}
 
+	aq_index = (long) malloc(sizeof(long));
+	comp_done = (long) malloc(sizeof(long));
 	aq_index = 0; // make sure alarms are put into the alarm_queue starting at element 0
 	comp_done = 0; // when this = THREADS_PER_NODELET, alarm output stops on local nodelet
 

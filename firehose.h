@@ -22,8 +22,8 @@ long * packet_index;
 long file_packets;
 FILE * ifp;
 unsigned long * alarm_queue;
-long aq_index;
-long comp_done;
+
+
 
 
 #endif //EMUFIREHOSE_FIREHOSE_H

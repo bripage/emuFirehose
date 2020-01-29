@@ -111,6 +111,8 @@ void alarm_control(long i, long n){
 	long j, addr;
 
 	while (comp_done != THREADS_PER_NODELET){
+		printf("comp_done = %ld\n", comp_done);
+		fflush(stdout);
 		for (j = 0; j < 1000; j++){
 			addr = alarm_queue[j];
 			if (addr != 0){ // alarm exists at this location, send it!

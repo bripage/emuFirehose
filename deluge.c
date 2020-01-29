@@ -58,7 +58,7 @@ void spray(long i, long n, long* print_lock){
 	            } while (acquire_pl);
                 printf("Alert @ %lu\n", addr);
 	            fflush(stdout);
-	            ATOMIC_SWAP(&print_lock, 0);
+	            ATOMIC_SWAP(print_lock, 0);
             }
         } else {    // slot taken, find an empty one
             if (j+1 == 100000) {
@@ -88,7 +88,7 @@ void spray(long i, long n, long* print_lock){
 	            } while (acquire_pl);
 	            printf("Alert @ %lu\n", addr);
 	            fflush(stdout);
-	            ATOMIC_SWAP(&print_lock, 0);
+	            ATOMIC_SWAP(print_lock, 0);
             }
         }
 

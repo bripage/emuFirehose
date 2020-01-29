@@ -28,11 +28,11 @@ noinline long main(int argc, char **argv) {
     printf("Calling MIGRATE().\n");
     fflush(stdout);
     MIGRATE(&address_hits[0]);
-/*
+
 	cilk_spawn
 	printf("Calling recursive_spawn()\n");
     fflush(stdout);
-	recursive_spawn(0, NODELETS());
+	//recursive_spawn(0, NODELETS());
 	cilk_sync;
 	printf("***Computation Complete***\n");
     fflush(stdout);

@@ -23,11 +23,11 @@ void recursive_spawn(long low, long high){
 	for (i = 0; i < THREADS_PER_NODELET+1; i++) {
 		if (i == 0) {
 			// handle alert printfs with this single thread
-			printf("thread %ld on nodelet %ld lanching alarm_control()\n", i, nodelet);
+			//printf("thread %ld on nodelet %ld lanching alarm_control()\n", i, nodelet);
 			fflush(stdout);
 			cilk_spawn alarm_control(i, nodelet);
 		} else {
-			printf("thread %ld on nodelet %ld lanching spray()\n", i, nodelet);
+			//printf("thread %ld on nodelet %ld lanching spray()\n", i, nodelet);
 			fflush(stdout);
 			cilk_spawn spray(i-1, nodelet);
 		}
@@ -105,7 +105,8 @@ void spray(long i, long n){
 }
 
 void alarm_control(long i, long n){
-	long j, addr;
+	long j;
+	unsigned long addr;
 
 	while (comp_done[n] != THREADS_PER_NODELET){
 		//printf("comp_done = %ld\n", comp_done[n]);

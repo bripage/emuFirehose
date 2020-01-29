@@ -23,7 +23,7 @@ extern replicated long * hash_state2;
 extern long * packet_index;
 struct packet;
 
-void spray(long i, long n);
 void recursive_spawn(long low, long high);
+void spray(long i, long n, long * print_lock);
 
 #endif //EMUFIREHOSE_DELUGE_H

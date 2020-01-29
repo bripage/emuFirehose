@@ -29,6 +29,6 @@ extern long * comp_done;
 void spray(long i, long n);
 void recursive_spawn(long low, long high);
 void alarm_control(long i, long n);
-void trigger_alarm(unsigned long addr);
+void trigger_alarm(unsigned long addr, long n);
 
 #endif //EMUFIREHOSE_DELUGE_H

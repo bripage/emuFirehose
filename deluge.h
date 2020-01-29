@@ -22,9 +22,9 @@ extern replicated long * hash_state;
 extern replicated long * hash_state2;
 extern long * packet_index;
 struct packet;
-extern unsigned long * alarm_queue;
-extern long * aq_index;
-extern long * comp_done;
+extern replicated unsigned long * alarm_queue;
+extern replicated long * aq_index;
+extern replicated long * comp_done;
 
 void spray(long i, long n);
 void recursive_spawn(long low, long high);

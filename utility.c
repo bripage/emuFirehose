@@ -212,17 +212,17 @@ void init(){
         packet_index[i] = 0;
     }
 
-	alarm_queue = (unsigned long *) malloc(1000 * sizeof(unsigned long));
-	for (i = 0; i < 1000; i++){
-		alarm_queue[i] = 0;
-	}
+	aq = (unsigned long *) mw_malloc2d(nodelet_count, 1000 * sizeof(unsigned long));
+	mw_replicated_init(&alarm_queue, aq);
 
-	aq_index = (long *) malloc(nodelet_count * sizeof(long));
+	ai = (long *) mw_malloc1dlong(nodelet_count * sizeof(long));
+	mw_replicated_init(&alarm_index, cd);
 	for (i = 0; i < nodelet_count; i++){
 		aq_index[i] = 0;
 	}
 
-	comp_done = (long *) malloc(nodelet_count * sizeof(long));
+	cs = (long *) mw_malloc1dlong(nodelet_count * sizeof(long));
+	mw_replicated_init(&comp_done, cd);
 	for (i = 0; i < nodelet_count; i++){
 		comp_done[i] = 0;
 	}

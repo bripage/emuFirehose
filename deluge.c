@@ -20,6 +20,10 @@ void recursive_spawn(long low, long high){
 		high = mid;
 	}
 
+	for (i = 0; i < 1000; i++) {
+		alarm_queue[nodelet][i] = 0;
+	}
+
 	for (i = 0; i < THREADS_PER_NODELET+1; i++) {
 		if (i == 0) {
 			// handle alert printfs with this single thread
@@ -41,6 +45,7 @@ void spray(long i, long n){
 	long local_list_end = dist_end;
     long hash, j, state = 0;
 	long queue_i, queue_slot, acquire_aq;
+	long * aq = alarm_queue[n];
 
 	while (i < local_list_end) {
 		addr = wdn[i].address;
@@ -62,7 +67,7 @@ void spray(long i, long n){
 	            do {
 		            queue_i = ATOMIC_ADDMS(&aq_index[n], 1);
 		            //queue_slot = queue_i % 1000;
-		            acquire_aq = ATOMIC_ADDMS(&alarm_queue[queue_i % 1000], addr);
+		            acquire_aq = ATOMIC_ADDMS(&aq[queue_i % 1000], addr);
 	            } while (acquire_aq != 0); // if the queue slot is taken go around until you find one!
             }
         } else {    // slot taken, find an empty one
@@ -91,7 +96,7 @@ void spray(long i, long n){
 	            //do {
 		        //    queue_i = ATOMIC_ADDMS(&aq_index[n], 1);
 		        //    queue_slot = queue_i % 1000;
-		        //    acquire_aq = ATOMIC_ADDMS(&alarm_queue[queue_slot], addr);
+		        //    acquire_aq = ATOMIC_ADDMS(&aq[queue_slot], addr);
 	            //} while (acquire_aq != 0); // if the queue slot is taken go around until you find one!
             }
         }

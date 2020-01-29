@@ -107,8 +107,8 @@ void spray(long i, long n){
 void alarm_control(long i, long n){
 	long j, addr;
 
-	while (comp_done != THREADS_PER_NODELET){
-		printf("comp_done = %ld\n", comp_done);
+	while (comp_done[n] != THREADS_PER_NODELET){
+		printf("comp_done = %ld\n", comp_done[n]);
 		fflush(stdout);
 		for (j = 0; j < 1000; j++){
 			addr = alarm_queue[j];

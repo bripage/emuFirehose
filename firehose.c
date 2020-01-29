@@ -28,7 +28,7 @@ noinline long main(int argc, char **argv) {
     printf("Calling MIGRATE().\n");
     fflush(stdout);
     MIGRATE(&address_hits[0]);
-
+/*
 	cilk_spawn
 	printf("Calling recursive_spawn()\n");
     fflush(stdout);
@@ -58,7 +58,7 @@ noinline long main(int argc, char **argv) {
     printf("True Negatives: %ld", true_negative);
     printf("False Negatives: %ld", false_negative);
     fflush(stdout);
-
+*/
     cleanup();
     return 0;
 }

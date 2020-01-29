@@ -16,7 +16,6 @@ extern replicated unsigned long * hash_table;
 extern replicated long * hash_state;
 extern replicated long * hash_state2;
 struct packet;
-unsigned long * alarm_queue;
 
 void handle_packet(unsigned long address, long val, long flag);
 void alert_check(long i, unsigned long id);

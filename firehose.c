@@ -50,7 +50,7 @@ noinline long main(int argc, char **argv) {
         }
     }
     printf("Datums Received: %ld\n", file_packets);
-    printf("Unique Keys: %ld\n", 0);
+    printf("Unique Keys: %ld\n", unique_keys);
     printf("Max occurance of any key: %ld\n", max_occurance);
     printf("Event Count: %ld\n", event_count);
     printf("True Anomalies: %ld\n", true_positive);

@@ -107,6 +107,7 @@ void spray(long i, long n){
 void alarm_control(long i, long n){
 	long j;
 	unsigned long addr;
+	n = NODE_ID();
 
 	while (comp_done[n] != THREADS_PER_NODELET){
 		//printf("comp_done = %ld\n", comp_done[n]);
@@ -116,7 +117,7 @@ void alarm_control(long i, long n){
 			if (addr != 0){ // alarm exists at this location, send it!
 				printf("Alert @ %lu\n", addr);
 				fflush(stdout);
-				REMOTE_ADD(&alarm_queue[j], -1*addr);
+				ATOMIC_SWAP(&alarm_queue[j], 0);
 			}
 		}
 	}

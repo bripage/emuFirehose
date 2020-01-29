@@ -52,10 +52,10 @@ void spray(long i, long n, long* print_lock){
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
             	do {
-		            acquire_pl = ATOMIC_CAS(print_lock, 1, 0);
-		            printf("acquire_pl = %lu\n", acquire_pl);
-		            fflush(stdout);
-	            } while (acquire_pl);
+		            //acquire_pl = ATOMIC_CAS(print_lock, 1, 0);
+		            //printf("acquire_pl = %lu\n", acquire_pl);
+		            //fflush(stdout);
+	            } while (ATOMIC_CAS(print_lock, 1, 0));
                 printf("Alert @ %lu\n", addr);
 	            fflush(stdout);
 	            ATOMIC_SWAP(print_lock, 0);
@@ -82,10 +82,10 @@ void spray(long i, long n, long* print_lock){
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
 	            do {
-		            acquire_pl = ATOMIC_CAS(print_lock, 1, 0);
-		            printf("acquire_pl = %lu\n", acquire_pl);
-		            fflush(stdout);
-	            } while (acquire_pl);
+		            //acquire_pl = ATOMIC_CAS(print_lock, 1, 0);
+		            //printf("acquire_pl = %lu\n", acquire_pl);
+		            //fflush(stdout);
+	            } while (ATOMIC_CAS(print_lock, 1, 0));
 	            printf("Alert @ %lu\n", addr);
 	            fflush(stdout);
 	            ATOMIC_SWAP(print_lock, 0);

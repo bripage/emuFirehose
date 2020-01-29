@@ -22,9 +22,8 @@ extern replicated long * hash_state;
 extern replicated long * hash_state2;
 extern long * packet_index;
 struct packet;
-long * print_lock;
 
 void recursive_spawn(long low, long high);
-void spray(long i, long n);
+void spray(long i, long n, &print_lock);
 
 #endif //EMUFIREHOSE_DELUGE_H

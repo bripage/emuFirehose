@@ -22,8 +22,13 @@ extern replicated long * hash_state;
 extern replicated long * hash_state2;
 extern long * packet_index;
 struct packet;
+extern unsigned long * alarm_queue;
+extern long aq_index;
+extern long comp_done;
 
 void spray(long i, long n);
 void recursive_spawn(long low, long high);
+void alarm_control(long i, long n);
+void trigger_alarm(unsigned long addr);
 
 #endif //EMUFIREHOSE_DELUGE_H

@@ -207,10 +207,15 @@ void init(){
     printf("workload_dist replicated\n");
     fflush(stdout);
 
-    packet_index = (long *) malloc(nodelet_count*sizeof(long));
-    for (i=0; i < nodelet_count; i++){
-        packet_index[i]=0;
+    packet_index = (long *) malloc(nodelet_count * sizeof(long));
+    for (i = 0; i < nodelet_count; i++){
+        packet_index[i] = 0;
     }
+
+	alarm_queue = (unsigned long *) malloc(1000 * sizeof(unsigned long));
+	for (i = 0; i < 1000; i++){
+		alarm_queue[i] = 0;
+	}
 
     get_data_and_distribute();
 }

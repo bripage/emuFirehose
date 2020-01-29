@@ -19,7 +19,8 @@ void recursive_spawn(long low, long high){
 
 		high = mid;
 	}
-	long print_lock = 0;
+	print_lock = (long*) malloc(sizeof(long));
+	print_lock[0] = 0;
 	for (i = 0; i < THREADS_PER_NODELET; i++) {
 		//printf("thread %ld on nodelet %ld lanching spray()\n", i, nodelet);
 		fflush(stdout);
@@ -27,7 +28,7 @@ void recursive_spawn(long low, long high){
 	}
 }
 
-void spray(long i, long n, long& print_lock){
+void spray(long i, long n){
 	unsigned long addr, acquire;
 	long val, flag;
 	struct packet * wdn = workload_dist[n];
@@ -51,7 +52,7 @@ void spray(long i, long n, long& print_lock){
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
             	do {
-		            acquire_pl = ATOMIC_CAS(&print_lock, 1, 0);
+		            acquire_pl = ATOMIC_CAS(&print_lock[0], 1, 0);
 		            printf("acquire_pl = %lu\n", acquire_pl);
 		            fflush(stdout);
 	            } while (acquire_pl);
@@ -81,7 +82,7 @@ void spray(long i, long n, long& print_lock){
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
 	            do {
-		            acquire_pl = ATOMIC_CAS(&print_lock, 1, 0);
+		            acquire_pl = ATOMIC_CAS(&print_lock[0], 1, 0);
 		            printf("acquire_pl = %lu\n", acquire_pl);
 		            fflush(stdout);
 	            } while (acquire_pl);

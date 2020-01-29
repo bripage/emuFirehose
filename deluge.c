@@ -28,7 +28,7 @@ void recursive_spawn(long low, long high){
 	}
 }
 
-void spray(long i, long n, &print_lock){
+void spray(long i, long n, long* print_lock){
 	unsigned long addr, acquire;
 	long val, flag;
 	struct packet * wdn = workload_dist[n];

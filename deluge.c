@@ -20,11 +20,6 @@ void recursive_spawn(long low, long high){
 		high = mid;
 	}
 
-	aq_index = (long) malloc(sizeof(long));
-	comp_done = (long) malloc(sizeof(long));
-	aq_index = 0; // make sure alarms are put into the alarm_queue starting at element 0
-	comp_done = 0; // when this = THREADS_PER_NODELET, alarm output stops on local nodelet
-
 	for (i = 0; i < THREADS_PER_NODELET+1; i++) {
 		if (i == THREADS_PER_NODELET) {
 			// handle alert printfs with this single thread
@@ -65,7 +60,7 @@ void spray(long i, long n){
                 //printf("Alert @ %lu\n", addr);
                 //fflush(stdout);
 	            do {
-		            queue_i = ATOMIC_ADDM(&aq_index, 1);
+		            queue_i = ATOMIC_ADDM(&aq_index[n], 1);
 		            queue_slot = queue_i % 1000;
 		            acquire_aq = ATOMIC_CAS(&alarm_queue[queue_slot], addr, 0);
 	            } while (acquire_aq != 0); // if the queue slot is taken go around until you find one!
@@ -94,7 +89,7 @@ void spray(long i, long n){
                 //printf("Alert @ %lu\n", addr);
                 //fflush(stdout);
 	            do {
-		            queue_i = ATOMIC_ADDM(&aq_index, 1);
+		            queue_i = ATOMIC_ADDM(&aq_index[n], 1);
 		            queue_slot = queue_i % 1000;
 		            acquire_aq = ATOMIC_CAS(&alarm_queue[queue_slot], addr, 0);
 	            } while (acquire_aq != 0); // if the queue slot is taken go around until you find one!
@@ -106,7 +101,7 @@ void spray(long i, long n){
 
 		i+=THREADS_PER_NODELET;
 	}
-	comp_done++;
+	comp_done[n]++;
 }
 
 void alarm_control(long i, long n){
@@ -126,10 +121,10 @@ void alarm_control(long i, long n){
 	}
 }
 
-void trigger_alarm(unsigned long addr){
+void trigger_alarm(unsigned long addr, long n){
 	long queue_i, queue_slot, acquire;
 	do {
-		queue_i = ATOMIC_ADDM(&aq_index, 1);
+		queue_i = ATOMIC_ADDM(&aq_index[n], 1);
 		queue_slot = queue_i % 1000;
 		acquire = ATOMIC_CAS(&alarm_queue[queue_slot], addr, 0);
 	} while (acquire != 0); // if the queue slot is taken go around until you find one!

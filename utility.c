@@ -217,6 +217,16 @@ void init(){
 		alarm_queue[i] = 0;
 	}
 
+	aq_index = (long *) malloc(nodelet_count * sizeof(long));
+	for (i = 0; i < nodelet_count; i++){
+		aq_index[i] = 0;
+	}
+
+	comp_done = (long *) malloc(nodelet_count * sizeof(long));
+	for (i = 0; i < nodelet_count; i++){
+		comp_done[i] = 0;
+	}
+
     get_data_and_distribute();
 }
 

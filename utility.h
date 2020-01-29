@@ -21,6 +21,8 @@ extern long file_packets;
 extern FILE * ifp;
 struct packet;
 extern unsigned long * alarm_queue;
+extern long * aq_index;
+extern long * comp_done;
 
 void parse_args(int argc, char * argv[]);
 void init();

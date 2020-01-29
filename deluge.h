@@ -24,6 +24,6 @@ extern long * packet_index;
 struct packet;
 
 void recursive_spawn(long low, long high);
-void spray(long i, long n, long * print_lock);
+void spray(long i, long n, long& print_lock);
 
 #endif //EMUFIREHOSE_DELUGE_H

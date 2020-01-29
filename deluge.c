@@ -23,17 +23,17 @@ void recursive_spawn(long low, long high){
 	for (i = 0; i < THREADS_PER_NODELET; i++) {
 		//printf("thread %ld on nodelet %ld lanching spray()\n", i, nodelet);
 		fflush(stdout);
-		cilk_spawn spray(i, nodelet, &print_lock);
+		cilk_spawn spray(i, nodelet, print_lock);
 	}
 }
 
-void spray(long i, long n, long * print_lock){
+void spray(long i, long n, long& print_lock){
 	unsigned long addr, acquire;
 	long val, flag;
 	struct packet * wdn = workload_dist[n];
 	long local_list_end = dist_end;
     long hash, j, state = 0;
-	long queue_i, queue_slot, acquire_pl;
+	long queue_i, queue_slot, acquire_pl = 0;
 
 	while (i < local_list_end) {
 		addr = wdn[i].address;

@@ -24,7 +24,7 @@ void recursive_spawn(long low, long high){
 	for (i = 0; i < THREADS_PER_NODELET; i++) {
 		//printf("thread %ld on nodelet %ld lanching spray()\n", i, nodelet);
 		fflush(stdout);
-		cilk_spawn spray(i, nodelet, print_lock);
+		cilk_spawn spray(i, nodelet);
 	}
 }
 

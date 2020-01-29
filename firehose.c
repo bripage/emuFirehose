@@ -27,7 +27,7 @@ noinline long main(int argc, char **argv) {
 
     printf("Calling MIGRATE().\n");
     fflush(stdout);
-    MIGRATE(&hash_table[0]);
+    MIGRATE(&address_hits[0]);
 
 	cilk_spawn
 	printf("Calling recursive_spawn()\n");

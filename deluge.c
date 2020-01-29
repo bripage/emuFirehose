@@ -50,9 +50,9 @@ void spray(long i, long n, long * print_lock){
             // insert and update state table
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
-                while (ATOMIC_CAS(&print_lock, 1, 0)) {
-                    // spin while waiting to acquire print_lock;
-                }
+            	do {
+		            acquire_pl = ATOMIC_CAS(&print_lock, 1, 0);
+	            } while (acquire_pl);
                 printf("Alert @ %lu\n", addr);
 	            fflush(stdout);
 	            ATOMIC_SWAP(&print_lock, 0);
@@ -78,9 +78,9 @@ void spray(long i, long n, long * print_lock){
             // empty slot, add or update the state for the given location and key
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
-	            while (ATOMIC_CAS(&print_lock, 1, 0)) {
-		            // spin while waiting to acquire print_lock;
-	            }
+	            do {
+		            acquire_pl = ATOMIC_CAS(&print_lock, 1, 0);
+	            } while (acquire_pl);
 	            printf("Alert @ %lu\n", addr);
 	            fflush(stdout);
 	            ATOMIC_SWAP(&print_lock, 0);

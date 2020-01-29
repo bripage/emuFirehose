@@ -20,45 +20,43 @@ void recursive_spawn(long low, long high){
 		high = mid;
 	}
 
-	long print_lock = 0;
 	for (i = 0; i < THREADS_PER_NODELET; i++) {
-		//printf("thread %ld on nodelet %ld lanching spray()\n", i, nodelet);
-		fflush(stdout);
-		cilk_spawn spray(i, nodelet, &print_lock);
+		cilk_spawn spray(i, nodelet);
 	}
 }
 
-void spray(long i, long n, long* print_lock){
+void spray(long i, long n){
 	unsigned long addr, acquire;
 	long val, flag;
 	struct packet * wdn = workload_dist[n];
 	long local_list_end = dist_end;
-    long hash, j, state = 0;
-	long queue_i, queue_slot, acquire_pl = 0;
+    long hash, j, hits = 0, payload = 0;
 
 	while (i < local_list_end) {
 		addr = wdn[i].address;
 		val = wdn[i].val;
 		flag = wdn[i].flag;
 
-		//handle_packet(addr, val, flag);
-        //unsigned long id = address;
         hash = addr % 100000; //inline this
         j = hash;
-
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
-            state = ATOMIC_ADDM(&hash_state[j], 1);
-            if (state % 24 == 0) {
-            	do {
-		            //acquire_pl = ATOMIC_CAS(print_lock, 1, 0);
-		            //printf("acquire_pl = %lu\n", acquire_pl);
-		            //fflush(stdout);
-	            } while (ATOMIC_CAS(print_lock, 1, 0));
-                printf("Alert @ %lu\n", addr);
-	            fflush(stdout);
-	            ATOMIC_SWAP(print_lock, 0);
+            hits = ATOMIC_ADDM(&address_hits[j], 1);
+            if (hits % 24 == 0) {
+                REMOTE_ADD(&event_count, 1);
+                //payload_sum = ATOMIC_ADDM(&hash_state2[j], 1);
+                payload = ATOMIC_ADDM(&payload_state[j], val);
+                ATOMIC_SWAP(payload_state[j], 0);
+                if (payload <= 5 && flag == 1){
+                    REMOTE_ADD(&true_positive, 1);
+                } else if (payload <= 5 && flag == 0){
+                    REMOTE_ADD(&false_positve, 1);
+                } else if (payload > 5 && flag == 1){
+                    REMOTE_ADD(&false_negative, 1);
+                } else if (payload > 5 && flag == 0){
+                    REMOTE_ADD(&true_negative, 1);
+                }
             }
         } else {    // slot taken, find an empty one
             if (j+1 == 100000) {
@@ -79,21 +77,25 @@ void spray(long i, long n, long* print_lock){
 
             // now that we have either found the key in the hashtable or located an
             // empty slot, add or update the state for the given location and key
-            state = ATOMIC_ADDM(&hash_state[j], 1);
-            if (state % 24 == 0) {
-	            do {
-		            //acquire_pl = ATOMIC_CAS(print_lock, 1, 0);
-		            //printf("acquire_pl = %lu\n", acquire_pl);
-		            //fflush(stdout);
-	            } while (ATOMIC_CAS(print_lock, 1, 0));
-	            printf("Alert @ %lu\n", addr);
-	            fflush(stdout);
-	            ATOMIC_SWAP(print_lock, 0);
+            hits = ATOMIC_ADDM(&address_hits[j], 1);
+            if (hits % 24 == 0) {
+                REMOTE_ADD(&event_count, 1);
+                payload = ATOMIC_ADDM(&payload_state[j], val);
+                ATOMIC_SWAP(payload_state[j], 0);
+                if (payload <= 5 && flag == 1) {
+                    REMOTE_ADD(&true_positive, 1);
+                } else if (payload <= 5 && flag == 0) {
+                    REMOTE_ADD(&false_positve, 1);
+                } else if (payload > 5 && flag == 1) {
+                    REMOTE_ADD(&false_negative, 1);
+                } else if (payload > 5 && flag == 0) {
+                    REMOTE_ADD(&true_negative, 1);
+                }
             }
         }
 
 		//printf("%ld handled packet %ld\n", n , i);
-        fflush(stdout);
+        //fflush(stdout);
 
 		i+=THREADS_PER_NODELET;
 	}

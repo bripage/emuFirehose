@@ -13,8 +13,8 @@
 #include <math.h>
 
 extern replicated unsigned long * hash_table;
-extern replicated long * hash_state;
-extern replicated long * hash_state2;
+extern replicated long * address_hits;
+extern replicated long * payload_state;
 struct packet;
 
 void handle_packet(unsigned long address, long val, long flag);

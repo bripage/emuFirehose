@@ -37,6 +37,26 @@ noinline long main(int argc, char **argv) {
     fflush(stdout);
 
 
+    long max_occurance = 0, next_addr, unique_keys = 0;
+    for (i = 0; i < 100000; i++){
+        next_addr = address_hits[i];
+        if (next_addr > max_occurance){
+            max_occurance = next_addr;
+        }
+
+        if (hash_table[i] != -1){
+            unique_keys++;
+        }
+    }
+    printf("Datums Received: %ld", file_packets);
+    printf("Unique Keys: %ld", 0);
+    printf("Max occurance of any key: %ld", max_occurance);
+    printf("Event Count: %ld", event_count);
+    printf("True Anomalies: %ld", true_positive);
+    printf("False Positives: %ld", false_positve);
+    printf("True Negatives: %ld", true_negative);
+    printf("False Negatives: %ld", false_negative);
+    fflush(stdout);
 
     cleanup();
     return 0;

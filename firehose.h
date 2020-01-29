@@ -16,10 +16,16 @@ replicated long PACKET_COUNT;
 replicated long dist_end;
 replicated long nodelet_count;
 replicated unsigned long * hash_table;
-replicated long * hash_state;
-replicated long * hash_state2;
+extern replicated long * address_hits;
+extern replicated long * payload_state;
+replicated long event_count;
+replicated long true_positive;
+replicated long false_positve;
+replicated long true_negative;
+replicated long false_negative;
 long * packet_index;
 long file_packets;
+long event_count;
 FILE * ifp;
 
 #endif //EMUFIREHOSE_FIREHOSE_H

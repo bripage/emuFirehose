@@ -153,6 +153,16 @@ void init(){
     printf("Replicated init start.\n");
     fflush(stdout);
     mw_replicated_init(&nodelet_count, nc);
+    long events = 0;
+    long tp = 0;
+    long fp = 0;
+    long tn = 0;
+    long fn = 0;
+    mw_replicated_init(&event_count, events);
+    mw_replicated_init(&true_positive, tp);
+    mw_replicated_init(&false_positve, fp);
+    mw_replicated_init(&true_negative, tn);
+    mw_replicated_init(&false_negative, fn);
 
     unsigned long * h = (unsigned long *) mw_malloc1dlong(100000);
 	printf("h allocated\n");
@@ -168,32 +178,32 @@ void init(){
 		hash_table[i] = -1;
 	}
 
-	long * hs = (long *) mw_malloc1dlong(100000);
-	printf("hs allocated\n");
+	long * ah = (long *) mw_malloc1dlong(100000);
+	printf("ah allocated\n");
 	fflush(stdout);
-	if (hs == NULL) {
-		printf("Cannot allocate memory for hash_sate.\n");
+	if (ah == NULL) {
+		printf("Cannot allocate memory for address_hits.\n");
 		exit(1);
 	}
-	printf("checked hs.\n");
+	printf("checked ah.\n");
 	fflush(stdout);
-	mw_replicated_init(&hash_state, hs);
+	mw_replicated_init(&address_hits, ah);
 	for (i = 0; i < 100000; i++){
-		hash_state[i] = 0;
+		address_hits[i] = 0;
 	}
 
-    long * hs2 = (long *) mw_malloc1dlong(100000);
-    printf("hs2 allocated\n");
+    long * ps = (long *) mw_malloc1dlong(100000);
+    printf("ps allocated\n");
     fflush(stdout);
-    if (hs == NULL) {
-        printf("Cannot allocate memory for hash_state2.\n");
+    if (ps == NULL) {
+        printf("Cannot allocate memory for payload_state.\n");
         exit(1);
     }
-    printf("checked hs2.\n");
+    printf("checked ps.\n");
     fflush(stdout);
-    mw_replicated_init(&hash_state2, hs2);
+    mw_replicated_init(&payload_state, ps);
     for (i = 0; i < 100000; i++){
-        hash_state2[i] = 0;
+        payload_state[i] = 0;
     }
 
     struct element ** wd;

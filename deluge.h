@@ -22,7 +22,7 @@ extern replicated long * hash_state;
 extern replicated long * hash_state2;
 extern long * packet_index;
 struct packet;
-extern replicated unsigned long * alarm_queue;
+extern replicated unsigned long ** alarm_queue;
 extern replicated long * aq_index;
 extern replicated long * comp_done;
 

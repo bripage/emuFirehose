@@ -216,7 +216,7 @@ void init(){
 	mw_replicated_init(&alarm_queue, aq);
 
 	long * ai = (long *) mw_malloc1dlong(nodelet_count * sizeof(long));
-	mw_replicated_init(&alarm_index, ai);
+	mw_replicated_init(&aq_index, ai);
 	for (i = 0; i < nodelet_count; i++){
 		aq_index[i] = 0;
 	}

@@ -215,13 +215,13 @@ void init(){
 	unsigned long ** aq = (unsigned long *) mw_malloc2d(nodelet_count, 1000 * sizeof(unsigned long));
 	mw_replicated_init(&alarm_queue, aq);
 
-	long ** ai = (long *) mw_malloc1dlong(nodelet_count * sizeof(long));
+	long * ai = (long *) mw_malloc1dlong(nodelet_count * sizeof(long));
 	mw_replicated_init(&alarm_index, ai);
 	for (i = 0; i < nodelet_count; i++){
 		aq_index[i] = 0;
 	}
 
-	long ** cd = (long *) mw_malloc1dlong(nodelet_count * sizeof(long));
+	long * cd = (long *) mw_malloc1dlong(nodelet_count * sizeof(long));
 	mw_replicated_init(&comp_done, cd);
 	for (i = 0; i < nodelet_count; i++){
 		comp_done[i] = 0;

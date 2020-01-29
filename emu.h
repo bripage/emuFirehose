@@ -16,5 +16,5 @@
 #endif
 
 #ifndef THREADS_PER_NODELET
-#define THREADS_PER_NODELET 32
+#define THREADS_PER_NODELET 64
 #endif

@@ -19,21 +19,21 @@ void recursive_spawn(long low, long high){
 
 		high = mid;
 	}
-
+	long print_lock = 0;
 	for (i = 0; i < THREADS_PER_NODELET; i++) {
 		//printf("thread %ld on nodelet %ld lanching spray()\n", i, nodelet);
 		fflush(stdout);
-		cilk_spawn spray(i, nodelet);
+		cilk_spawn spray(i, nodelet, &print_lock);
 	}
 }
 
-void spray(long i, long n){
+void spray(long i, long n, long * print_lock){
 	unsigned long addr, acquire;
 	long val, flag;
 	struct packet * wdn = workload_dist[n];
 	long local_list_end = dist_end;
     long hash, j, state = 0;
-	long queue_i, queue_slot, acquire_aq;
+	long queue_i, queue_slot, acquire_pl;
 
 	while (i < local_list_end) {
 		addr = wdn[i].address;
@@ -50,8 +50,11 @@ void spray(long i, long n){
             // insert and update state table
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
-                printf("Alert @ %lu\n", addr);
-                fflush(stdout);
+                while (ATOMIC_CAS(&print_lock, 1, 0)) {
+	                printf("Alert @ %lu\n", addr);
+	                fflush(stdout);
+	                ATOMIC_SWAP(&print_lock, 0);
+                }
             }
         } else {    // slot taken, find an empty one
             if (j+1 == 100000) {
@@ -74,8 +77,11 @@ void spray(long i, long n){
             // empty slot, add or update the state for the given location and key
             state = ATOMIC_ADDM(&hash_state[j], 1);
             if (state % 24 == 0) {
-                printf("Alert @ %lu\n", addr);
-                fflush(stdout);
+	            while (ATOMIC_CAS(&print_lock, 1, 0)) {
+		            printf("Alert @ %lu\n", addr);
+		            fflush(stdout);
+		            ATOMIC_SWAP(&print_lock, 0);
+	            }
             }
         }
 

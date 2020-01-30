@@ -44,6 +44,8 @@ void spray(long i, long n){
             // insert and update state table
 
             hits = ATOMIC_ADDM(&address_hits[j], 1);
+            printf("hits = %lu\n", hits);
+	        fflush(stdout);
             if (hits % 24 == 0) {
                 REMOTE_ADD(&event_count, 1);
                 payload = ATOMIC_SWAP(&payload_state[j], 0);
@@ -78,6 +80,8 @@ void spray(long i, long n){
             // now that we have either found the key in the hashtable or located an
             // empty slot, add or update the state for the given location and key
             hits = ATOMIC_ADDM(&address_hits[j], 1);
+	        printf("hits = %lu\n", hits);
+	        fflush(stdout);
 	        if (hits % 24 == 0) {
 		        REMOTE_ADD(&event_count, 1);
 		        payload = ATOMIC_SWAP(&payload_state[j], 0);

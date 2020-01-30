@@ -52,7 +52,7 @@ void spray(long i, long n){
             fflush(stdout);
             //hits = ATOMIC_ADDM(&(address_hits[j]), 1);
             //payload = ATOMIC_ADDM(&payload_state[j], 1);
-            hits = ((1 << 32) - 1) & (temp >> 0);
+            hits = temp & 4294967295;
             payload = state >> 32;
             printf("state = %ld, hits = %ld, payload = %ld\n",state, hits, payload);
             fflush(stdout);

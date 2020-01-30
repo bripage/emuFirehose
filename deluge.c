@@ -51,7 +51,7 @@ void spray(long i, long n){
 	            printf("inside 1\n");
 	            fflush(stdout);
 	            //REMOTE_ADD(&event_count, 1);
-	            event_count++
+	            event_count++;
                 payload = ATOMIC_SWAP(&payload_state[j], 0);
                 if (payload <= 4 && flag == 1){
                     REMOTE_ADD(&true_positive, 1);

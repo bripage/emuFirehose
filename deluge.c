@@ -50,7 +50,8 @@ void spray(long i, long n){
 	            swap_state = ATOMIC_SWAP(&address_hits[j], 0);
 	            printf("inside\n");
 	            fflush(stdout);
-                REMOTE_ADD(&event_count, 1);
+	            //REMOTE_ADD(&event_count, 1);
+	            swap_state = ATOMIC_ADDM(&event_count, 1);
                 payload = ATOMIC_SWAP(&payload_state[j], 0);
                 if (payload <= 4 && flag == 1){
                     REMOTE_ADD(&true_positive, 1);
@@ -90,7 +91,8 @@ void spray(long i, long n){
 		        swap_state = ATOMIC_SWAP(&address_hits[j], 0);
 		        printf("inside\n");
 		        fflush(stdout);
-		        REMOTE_ADD(&event_count, 1);
+		        //REMOTE_ADD(&event_count, 1);
+		        swap_state = ATOMIC_ADDM(&event_count, 1);
 		        payload = ATOMIC_SWAP(&payload_state[j], 0);
 		        if (payload <= 4 && flag == 1){
 			        REMOTE_ADD(&true_positive, 1);

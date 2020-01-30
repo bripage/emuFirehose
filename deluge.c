@@ -46,7 +46,7 @@ void spray(long i, long n){
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
-            state = ATOMIC_ADDM(&hash_state[j], 4294967297); // increment both high 32 and low bits by one.
+            state = ATOMIC_ADDM(&payload_state[j], 4294967297); // increment both high 32 and low bits by one.
             temp = state;
             //hits = ATOMIC_ADDM(&(address_hits[j]), 1);
             //payload = ATOMIC_ADDM(&payload_state[j], 1);

@@ -50,9 +50,9 @@ void spray(long i, long n){
             if (hits % 24 == 0) {
 	            printf("inside 1\n");
 	            fflush(stdout);
-	            //REMOTE_ADD(&(event_count[0]), 1);
-	            //printf("event_count = %ld\n", event_count[0]);
-	            //fflush(stdout);
+	            REMOTE_ADD(event_count, 1);
+	            printf("event_count = %ld\n", event_count);
+	            fflush(stdout);
                 ATOMIC_SWAP(&(payload_state[j]), 0);
                 printf("payload = %ld\n", payload);
                 fflush(stdout);
@@ -94,9 +94,9 @@ void spray(long i, long n){
             if (hits % 24 == 0) {
                 printf("inside 1\n");
                 fflush(stdout);
-                //REMOTE_ADD(&(event_count[0]), 1);
-                //printf("event_count = %ld\n", event_count[0]);
-                //fflush(stdout);
+                REMOTE_ADD(&(event_count[0]), 1);
+                printf("event_count = %ld\n", event_count[0]);
+                fflush(stdout);
                 ATOMIC_SWAP(&(payload_state[j]), 0);
                 printf("payload = %ld\n", payload);
                 fflush(stdout);

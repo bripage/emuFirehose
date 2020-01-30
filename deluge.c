@@ -46,16 +46,19 @@ void spray(long i, long n){
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
+            REMOTE_ADD(&address_hits[j],1);
+            ENTER_CRITICAL_SECTION();
             state = ATOMIC_ADDM(&payload_state[j], 4294967297); // increment both high 32 and low bits by one.
-            temp = state;
-            hits = temp & 4294967295;
+            hits = state & 4294967295;
             if (hits == 24){
                 ATOMIC_SWAP(&(payload_state[j]), 0);
             }
-            payload = state >> 32;
+            EXIT_CRITICAL_SECTION();
+            //payload = state >> 32;
             //printf("state = %ld, hits = %ld, payload = %ld\n",state, hits, payload);
             //fflush(stdout);
             if (hits % 24 == 0 && hits != 0) {
+                payload = state >> 32;
                 REMOTE_ADD(&stats[0], 1);
                 //ATOMIC_SWAP(&(payload_state[j]), 0);
                 if (payload <= 4 && flag == 1){
@@ -89,16 +92,19 @@ void spray(long i, long n){
             // now that we have either found the key in the hashtable or located an
             // empty slot, add or update the state for the given location and key
             //hits = ATOMIC_ADDM(&address_hits[j], 1);
+            REMOTE_ADD(&address_hits[j],1);
+            ENTER_CRITICAL_SECTION();
             state = ATOMIC_ADDM(&payload_state[j], 4294967297); // increment both high 32 and low bits by one.
-            temp = state;
-            hits = temp & 4294967295;
+            hits = state & 4294967295;
             if (hits == 24){
                 ATOMIC_SWAP(&(payload_state[j]), 0);
             }
-            payload = state >> 32;
+            EXIT_CRITICAL_SECTION();
+            //payload = state >> 32;
             //printf("state = %ld, hits = %ld, payload = %ld\n",state, hits, payload);
             //fflush(stdout);
             if (hits % 24 == 0 && hits != 0) {
+                payload = state >> 32;
                 REMOTE_ADD(&stats[0], 1);
                 //ATOMIC_SWAP(&(payload_state[j]), 0);
                 if (payload <= 4 && flag == 1){

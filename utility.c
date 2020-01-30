@@ -170,7 +170,6 @@ void init(){
     mw_replicated_init(&true_negative, tn);
     mw_replicated_init(&false_negative, fn);
 
-
     unsigned long * h = (unsigned long *) mw_malloc1dlong(100000);
 	printf("h allocated\n");
 	fflush(stdout);

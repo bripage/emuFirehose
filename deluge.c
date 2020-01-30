@@ -42,12 +42,12 @@ void spray(long i, long n){
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
-
+			ATOMIC_ADD(&address_hits[j], 1);
             //hits = ATOMIC_ADDM(&address_hits[j], 1);
             hits = ATOMIC_CAS(&address_hits[j], 0, 24);
             printf("hits = %ld\n", hits);
 	        fflush(stdout);
-            if (hits % 24 == 0) {
+            if (hits == 24) {
 	            printf("hits % 24 =  %ld\n", hits % 24);
 	            fflush(stdout);
                 REMOTE_ADD(&event_count, 1);
@@ -83,10 +83,11 @@ void spray(long i, long n){
             // now that we have either found the key in the hashtable or located an
             // empty slot, add or update the state for the given location and key
             //hits = ATOMIC_ADDM(&address_hits[j], 1);
+	        ATOMIC_ADD(&address_hits[j], 1);
 	        hits = ATOMIC_CAS(&address_hits[j], 0, 24);
             printf("hits = %ld\n", hits);
 	        fflush(stdout);
-	        if (hits % 24 == 0) {
+	        if (hits == 24) {
 		        printf("hits % 24 =  %ld\n", hits % 24);
 		        fflush(stdout);
 		        REMOTE_ADD(&event_count, 1);

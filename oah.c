@@ -17,23 +17,7 @@ void handle_packet(unsigned long address, long val, long flag) {
 		// insert and update state table
         hits = ATOMIC_ADDM(&address_hits[i], 1);
         if (hits % 24 == 0) {
-            printf("inside 1\n");
-            fflush(stdout);
-            REMOTE_ADD(&stats[0], 1);
-            printf("event_count = %ld\n", stats[0]);
-            fflush(stdout);
-            ATOMIC_SWAP(&(payload_state[j]), 0);
-            printf("payload = %ld\n", payload);
-            fflush(stdout);
-            if (payload <= 4 && flag == 1){
-                REMOTE_ADD(&stats[1], 1);
-            } else if (payload <= 4 && flag == 0){
-                REMOTE_ADD(&stats[2], 1);
-            } else if (payload > 4 && flag == 1){
-                REMOTE_ADD(&stats[4], 1);
-            } else if (payload > 4 && flag == 0){
-                REMOTE_ADD(&stats[3], 1);
-            }
+
         }
 	} else {
 		// slot take, find an empty one
@@ -57,23 +41,7 @@ void handle_packet(unsigned long address, long val, long flag) {
 		// empty slot, add or update the state for the given location and key
         hits = ATOMIC_ADDM(&address_hits[i], 1);
         if (hits % 24 == 0) {
-            printf("inside 1\n");
-            fflush(stdout);
-            REMOTE_ADD(&stats[0], 1);
-            printf("event_count = %ld\n", stats[0]);
-            fflush(stdout);
-            ATOMIC_SWAP(&(payload_state[j]), 0);
-            printf("payload = %ld\n", payload);
-            fflush(stdout);
-            if (payload <= 4 && flag == 1){
-                REMOTE_ADD(&stats[1], 1);
-            } else if (payload <= 4 && flag == 0){
-                REMOTE_ADD(&stats[2], 1);
-            } else if (payload > 4 && flag == 1){
-                REMOTE_ADD(&stats[4], 1);
-            } else if (payload > 4 && flag == 0){
-                REMOTE_ADD(&stats[3], 1);
-            }
+
         }
 	}
 }

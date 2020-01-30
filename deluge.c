@@ -52,6 +52,8 @@ void spray(long i, long n){
             //payload = ATOMIC_ADDM(&payload_state[j], 1);
             hits = ((1 << 32) - 1) & (temp >> 0);
             payload = ((1 << 32) - 1) & (state >> (32 - 1));
+            printf("hits = %ld, payload = %ld\n", hits, payload);
+            fflush(stdout);
             if (hits % 24 == 0) {
                 REMOTE_ADD(&stats[0], 1);
                 ATOMIC_SWAP(&(payload_state[j]), 0);

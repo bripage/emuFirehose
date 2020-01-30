@@ -20,11 +20,7 @@ extern replicated long nodelet_count;
 extern replicated unsigned long * hash_table;
 extern replicated long * address_hits;
 extern replicated long * payload_state;
-extern long* event_count;
-extern long* true_positive;
-extern long* false_positve;
-extern long* true_negative;
-extern long* false_negative;
+extern replicated long* stats;
 extern long * packet_index;
 struct packet;
 

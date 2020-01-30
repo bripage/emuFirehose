@@ -52,11 +52,11 @@ noinline long main(int argc, char **argv) {
     printf("Datums Received: %ld\n", file_packets);
     printf("Unique Keys: %ld\n", unique_keys);
     printf("Max occurance of any key: %ld\n", max_occurance);
-    printf("Event Count: %ld\n", event_count);
-    printf("True Anomalies: %ld\n", true_positive);
-    printf("False Positives: %ld\n", false_positve);
-    printf("True Negatives: %ld\n", true_negative);
-    printf("False Negatives: %ld\n", false_negative);
+    printf("Event Count: %ld\n", stats[0]);
+    printf("True Anomalies: %ld\n", stats[1]);
+    printf("False Positives: %ld\n", stats[2]);
+    printf("True Negatives: %ld\n", stats[3]);
+    printf("False Negatives: %ld\n", stats[4]);
     fflush(stdout);
 
     cleanup();

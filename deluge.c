@@ -48,22 +48,22 @@ void spray(long i, long n){
             printf("hits = %ld\n", hits);
 	        fflush(stdout);
             if (hits % 24 == 0) {
-	            printf("inside 1\n");
-	            fflush(stdout);
-	            REMOTE_ADD(event_count, 1);
-	            printf("event_count = %ld\n", event_count);
-	            fflush(stdout);
+                printf("inside 1\n");
+                fflush(stdout);
+                REMOTE_ADD(&stats[0], 1);
+                printf("event_count = %ld\n", stats[0]);
+                fflush(stdout);
                 ATOMIC_SWAP(&(payload_state[j]), 0);
                 printf("payload = %ld\n", payload);
                 fflush(stdout);
                 if (payload <= 4 && flag == 1){
-                    REMOTE_ADD(true_positive, 1);
+                    REMOTE_ADD(&stats[1], 1);
                 } else if (payload <= 4 && flag == 0){
-                    REMOTE_ADD(false_positve, 1);
+                    REMOTE_ADD(&stats[2], 1);
                 } else if (payload > 4 && flag == 1){
-                    REMOTE_ADD(false_negative, 1);
+                    REMOTE_ADD(&stats[4], 1);
                 } else if (payload > 4 && flag == 0){
-                    REMOTE_ADD(true_negative, 1);
+                    REMOTE_ADD(&stats[3], 1);
                 }
             }
 
@@ -94,20 +94,20 @@ void spray(long i, long n){
             if (hits % 24 == 0) {
                 printf("inside 1\n");
                 fflush(stdout);
-                REMOTE_ADD(&(event_count[0]), 1);
-                printf("event_count = %ld\n", event_count[0]);
+                REMOTE_ADD(&stats[0], 1);
+                printf("event_count = %ld\n", stats[0]);
                 fflush(stdout);
                 ATOMIC_SWAP(&(payload_state[j]), 0);
                 printf("payload = %ld\n", payload);
                 fflush(stdout);
                 if (payload <= 4 && flag == 1){
-                    REMOTE_ADD(true_positive, 1);
+                    REMOTE_ADD(&stats[1], 1);
                 } else if (payload <= 4 && flag == 0){
-                    REMOTE_ADD(false_positve, 1);
+                    REMOTE_ADD(&stats[2], 1);
                 } else if (payload > 4 && flag == 1){
-                    REMOTE_ADD(false_negative, 1);
+                    REMOTE_ADD(&stats[4], 1);
                 } else if (payload > 4 && flag == 0){
-                    REMOTE_ADD(true_negative, 1);
+                    REMOTE_ADD(&stats[3], 1);
                 }
             }
         }

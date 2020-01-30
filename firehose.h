@@ -18,11 +18,7 @@ replicated long nodelet_count;
 replicated unsigned long * hash_table;
 replicated long * address_hits;
 replicated long * payload_state;
-long * event_count;
-long * true_positive;
-long * false_positve;
-long * true_negative;
-long * false_negative;
+replicated long* stats;
 long * packet_index;
 long file_packets;
 

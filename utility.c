@@ -153,18 +153,20 @@ void init(){
     printf("Replicated init start.\n");
     fflush(stdout);
     mw_replicated_init(&nodelet_count, nc);
-    
-    event_count = (long *) malloc(sizeof(long));
-    true_positive = (long *) malloc(sizeof(long));
-    false_positve = (long *) malloc(sizeof(long));
-    true_negative = (long *) malloc(sizeof(long));
-    false_negative = (long *) malloc(sizeof(long));
-    *event_count = 0;
-    *true_positive = 0;
-    *false_positve = 0;
-    *true_negative = 0;
-    *false_negative = 0;
 
+    unsigned long * s = (unsigned long *) mw_malloc1dlong(nodelet_count);
+    printf("s allocated\n");
+    fflush(stdout);
+    if (h == NULL) {
+        printf("Cannot allocate memory for stats array.\n");
+        exit(1);
+    }
+    printf("checked s.\n");
+    fflush(stdout);
+    mw_replicated_init(&stats, s);
+    for (i = 0; i < nodelet_count; i++){
+        stats[i] = 0;
+    }
 
     unsigned long * h = (unsigned long *) mw_malloc1dlong(100000);
 	printf("h allocated\n");

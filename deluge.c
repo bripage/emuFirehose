@@ -30,7 +30,7 @@ void spray(long i, long n){
 	long val, flag;
 	struct packet * wdn = workload_dist[n];
 	long local_list_end = dist_end;
-    long hash, j, hits = 0, payload = 0, swap_state;
+    long hash, j, hits = 0, payload = 0, swap_state, state = 0, temp = 0;
 
 	while (i < local_list_end) {
 		addr = wdn[i].address;
@@ -46,20 +46,15 @@ void spray(long i, long n){
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
-            //hits = ATOMIC_ADDM(&address_hits[j], 1);
-            hits = ATOMIC_ADDM(&(address_hits[j]), 1);
-            payload = ATOMIC_ADDM(&payload_state[j], 1);
-            //printf("hits = %ld\n", hits);
-	        //fflush(stdout);
+            state = ATOMIC_ADDM(&hash_state[j], 4294967297); // increment both high 32 and low bits by one.
+            temp = state;
+            //hits = ATOMIC_ADDM(&(address_hits[j]), 1);
+            //payload = ATOMIC_ADDM(&payload_state[j], 1);
+            hits = ((1 << 32) - 1) & (temp >> 0);
+            payload = ((1 << 32) - 1) & (state >> (32 - 1));
             if (hits % 24 == 0) {
-                //printf("inside 1\n");
-                //fflush(stdout);
                 REMOTE_ADD(&stats[0], 1);
-                //printf("event_count = %ld\n", stats[0]);
-                //fflush(stdout);
                 ATOMIC_SWAP(&(payload_state[j]), 0);
-                //printf("payload = %ld\n", payload);
-                //fflush(stdout);
                 if (payload <= 4 && flag == 1){
                     REMOTE_ADD(&stats[1], 1);
                 } else if (payload <= 4 && flag == 0){

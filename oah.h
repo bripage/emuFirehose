@@ -15,11 +15,11 @@
 extern replicated unsigned long * hash_table;
 extern replicated long * address_hits;
 extern replicated long * payload_state;
-extern replicated long event_count;
-extern replicated long true_positive;
-extern replicated long false_positve;
-extern replicated long true_negative;
-extern replicated long false_negative;
+extern replicated long* event_count;
+extern replicated long* true_positive;
+extern replicated long* false_positve;
+extern replicated long* true_negative;
+extern replicated long* false_negative;
 struct packet;
 
 void handle_packet(unsigned long address, long val, long flag);

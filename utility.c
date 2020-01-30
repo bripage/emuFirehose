@@ -154,11 +154,16 @@ void init(){
     fflush(stdout);
     mw_replicated_init(&nodelet_count, nc);
     
-    long events = 0;
-    long tp = 0;
-    long fp = 0;
-    long tn = 0;
-    long fn = 0;
+    long* events = (long *) malloc(sizeof(long));
+    long* tp = (long *) malloc(sizeof(long));
+    long* fp = (long *) malloc(sizeof(long));
+    long* tn = (long *) malloc(sizeof(long));
+    long* fn = (long *) malloc(sizeof(long));
+    events = 0;
+    *tp = 0;
+    *fp = 0;
+    *tn = 0;
+    *fn = 0;
     mw_replicated_init(&event_count, events);
     mw_replicated_init(&true_positive, tp);
     mw_replicated_init(&false_positve, fp);

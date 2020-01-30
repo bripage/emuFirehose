@@ -46,8 +46,7 @@ void spray(long i, long n){
             hits = ATOMIC_ADDM(&address_hits[j], 1);
             printf("hits = %ld\n", hits);
 	        fflush(stdout);
-            if (hits == 24) {
-	            swap_state = ATOMIC_SWAP(&address_hits[j], 0);
+            if (hits % 24 == 0) {
 	            printf("inside 1\n");
 	            fflush(stdout);
 	            REMOTE_ADD(event_count, 1);
@@ -88,8 +87,7 @@ void spray(long i, long n){
 	        hits = ATOMIC_ADDM(&address_hits[j], 1);
 	        printf("hits = %ld\n", hits);
 	        fflush(stdout);
-	        if (hits == 24) {
-		        swap_state = ATOMIC_SWAP(&address_hits[j], 0);
+	        if (hits %24 == 0) {
 		        printf("inside 2\n");
 		        fflush(stdout);
 		        REMOTE_ADD(event_count, 1);

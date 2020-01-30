@@ -25,7 +25,7 @@ long * true_negative;
 long * false_negative;
 long * packet_index;
 long file_packets;
-long event_count;
+
 FILE * ifp;
 
 #endif //EMUFIREHOSE_FIREHOSE_H

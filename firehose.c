@@ -57,6 +57,7 @@ noinline long main(int argc, char **argv) {
     printf("False Positives: %ld\n", stats[2]);
     printf("True Negatives: %ld\n", stats[3]);
     printf("False Negatives: %ld\n", stats[4]);
+    printf("True Bias Flag Count: %ld\n", stats[5]);
     fflush(stdout);
 
     cleanup();

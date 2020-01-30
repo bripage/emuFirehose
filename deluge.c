@@ -37,6 +37,10 @@ void spray(long i, long n){
 		val = wdn[i].val;
 		flag = wdn[i].flag;
 
+		if (flag == 1){
+		    REMOTE_ADD(&stats[5], 1);
+		}
+
         hash = addr % 100000; //inline this
         j = hash;
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);

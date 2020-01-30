@@ -48,7 +48,7 @@ void spray(long i, long n){
 	        fflush(stdout);
             if (hits == 24) {
 	            swap_state = ATOMIC_SWAP(&address_hits[j], 0);
-	            printf("hits % 24 =  %ld\n", hits % 24);
+	            printf("inside\n");
 	            fflush(stdout);
                 REMOTE_ADD(&event_count, 1);
                 payload = ATOMIC_SWAP(&payload_state[j], 0);

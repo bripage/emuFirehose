@@ -17,6 +17,12 @@ noinline long main(int argc, char **argv) {
     volatile uint64_t start_time, total_time;
     volatile double execution_time;
 
+	long event_count = 0;
+	long true_positive = 0;
+	long false_positve = 0;
+	long true_negative = 0;
+	long false_negative = 0;
+
     printf("Nodelets = %ld, Threads per nodelet = %ld\n", NODELETS(), THREADS_PER_NODELET);
 
     parse_args(argc, argv);

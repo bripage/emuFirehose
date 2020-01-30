@@ -153,6 +153,7 @@ void init(){
     printf("Replicated init start.\n");
     fflush(stdout);
     mw_replicated_init(&nodelet_count, nc);
+    /*
     long events = 0;
     long tp = 0;
     long fp = 0;
@@ -163,7 +164,8 @@ void init(){
     mw_replicated_init(&false_positve, fp);
     mw_replicated_init(&true_negative, tn);
     mw_replicated_init(&false_negative, fn);
-
+	*/
+    
     unsigned long * h = (unsigned long *) mw_malloc1dlong(100000);
 	printf("h allocated\n");
 	fflush(stdout);

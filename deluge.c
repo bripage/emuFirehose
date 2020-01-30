@@ -44,15 +44,16 @@ void spray(long i, long n){
             // insert and update state table
             //hits = ATOMIC_ADDM(&address_hits[j], 1);
             hits = ATOMIC_ADDM(&(address_hits[j]), 1);
+            payload = ATOMIC_ADDM(&payload_state[j], 1);
             printf("hits = %ld\n", hits);
 	        fflush(stdout);
             if (hits % 24 == 0) {
 	            printf("inside 1\n");
 	            fflush(stdout);
-	            REMOTE_ADD(&(event_count[0]), 1);
-	            printf("event_count = %ld\n", event_count[0]);
-	            fflush(stdout);
-                payload = ATOMIC_SWAP(&(payload_state[j]), 0);
+	            //REMOTE_ADD(&(event_count[0]), 1);
+	            //printf("event_count = %ld\n", event_count[0]);
+	            //fflush(stdout);
+                state = ATOMIC_SWAP(&(payload_state[j]), 0);
                 printf("payload = %ld\n", payload);
                 fflush(stdout);
                 if (payload <= 4 && flag == 1){
@@ -87,15 +88,16 @@ void spray(long i, long n){
             // empty slot, add or update the state for the given location and key
             //hits = ATOMIC_ADDM(&address_hits[j], 1);
             hits = ATOMIC_ADDM(&(address_hits[j]), 1);
+            payload = ATOMIC_ADDM(&payload_state[j], 1);
             printf("hits = %ld\n", hits);
             fflush(stdout);
             if (hits % 24 == 0) {
                 printf("inside 1\n");
                 fflush(stdout);
-                REMOTE_ADD(&(event_count[0]), 1);
-                printf("event_count = %ld\n", event_count[0]);
-                fflush(stdout);
-                payload = ATOMIC_SWAP(&(payload_state[j]), 0);
+                //REMOTE_ADD(&(event_count[0]), 1);
+                //printf("event_count = %ld\n", event_count[0]);
+                //fflush(stdout);
+                state = ATOMIC_SWAP(&(payload_state[j]), 0);
                 printf("payload = %ld\n", payload);
                 fflush(stdout);
                 if (payload <= 4 && flag == 1){

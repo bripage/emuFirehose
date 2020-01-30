@@ -43,16 +43,18 @@ void spray(long i, long n){
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
             //hits = ATOMIC_ADDM(&address_hits[j], 1);
-            hits = ATOMIC_ADDM(&address_hits[j], 1);
+            hits = ATOMIC_ADDM(&(address_hits[j]), 1);
             printf("hits = %ld\n", hits);
 	        fflush(stdout);
             if (hits % 24 == 0) {
 	            printf("inside 1\n");
 	            fflush(stdout);
-	            REMOTE_ADD(event_count, 1);
-	            printf("event_count = %ld\n", *event_count);
+	            REMOTE_ADD(&(event_count[0]), 1);
+	            printf("event_count = %ld\n", event_count[0]);
 	            fflush(stdout);
-                payload = ATOMIC_SWAP(&payload_state[j], 0);
+                payload = ATOMIC_SWAP(&(payload_state[j]), 0);
+                printf("payload = %ld\n", payload);
+                fflush(stdout);
                 if (payload <= 4 && flag == 1){
                     REMOTE_ADD(true_positive, 1);
                 } else if (payload <= 4 && flag == 0){
@@ -84,26 +86,28 @@ void spray(long i, long n){
             // now that we have either found the key in the hashtable or located an
             // empty slot, add or update the state for the given location and key
             //hits = ATOMIC_ADDM(&address_hits[j], 1);
-	        hits = ATOMIC_ADDM(&address_hits[j], 1);
-	        printf("hits = %ld\n", hits);
-	        fflush(stdout);
-	        if (hits %24 == 0) {
-		        printf("inside 2\n");
-		        fflush(stdout);
-		        REMOTE_ADD(event_count, 1);
-		        printf("event_count = %ld\n", *event_count);
-		        fflush(stdout);
-		        payload = ATOMIC_SWAP(&payload_state[j], 0);
-		        if (payload <= 4 && flag == 1){
-			        REMOTE_ADD(true_positive, 1);
-		        } else if (payload <= 4 && flag == 0){
-			        REMOTE_ADD(false_positve, 1);
-		        } else if (payload > 4 && flag == 1){
-			        REMOTE_ADD(false_negative, 1);
-		        } else if (payload > 4 && flag == 0){
-			        REMOTE_ADD(true_negative, 1);
-		        }
-	        }
+            hits = ATOMIC_ADDM(&(address_hits[j]), 1);
+            printf("hits = %ld\n", hits);
+            fflush(stdout);
+            if (hits % 24 == 0) {
+                printf("inside 1\n");
+                fflush(stdout);
+                REMOTE_ADD(&(event_count[0]), 1);
+                printf("event_count = %ld\n", event_count[0]);
+                fflush(stdout);
+                payload = ATOMIC_SWAP(&(payload_state[j]), 0);
+                printf("payload = %ld\n", payload);
+                fflush(stdout);
+                if (payload <= 4 && flag == 1){
+                    REMOTE_ADD(true_positive, 1);
+                } else if (payload <= 4 && flag == 0){
+                    REMOTE_ADD(false_positve, 1);
+                } else if (payload > 4 && flag == 1){
+                    REMOTE_ADD(false_negative, 1);
+                } else if (payload > 4 && flag == 0){
+                    REMOTE_ADD(true_negative, 1);
+                }
+            }
         }
 
 		//printf("%ld handled packet %ld\n", n , i);

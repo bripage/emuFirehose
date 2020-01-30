@@ -43,7 +43,7 @@ void spray(long i, long n){
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
             //hits = ATOMIC_ADDM(&address_hits[j], 1);
-            hits = ATOMIC_ADD(&address_hits[j], 1);
+            hits = ATOMIC_ADDM(&address_hits[j], 1);
             printf("hits = %ld\n", hits);
 	        fflush(stdout);
             if (hits == 24) {
@@ -83,7 +83,7 @@ void spray(long i, long n){
             // now that we have either found the key in the hashtable or located an
             // empty slot, add or update the state for the given location and key
             //hits = ATOMIC_ADDM(&address_hits[j], 1);
-	        hits = ATOMIC_ADD(&address_hits[j], 1);
+	        hits = ATOMIC_ADDM(&address_hits[j], 1);
 	        printf("hits = %ld\n", hits);
 	        fflush(stdout);
 	        if (hits == 24) {

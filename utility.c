@@ -154,10 +154,10 @@ void init(){
     fflush(stdout);
     mw_replicated_init(&nodelet_count, nc);
 
-    unsigned long * s = (unsigned long *) mw_malloc1dlong(nodelet_count);
+    long * s = (long *) mw_malloc1dlong(nodelet_count);
     printf("s allocated\n");
     fflush(stdout);
-    if (h == NULL) {
+    if (s == NULL) {
         printf("Cannot allocate memory for stats array.\n");
         exit(1);
     }

@@ -48,13 +48,13 @@ void spray(long i, long n){
                 REMOTE_ADD(&event_count, 1);
                 payload = ATOMIC_ADDM(&payload_state[j], val);
                 ATOMIC_SWAP(&payload_state[j], 0);
-                if (payload <= 5 && flag == 1){
+                if (payload <= 4 && flag == 1){
                     REMOTE_ADD(&true_positive, 1);
-                } else if (payload <= 5 && flag == 0){
+                } else if (payload <= 4 && flag == 0){
                     REMOTE_ADD(&false_positve, 1);
-                } else if (payload > 5 && flag == 1){
+                } else if (payload > 4 && flag == 1){
                     REMOTE_ADD(&false_negative, 1);
-                } else if (payload > 5 && flag == 0){
+                } else if (payload > 4 && flag == 0){
                     REMOTE_ADD(&true_negative, 1);
                 }
             }
@@ -83,14 +83,14 @@ void spray(long i, long n){
                 REMOTE_ADD(&event_count, 1);
                 //payload_sum = ATOMIC_ADDM(&hash_state2[j], 1);
                 payload = ATOMIC_ADDM(&payload_state[j], val);
-                if (payload <= 5 && flag == 1){
+                if (payload <= 4 && flag == 1){
                     REMOTE_ADD(&true_positive, 1);
-                } else if (payload <= 5 && flag == 0){
+                } else if (payload <= 4 && flag == 0){
                     REMOTE_ADD(&false_positve, 1);
-                } else if (payload > 5 && flag == 1){
+                } else if (payload > 4 && flag == 1){
                     REMOTE_ADD(&false_negative, 1);
                     ATOMIC_SWAP(&payload_state[j], 0);
-                } else if (payload > 5 && flag == 0){
+                } else if (payload > 4 && flag == 0){
                     REMOTE_ADD(&true_negative, 1);
                     ATOMIC_SWAP(&payload_state[j], 0);
                 }

@@ -48,11 +48,13 @@ void spray(long i, long n){
             // insert and update state table
             state = ATOMIC_ADDM(&payload_state[j], 4294967297); // increment both high 32 and low bits by one.
             temp = state;
+            printf("state = %ld\n",state);
+            fflush(stdout);
             //hits = ATOMIC_ADDM(&(address_hits[j]), 1);
             //payload = ATOMIC_ADDM(&payload_state[j], 1);
             hits = ((1 << 32) - 1) & (temp >> 0);
             payload = ((1 << 32) - 1) & (state >> (32 - 1));
-            printf("hits = %ld, payload = %ld\n", hits, payload);
+            printf("state = %ld, hits = %ld, payload = %ld\n",state, hits, payload);
             fflush(stdout);
             if (hits % 24 == 0) {
                 REMOTE_ADD(&stats[0], 1);

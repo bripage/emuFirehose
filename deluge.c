@@ -63,10 +63,10 @@ void spray(long i, long n){
                     REMOTE_ADD(&stats[1], 1);
                 } else if (payload <= 4 && flag == 0){
                     REMOTE_ADD(&stats[2], 1);
-                } else if (payload > 4 && flag == 1){
-                    REMOTE_ADD(&stats[4], 1);
                 } else if (payload > 4 && flag == 0){
                     REMOTE_ADD(&stats[3], 1);
+                } else if (payload > 4 && flag == 1){
+                    REMOTE_ADD(&stats[4], 1);
                 }
             }
 
@@ -100,14 +100,14 @@ void spray(long i, long n){
             payload = state >> 32;
             //printf("state = %ld, hits = %ld, payload = %ld\n",state, hits, payload);
             //fflush(stdout);
-            if (hits % 24 == 0) {
+            if (hits % 24 == 0 && hits != 0) {
                 REMOTE_ADD(&stats[0], 1);
                 ATOMIC_SWAP(&(payload_state[j]), 0);
                 if (payload <= 4 && flag == 1){
                     REMOTE_ADD(&stats[1], 1);
                 } else if (payload <= 4 && flag == 0){
                     REMOTE_ADD(&stats[2], 1);
-                } else if (payload > 4 && flag == 0) {
+                } else if (payload > 4 && flag == 0){
                     REMOTE_ADD(&stats[3], 1);
                 } else if (payload > 4 && flag == 1){
                     REMOTE_ADD(&stats[4], 1);

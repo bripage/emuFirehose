@@ -159,6 +159,12 @@ void init(){
     false_positve = (long *) malloc(sizeof(long));
     true_negative = (long *) malloc(sizeof(long));
     false_negative = (long *) malloc(sizeof(long));
+    *event_count = 0;
+    *true_positive = 0;
+    *false_positve = 0;
+    *true_negative = 0;
+    *false_negative = 0;
+
 
     unsigned long * h = (unsigned long *) mw_malloc1dlong(100000);
 	printf("h allocated\n");

@@ -14,7 +14,7 @@
 #include <functional>
 
 struct packet {
-	unsigned long address;
+	uint64_t address;
 	int64_t val;
 	int64_t flag;
 };
@@ -23,7 +23,7 @@ int main (int argc, char **argv){
 
 	size_t status;
 	int64_t i, file_size, file_pin;
-	unsigned long packet_address;
+	uint64_t packet_address;
 	int64_t packet_val, packet_flag, file_packets;
 	int64_t nodelet, index_i = 0;
 	FILE *ifp;
@@ -150,7 +150,7 @@ int main (int argc, char **argv){
 		address_hits[i] = 0;
 	}
 
-	unsigned long addr, acquire;
+	uint64_t addr;
 	int64_t val, flag;
 	int64_t hash, j, hits = 0, payload = 0, swap_state, state = 0, temp = 0;
 

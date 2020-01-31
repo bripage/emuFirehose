@@ -177,8 +177,7 @@ int main (int argc, char **argv){
 			// insert and update state table
 			address_hits[j]++;
 			payload_state[j]++
-			//printf("hits = %lld\n", hits);
-			fflush(stdout);
+
 			if (address_hits[j] % 24 == 0) {
 				event_count++;
 				payload = payload_state[j];

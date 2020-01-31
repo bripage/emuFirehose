@@ -177,7 +177,6 @@ int main (int argc, char **argv){
 			hash_table[j] = addr;
 			// insert and update state table
 			address_hits[j]++;
-			payload_state[j]++;
 
 			if (address_hits[j] % 24 == 0) {
 				event_count++;
@@ -193,6 +192,8 @@ int main (int argc, char **argv){
 				} else if (payload > 4 && flag == 1){
 					false_negatives++;
 				}
+			} else {
+				payload_state[j]++;
 			}
 
 		} else {    // slot taken, find an empty one

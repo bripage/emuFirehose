@@ -176,7 +176,7 @@ int main (int argc, char **argv){
 		if (hash_table[j] == -1 || hash_table[j] == addr){  // found an empty slot on the first try (woohoo)
 			// insert and update state table
 			address_hits[j]++;
-			payload_state[j]++
+			payload_state[j]++;
 
 			if (address_hits[j] % 24 == 0) {
 				event_count++;

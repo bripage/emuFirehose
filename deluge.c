@@ -46,31 +46,33 @@ void spray(long i, long n){
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
-            REMOTE_ADD(&address_hits[j],1);
-            ENTER_CRITICAL_SECTION();
-            state = ATOMIC_ADDM(&payload_state[j], 4294967297); // increment both high 32 and low bits by one.
-            hits = state & 4294967295;
-            if (hits == 24){
-                ATOMIC_SWAP(&(payload_state[j]), 0);
+            state = payload_state[j];
+	        //hits = state & 4294967295;
+	        payload = state >> 32;
+            if (payload < 0){
+	            ATOMIC_ADDM(&payload_state[j], 1);
             }
-            EXIT_CRITICAL_SECTION();
-            //payload = state >> 32;
-            //printf("state = %ld, hits = %ld, payload = %ld\n",state, hits, payload);
-            //fflush(stdout);
-            if (hits % 24 == 0 && hits != 0) {
-                payload = state >> 32;
-                REMOTE_ADD(&stats[0], 1);
-                //ATOMIC_SWAP(&(payload_state[j]), 0);
-                if (payload <= 4 && flag == 1){
-                    REMOTE_ADD(&stats[1], 1);
-                } else if (payload <= 4 && flag == 0){
-                    REMOTE_ADD(&stats[2], 1);
-                } else if (payload > 4 && flag == 0){
-                    REMOTE_ADD(&stats[3], 1);
-                } else if (payload > 4 && flag == 1){
-                    REMOTE_ADD(&stats[4], 1);
-                }
-            }
+	        state = ATOMIC_ADDM(&payload_state[j], 4294967297);
+	        hits = state & 4294967295;
+	        payload = state >> 32;
+	        if (hits == 24) {
+		        REMOTE_ADD(&stats[0], 1);
+		        if (payload > 4) {
+			        if (flag) {
+				        REMOTE_ADD(&stats[4], 1);
+				        //printf("false negative = %zu\n",addr);
+			        } else REMOTE_ADD(&stats[3], 1);
+		        } else {
+			        if (flag) {
+				        REMOTE_ADD(&stats[1], 1);
+				        //printf("true anomaly = %zu\n",addr);
+			        } else {
+				        REMOTE_ADD(&stats[2], 1);++;
+				        //printf("false positive = %zu\n",addr);
+			        }
+		        }
+		        state = ATOMIC_ADDM(&payload_state[j], 4294967296);
+	        }
 
         } else {    // slot taken, find an empty one
             if (j+1 == 100000) {
@@ -91,32 +93,33 @@ void spray(long i, long n){
 
             // now that we have either found the key in the hashtable or located an
             // empty slot, add or update the state for the given location and key
-            //hits = ATOMIC_ADDM(&address_hits[j], 1);
-            REMOTE_ADD(&address_hits[j],1);
-            ENTER_CRITICAL_SECTION();
-            state = ATOMIC_ADDM(&payload_state[j], 4294967297); // increment both high 32 and low bits by one.
-            hits = state & 4294967295;
-            if (hits == 24){
-                ATOMIC_SWAP(&(payload_state[j]), 0);
-            }
-            EXIT_CRITICAL_SECTION();
-            //payload = state >> 32;
-            //printf("state = %ld, hits = %ld, payload = %ld\n",state, hits, payload);
-            //fflush(stdout);
-            if (hits % 24 == 0 && hits != 0) {
-                payload = state >> 32;
-                REMOTE_ADD(&stats[0], 1);
-                //ATOMIC_SWAP(&(payload_state[j]), 0);
-                if (payload <= 4 && flag == 1){
-                    REMOTE_ADD(&stats[1], 1);
-                } else if (payload <= 4 && flag == 0){
-                    REMOTE_ADD(&stats[2], 1);
-                } else if (payload > 4 && flag == 0){
-                    REMOTE_ADD(&stats[3], 1);
-                } else if (payload > 4 && flag == 1){
-                    REMOTE_ADD(&stats[4], 1);
-                }
-            }
+	        state = payload_state[j];
+	        //hits = state & 4294967295;
+	        payload = state >> 32;
+	        if (payload < 0){
+		        ATOMIC_ADDM(&payload_state[j], 1);
+	        }
+	        state = ATOMIC_ADDM(&payload_state[j], 4294967297);
+	        hits = state & 4294967295;
+	        payload = state >> 32;
+	        if (hits == 24) {
+		        REMOTE_ADD(&stats[0], 1);
+		        if (payload > 4) {
+			        if (flag) {
+				        REMOTE_ADD(&stats[4], 1);
+				        //printf("false negative = %zu\n",addr);
+			        } else REMOTE_ADD(&stats[3], 1);
+		        } else {
+			        if (flag) {
+				        REMOTE_ADD(&stats[1], 1);
+				        //printf("true anomaly = %zu\n",addr);
+			        } else {
+				        REMOTE_ADD(&stats[2], 1);++;
+				        //printf("false positive = %zu\n",addr);
+			        }
+		        }
+		        state = ATOMIC_ADDM(&payload_state[j], 4294967296);
+	        }
         }
 
 		//printf("%ld handled packet %ld\n", n , i);

@@ -200,25 +200,6 @@ int main (int argc, char **argv){
 				}
 				payload_state[j] = -1;
 			}
-			/*
-			if (address_hits[j] % 24 == 0) {
-				event_count++;
-				payload = payload_state[j];
-				payload_state[j] = 0;
-
-				if (payload <= 4 && flag == 1){
-					true_anomalies++;
-				} else if (payload <= 4 && flag == 0){
-					false_positives++;
-				} else if (payload > 4 && flag == 0){
-					true_negatives++;
-				} else if (payload > 4 && flag == 1){
-					false_negatives++;
-				}
-			} else {
-				payload_state[j]++;
-			}
-			*/
 		} else {    // slot taken, find an empty one
 			while (hash_table[j] != -1 || hash_table[j] != addr){
 				if (j+1 == 100000) {
@@ -236,26 +217,31 @@ int main (int argc, char **argv){
 
 			// now that we have either found the key in the hashtable or located an
 			// empty slot, add or update the state for the given location and key
+			hash_table[j] = addr;
+			// insert and update state table
+			if (payload_state[j] < 0) { // first = hit count, second = payload sum
+				address_hits[j]++;
+			}
+
 			address_hits[j]++;
-			state = payload_state[j] + 4294967297; // increment both high 32 and low bits by one.
-			hits = (payload_state[j] & 4294967295) +1;
-			printf("hits = %lld\n", hits);
-			fflush(stdout);
-			if (hits == 24) {
-				event_count++;
+			payload_state[j] += val;
 
-				payload_state[j] = 0;
-				payload = state >> 32;
-
-				if (payload <= 4 && flag == 1){
-					true_anomalies++;
-				} else if (payload <= 4 && flag == 0){
-					false_positives++;
-				} else if (payload > 4 && flag == 0){
-					true_negatives++;
-				} else if (payload > 4 && flag == 1){
-					false_negatives++;
+			if (address_hits[j] == 24) {
+				if (payload_state[j] > 4) {
+					if (flag) {
+						false_negatives++;
+						printf("false negative = %zu\n",addr);
+					} else true_negatives++;
+				} else {
+					if (flag) {
+						true_anomalies++;
+						printf("true anomaly = %zu\n",addr);
+					} else {
+						false_positives++;
+						printf("false positive = %zu\n",addr);
+					}
 				}
+				payload_state[j] = -1;
 			}
 		}
 	}

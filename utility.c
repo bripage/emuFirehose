@@ -27,6 +27,8 @@ void parse_args(int argc, char * argv[]) {
 	file_packets = fbuf;
 
 	nodelets_used = argv[2];
+	printf("Nodelets used = %ld\n", nodelets_used);
+	fflush(stdout);
 }
 
 long init_dist_end(long nodelet) {
@@ -209,6 +211,8 @@ void init(){
     } else {
 	    packets_per_nodelet = ceil(PACKET_COUNT / nc);
     }
+	printf("packets_per_nodelet = %ld\n", packets_per_nodelet);
+	fflush(stdout);
 	wd = (struct packet **) mw_malloc2d(nodelet_count, packets_per_nodelet * sizeof(struct packet));
     if (wd == NULL) {
         printf("Cannot allocate memory for workload_dist.\n");

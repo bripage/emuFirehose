@@ -26,7 +26,7 @@ void parse_args(int argc, char * argv[]) {
 	fflush(stdout);
 	file_packets = fbuf;
 
-	nodelets_used = argv[2];
+	nodelets_used = atoi(argv[2]);
 	printf("Nodelets used = %ld\n", nodelets_used);
 	fflush(stdout);
 }

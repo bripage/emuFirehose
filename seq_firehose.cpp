@@ -177,7 +177,7 @@ int main (int argc, char **argv){
 			// insert and update state table
 			address_hits[j]++;
 			state = payload_state[j] + 4294967297; // increment both high 32 and low bits by one.
-			hits = state & 4294967295;
+			hits = (payload_state[j] & 4294967295) +1;
 			printf("hits = %lld\n", hits);
 			fflush(stdout);
 			if (hits == 24) {

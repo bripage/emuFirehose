@@ -180,7 +180,7 @@ int main (int argc, char **argv){
 			hits = (payload_state[j] & 4294967295) +1;
 			//printf("hits = %lld\n", hits);
 			fflush(stdout);
-			if (hits == 24) {
+			if (haddress_hits % 24 == 0) {
 				event_count++;
 
 				payload_state[j] = 0;

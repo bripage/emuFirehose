@@ -176,8 +176,31 @@ int main (int argc, char **argv){
 		if (hash_table[j] == -1 || hash_table[j] == addr){  // found an empty slot on the first try (woohoo)
 			hash_table[j] = addr;
 			// insert and update state table
-			address_hits[j]++;
+			if (payload_state[j] < 0) { // first = hit count, second = payload sum
+				address_hits[j]++;
+			}
 
+			address_hits[j]++;
+			payload_state[j] += value;
+
+			if (address_hits[j] == 24) {
+				if (payload_state[j] > 4) {
+					if (flag) {
+						false_negatives++;
+						printf("false negative = %" PRIu64 "\n",addr);
+					} else true_negatives++;
+				} else {
+					if (flag) {
+						true_anomalies++;
+						printf("true anomaly = %" PRIu64 "\n",addr);
+					} else {
+						false_positives++;
+						printf("false positive = %" PRIu64 "\n",addr);
+					}
+				}
+				payload_state[j] = -1;
+			}
+			/*
 			if (address_hits[j] % 24 == 0) {
 				event_count++;
 				payload = payload_state[j];
@@ -195,7 +218,7 @@ int main (int argc, char **argv){
 			} else {
 				payload_state[j]++;
 			}
-
+			*/
 		} else {    // slot taken, find an empty one
 			while (hash_table[j] != -1 || hash_table[j] != addr){
 				if (j+1 == 100000) {

@@ -176,15 +176,13 @@ int main (int argc, char **argv){
 		if (hash_table[j] == -1 || hash_table[j] == addr){  // found an empty slot on the first try (woohoo)
 			// insert and update state table
 			address_hits[j]++;
-			state = payload_state[j] + 4294967297; // increment both high 32 and low bits by one.
-			hits = (payload_state[j] & 4294967295) +1;
+			payload_state[j]++
 			//printf("hits = %lld\n", hits);
 			fflush(stdout);
 			if (address_hits[j] % 24 == 0) {
 				event_count++;
-
+				payload = payload_state[j];
 				payload_state[j] = 0;
-				payload = state >> 32;
 
 				if (payload <= 4 && flag == 1){
 					true_anomalies++;

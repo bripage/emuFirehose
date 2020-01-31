@@ -181,21 +181,21 @@ int main (int argc, char **argv){
 			}
 
 			address_hits[j]++;
-			payload_state[j] += value;
+			payload_state[j] += val;
 
 			if (address_hits[j] == 24) {
 				if (payload_state[j] > 4) {
 					if (flag) {
 						false_negatives++;
-						printf("false negative = %" PRIu64 "\n",addr);
+						printf("false negative = %zu\n",addr);
 					} else true_negatives++;
 				} else {
 					if (flag) {
 						true_anomalies++;
-						printf("true anomaly = %" PRIu64 "\n",addr);
+						printf("true anomaly = %zu\n",addr);
 					} else {
 						false_positives++;
-						printf("false positive = %" PRIu64 "\n",addr);
+						printf("false positive = %zu\n",addr);
 					}
 				}
 				payload_state[j] = -1;

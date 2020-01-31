@@ -67,7 +67,7 @@ void spray(long i, long n){
 				        REMOTE_ADD(&stats[1], 1);
 				        //printf("true anomaly = %zu\n",addr);
 			        } else {
-				        REMOTE_ADD(&stats[2], 1);++;
+				        REMOTE_ADD(&stats[2], 1);
 				        //printf("false positive = %zu\n",addr);
 			        }
 		        }
@@ -114,7 +114,7 @@ void spray(long i, long n){
 				        REMOTE_ADD(&stats[1], 1);
 				        //printf("true anomaly = %zu\n",addr);
 			        } else {
-				        REMOTE_ADD(&stats[2], 1);++;
+				        REMOTE_ADD(&stats[2], 1);
 				        //printf("false positive = %zu\n",addr);
 			        }
 		        }

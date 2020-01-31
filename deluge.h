@@ -23,6 +23,7 @@ extern replicated long * payload_state;
 extern replicated long* stats;
 extern long * packet_index;
 struct packet;
+extern long nodelets_used;
 
 void recursive_spawn(long low, long high);
 void spray(long i, long n);

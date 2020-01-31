@@ -25,6 +25,8 @@ void parse_args(int argc, char * argv[]) {
 	printf("Packet Count = %ld\n", fbuf);
 	fflush(stdout);
 	file_packets = fbuf;
+
+	nodelets_used = argv[2];
 }
 
 long init_dist_end(long nodelet) {
@@ -86,7 +88,7 @@ void get_data_and_distribute() {
 			packet_val = binBuffer[bufPtr].val;
 			packet_flag = binBuffer[bufPtr].flag;
 
-			nodelet = index_i % 8;
+			nodelet = index_i % nodelets_used;
 
 			index_n = packet_index[nodelet]; // get the element ID of the next empty nnz struct on the nodelet
 			workload_dist[nodelet][index_n].address = packet_address;
@@ -129,16 +131,6 @@ void get_data_and_distribute() {
 	free(binBuffer);
 	printf("done reading matrix from buffer\n");
 	fflush(stdout);
-
-	// Mark list end by setting row and column values to -1
-	/*
-	for (i = 0; i < nodelet_count; i++) {
-		index_n = packet_index[i];
-		workload_dist[i][packet_index[i]].address = -1;
-		workload_dist[i][packet_index[i]].val = -1;
-        workload_dist[i][packet_index[i]].val = -1;
-	}
-	*/
 
 	for (i = 0; i < nodelet_count; i++){
 		printf("index[%d] = %d\n", i, packet_index[i]);
@@ -211,8 +203,13 @@ void init(){
     }
 
     struct element ** wd;
-    long packets_per_nodelet = ceil(PACKET_COUNT/nc);
-    wd = (struct packet **) mw_malloc2d(nodelet_count, packets_per_nodelet * sizeof(struct packet));
+    long packets_per_nodelet;
+    if (nodelets_used < 8){
+	    packets_per_nodelet = file_packets;
+    } else {
+	    packets_per_nodelet = ceil(PACKET_COUNT / nc);
+    }
+	wd = (struct packet **) mw_malloc2d(nodelet_count, packets_per_nodelet * sizeof(struct packet));
     if (wd == NULL) {
         printf("Cannot allocate memory for workload_dist.\n");
         exit(1);

@@ -17,6 +17,7 @@ extern replicated long * address_hits;
 extern replicated long * payload_state;
 extern replicated long* stats;
 struct packet;
+extern long nodelets_used;
 
 void handle_packet(unsigned long address, long val, long flag);
 void alert_check(long i, unsigned long id);

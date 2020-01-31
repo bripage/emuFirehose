@@ -21,6 +21,7 @@ replicated long * payload_state;
 replicated long* stats;
 long * packet_index;
 long file_packets;
+long nodelets_used;
 
 FILE * ifp;
 

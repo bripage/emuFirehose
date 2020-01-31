@@ -21,6 +21,7 @@ extern long * packet_index;
 extern long file_packets;
 extern FILE * ifp;
 struct packet;
+extern long nodelets_used;
 
 void parse_args(int argc, char * argv[]);
 void init();

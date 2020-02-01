@@ -76,9 +76,9 @@ void spray(long i, long n){
 			*/
 
 	        if (payload_state[j] < 0){
-		        address_hits[j]++;
+		        ++address_hits[j];
 	        }
-	        address_hits[j]++;
+	        ++address_hits[j];
 	        payload_state[j] += val;
 	        if (address_hits[j] == 24) {
 		        stats[0]++;
@@ -98,9 +98,8 @@ void spray(long i, long n){
 				        //printf("false positive = %zu\n",addr);
 			        }
 		        }
-		        payload_state[j] -= 1;
+		        //payload_state[j] -= 1;
 	        }
-
         } else {    // slot taken, find an empty one
             if (j+1 == 100000) {
                 j = 0;

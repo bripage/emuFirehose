@@ -29,14 +29,17 @@ noinline long main(int argc, char **argv) {
     fflush(stdout);
     MIGRATE(&address_hits[0]);
 
-	cilk_spawn
-	printf("Calling recursive_spawn()\n");
-    fflush(stdout);
-	recursive_spawn(0, NODELETS());
-	cilk_sync;
-	printf("***Computation Complete***\n");
-    fflush(stdout);
-
+    if (nodelets_used == 1){
+		spray(0,0);
+	} else {
+	    cilk_spawn
+	    printf("Calling recursive_spawn()\n");
+	    fflush(stdout);
+	    recursive_spawn(0, NODELETS());
+	    cilk_sync;
+	    printf("***Computation Complete***\n");
+	    fflush(stdout);
+    }
 
     long max_occurance = 0, next_addr, unique_keys = 0;
     for (i = 0; i < 100000; i++){

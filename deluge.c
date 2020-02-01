@@ -106,9 +106,9 @@ void spray(long i, long n){
 		        REMOTE_ADD(&stats[0], 1);
 		        if (payload > 4) {
 			        if (flag) {
-				        REMOTE_ADD(&stats[3], 1);
+				        REMOTE_ADD(&stats[4], 1);
 				        //printf("false negative = %zu\n",addr);
-			        } else REMOTE_ADD(&stats[4], 1);
+			        } else REMOTE_ADD(&stats[3], 1);
 		        } else {
 			        if (flag) {
 				        REMOTE_ADD(&stats[1], 1);

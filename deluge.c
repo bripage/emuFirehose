@@ -20,7 +20,7 @@ void recursive_spawn(long low, long high){
 		high = mid;
 	}
 
-	for (i = 0; i < threds_per_nodelet; i++) {
+	for (i = 0; i < threads_per_nodelet; i++) {
 		cilk_spawn spray(i, nodelet);
 	}
 }
@@ -121,7 +121,7 @@ void spray(long i, long n){
 		//printf("%ld handled packet %ld\n", n , i);
         //fflush(stdout);
 
-		i+=threds_per_nodelet;
+		i+=threads_per_nodelet;
 	}
 
 }

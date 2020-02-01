@@ -46,10 +46,10 @@ void spray(long i, long n){
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
+            /*
             state = payload_state[j];
-	        //hits = state & 4294967295;
 	        payload = state >> 32;
-            if (payload < 0){
+	        if (payload < 0){
 	            ATOMIC_ADDM(&payload_state[j], 1);
             }
 	        state = ATOMIC_ADDM(&payload_state[j], 4294967297);
@@ -72,6 +72,33 @@ void spray(long i, long n){
 			        }
 		        }
 		        state = ATOMIC_ADDM(&payload_state[j], -4294967296);
+	        }
+			*/
+
+	        if (payload_state[j] < 0){
+		        address_hits[j]++;
+	        }
+	        address_hits[j]++;
+	        payload_state[j] += val;
+	        if (address_hits[j] == 24) {
+		        stats[0]++;
+		        if (payload > 4) {
+			        if (flag) {
+				        stats[4]++;
+				        //printf("false negative = %zu\n",addr);
+			        } else {
+			        	stats[3]++;
+			        }
+		        } else {
+			        if (flag) {
+				        stats[1]++;
+				        //printf("true anomaly = %zu\n",addr);
+			        } else {
+				        stats[2]++;
+				        //printf("false positive = %zu\n",addr);
+			        }
+		        }
+		        payload_state[j] -= 1;
 	        }
 
         } else {    // slot taken, find an empty one

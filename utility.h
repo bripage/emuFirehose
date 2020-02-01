@@ -6,7 +6,7 @@
 #include "unistd.h"
 #include "stddef.h"
 #include "fcntl.h"
-#include "oah.h"
+//#include "oah.h"
 #include <math.h>
 
 extern replicated struct packet ** workload_dist;
@@ -22,6 +22,7 @@ extern long file_packets;
 extern FILE * ifp;
 struct packet;
 extern long nodelets_used;
+extern replicated long threads_per_nodelet;
 
 void parse_args(int argc, char * argv[]);
 void init();

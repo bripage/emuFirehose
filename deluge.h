@@ -11,7 +11,7 @@
 #include "fcntl.h"
 #include "time.h"
 #include "stdint.h"
-#include "oah.h"
+//#include "oah.h"
 #include <math.h>
 
 extern replicated struct packet ** workload_dist;
@@ -24,6 +24,7 @@ extern replicated long* stats;
 extern long * packet_index;
 struct packet;
 extern long nodelets_used;
+extern replicated long threads_per_nodelet;
 
 void recursive_spawn(long low, long high);
 void spray(long i, long n);

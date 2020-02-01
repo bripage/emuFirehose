@@ -29,6 +29,11 @@ void parse_args(int argc, char * argv[]) {
 	nodelets_used = atoi(argv[2]);
 	printf("Nodelets used = %ld\n", nodelets_used);
 	fflush(stdout);
+
+	long tpn = atoi(argv[3]);
+	mw_replicated_init(&threads_per_nodelet, tpn);
+	printf("Threads Per Nodelet = %ld\n", threads_per_nodelet);
+	fflush(stdout);
 }
 
 long init_dist_end(long nodelet) {
@@ -141,7 +146,7 @@ void get_data_and_distribute() {
 	mw_replicated_init_multiple(&dist_end, init_dist_end);
 }
 
-void init(){
+void init(long tph){
     long i, j;
     long nc = NODELETS();
     printf("Replicated init start.\n");

@@ -9,7 +9,6 @@
 #include "unistd.h"
 #include "stddef.h"
 #include "fcntl.h"
-#include "oah.h"
 #include <math.h>
 
 extern replicated unsigned long * hash_table;
@@ -17,7 +16,7 @@ extern replicated long * address_hits;
 extern replicated long * payload_state;
 extern replicated long* stats;
 struct packet;
-extern long nodelets_used;
+extern long threads_per_nodelet;
 
 void handle_packet(unsigned long address, long val, long flag);
 void alert_check(long i, unsigned long id);

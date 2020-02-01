@@ -22,6 +22,7 @@ replicated long* stats;
 long * packet_index;
 long file_packets;
 long nodelets_used;
+replicated long threads_per_nodelet;
 
 FILE * ifp;
 

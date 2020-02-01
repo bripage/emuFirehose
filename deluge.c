@@ -71,7 +71,7 @@ void spray(long i, long n){
 				        //printf("false positive = %zu\n",addr);
 			        }
 		        }
-		        state = ATOMIC_ADDM(&payload_state[j], 4294967296);
+		        state = ATOMIC_ADDM(&payload_state[j], -4294967296);
 	        }
 
         } else {    // slot taken, find an empty one
@@ -118,7 +118,7 @@ void spray(long i, long n){
 				        //printf("false positive = %zu\n",addr);
 			        }
 		        }
-		        state = ATOMIC_ADDM(&payload_state[j], 4294967296);
+		        state = ATOMIC_ADDM(&payload_state[j], -4294967296);
 	        }
         }
 

@@ -46,7 +46,7 @@ void spray(long i, long n){
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
             // insert and update state table
-            
+
             state = payload_state[j];
 	        payload = state >> 32;
 	        if (payload < 0){

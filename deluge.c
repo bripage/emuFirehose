@@ -57,18 +57,17 @@ void spray(long i, long n){
 	        payload = state >> 32;
 	        if (hits == 24) {
 		        REMOTE_ADD(&stats[0], 1);
-		        if (payload > 4) {
-			        if (flag) {
+		        if (payload > 4) { //too high to be anomaly
+			        if (flag) { // if true then it SHOULD have been one
 				        REMOTE_ADD(&stats[4], 1);
-				        //printf("false negative = %zu\n",addr);
-			        } else REMOTE_ADD(&stats[3], 1);
-		        } else {
-			        if (flag) {
+			        } else { // false means it wasnt supposed to be one! yay!
+				        REMOTE_ADD(&stats[3], 1);
+			        }
+		        } else { // anomaly present
+			        if (flag) { // if true its a real one
 				        REMOTE_ADD(&stats[1], 1);
-				        //printf("true anomaly = %zu\n",addr);
-			        } else {
+			        } else { // wasnt supposed to be one
 				        REMOTE_ADD(&stats[2], 1);
-				        //printf("false positive = %zu\n",addr);
 			        }
 		        }
 		        state = ATOMIC_ADDM(&payload_state[j], -4294967296);
@@ -94,28 +93,26 @@ void spray(long i, long n){
             // now that we have either found the key in the hashtable or located an
             // empty slot, add or update the state for the given location and key
 	        state = payload_state[j];
-	        //hits = state & 4294967295;
 	        payload = state >> 32;
 	        if (payload < 0){
 		        ATOMIC_ADDM(&payload_state[j], 1);
 	        }
-	        state = ATOMIC_ADDM(&payload_state[j], 4294967297);
+	        state = ATOMIC_ADDM(&payload_state[j], (4294967296*val)+1);
 	        hits = state & 4294967295;
 	        payload = state >> 32;
 	        if (hits == 24) {
 		        REMOTE_ADD(&stats[0], 1);
-		        if (payload > 4) {
-			        if (flag) {
+		        if (payload > 4) { //too high to be anomaly
+			        if (flag) { // if true then it SHOULD have been one
 				        REMOTE_ADD(&stats[4], 1);
-				        //printf("false negative = %zu\n",addr);
-			        } else REMOTE_ADD(&stats[3], 1);
-		        } else {
-			        if (flag) {
+			        } else { // false means it wasnt supposed to be one! yay!
+			        	REMOTE_ADD(&stats[3], 1);
+		            }
+		        } else { // anomaly present
+			        if (flag) { // if true its a real one
 				        REMOTE_ADD(&stats[1], 1);
-				        //printf("true anomaly = %zu\n",addr);
-			        } else {
+			        } else { // wasnt supposed to be one
 				        REMOTE_ADD(&stats[2], 1);
-				        //printf("false positive = %zu\n",addr);
 			        }
 		        }
 		        state = ATOMIC_ADDM(&payload_state[j], -4294967296);

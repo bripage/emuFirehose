@@ -16,5 +16,5 @@
 #endif
 
 #ifndef THREADS_PER_NODELET
-#define THREADS_PER_NODELET 1
+#define THREADS_PER_NODELET 8
 #endif

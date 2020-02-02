@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     long datums = std::atoi(argv[6]);
 
     long address, val, flag;
-    long* buffer;
+    std::vector<long> buffer;
 
     for (long iteration = 0; iteration < file_count; iteration++) {
         std::string matPart = matName + ".part" + std::to_string(iteration);
@@ -32,8 +32,6 @@ int main(int argc, char **argv) {
             std::cout << "FAILED TO OPEN FILE!" << std::endl;
             exit(1);
         }
-
-        buffer = (long *) malloc(((file_length) * 3) * sizeof(long));
 
         std::cout << "mat file opened" << std::endl;
         std::string line;
@@ -58,10 +56,9 @@ int main(int argc, char **argv) {
                     flag = ::atol(line.c_str());
 
 	                //printf("%ld %ld %ld %ld\n", address, val, flag, j);
-	                buffer[j] = address;
-	                buffer[j + 1] = val;
-	                buffer[j + 2] = flag;
-	                j += 3;
+	                buffer.push_back(address);
+	                buffer.push_back(val);
+	                buffer.push_back(flag);
                 }
             } else {
                 // do nothing
@@ -75,7 +72,7 @@ int main(int argc, char **argv) {
         fout = fopen(binMatName.c_str(), "ab");
 	    if (iteration == 0) fwrite(&datums, sizeof(long), 1, fout);
 
-        for (i = 0; i < (file_length*3); i++) {
+        for (i = 0; i < buffer.size(); i++) {
         //for (i = 0; i < (datums*3); i++) {
             fwrite(&buffer[i], sizeof(long), 1, fout);
         }

@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
 
         infile2.close();
 
-        free(buffer);
+        buffer.clear();
     }
     std::cout << "Done!" << std::endl;
 

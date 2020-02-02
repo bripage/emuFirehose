@@ -42,7 +42,7 @@ long init_dist_end(long nodelet) {
 
 void get_data_and_distribute() {
     size_t status;
-    long i, file_size, file_pin;
+    long i, file_size, file_pin, j;
     unsigned long packet_address;
     long packet_val, packet_flag;
     long nodelet, index_i = 0;
@@ -95,14 +95,16 @@ void get_data_and_distribute() {
 			packet_val = binBuffer[bufPtr].val;
 			packet_flag = binBuffer[bufPtr].flag;
 
-			nodelet = index_i % nodelets_used;
+			//nodelet = index_i % nodelets_used;
 
-			index_n = packet_index[nodelet]; // get the element ID of the next empty nnz struct on the nodelet
-			workload_dist[nodelet][index_n].address = packet_address;
-			workload_dist[nodelet][index_n].val = packet_val;
-			workload_dist[nodelet][index_n].flag = packet_flag;
-			packet_index[nodelet]++; // increase nnz count for the nodelet we just added it to
-			index_i++;
+			for (j = 0; j < nodelets_used; j++) {
+				index_n = packet_index[nodelet]; // get the element ID of the next empty nnz struct on the nodelet
+				workload_dist[nodelet][index_n].address = packet_address;
+				workload_dist[nodelet][index_n].val = packet_val;
+				workload_dist[nodelet][index_n].flag = packet_flag;
+				packet_index[nodelet]++; // increase nnz count for the nodelet we just added it to
+				index_i++;
+			}
 		}
 
 		if (chunk_count > 1 && i != chunk_count-1) {
@@ -211,12 +213,8 @@ void init(long tph){
 
     struct element ** wd;
     long packets_per_nodelet;
-    if (nodelets_used < 8){
-	    packets_per_nodelet = file_packets;
-    } else {
-	    packets_per_nodelet = ceil(PACKET_COUNT / nc);
-    }
-	printf("packets_per_nodelet = %ld\n", packets_per_nodelet);
+    packets_per_nodelet = file_packets;
+    printf("packets_per_nodelet = %ld\n", packets_per_nodelet);
 	fflush(stdout);
 	wd = (struct packet **) mw_malloc2d(nodelet_count, packets_per_nodelet * sizeof(struct packet));
     if (wd == NULL) {

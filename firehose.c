@@ -29,53 +29,59 @@ noinline long main(int argc, char **argv) {
 	//fflush(stdout);
 	//MIGRATE(&address_hits[0]);
 
-	for (long thread_count = 1; thread_count <= 64; thread_count *= 2) {
-		MIGRATE(&payload_state[0]);
-		mw_replicated_init(&threads_per_nodelet, thread_count);
-		printf("Threads Per Nodelet = %ld\n", threads_per_nodelet);
+	for (long n_count = 1; n_count <= 8; n_count++) {
+		printf("***** %ld Nodelets *****\n", n_count);
 		fflush(stdout);
 
-		if (nodelets_used == 1) {
-			start_time = CLOCK();
-			spray(0, 0);
-		} else {
-			//printf("Calling recursive_spawn()\n");
+		for (long thread_count = 1; thread_count <= 64; thread_count *= 2) {
+			MIGRATE(&payload_state[0]);
+			mw_replicated_init(&threads_per_nodelet, thread_count);
+			printf("Threads Per Nodelet = %ld\n", threads_per_nodelet);
 			fflush(stdout);
-			start_time = CLOCK();
-			cilk_spawn
-			recursive_spawn(0, NODELETS());
-			cilk_sync;
-			total_time = CLOCK() - start_time;
-			//printf("***Computation Complete***\n");
-			fflush(stdout);
-		}
 
-		long max_occurance = 0, next_addr, unique_keys = 0;
-		for (i = 0; i < 100000; i++) {
-			next_addr = payload_state[i] & 4294967295;
-			if (next_addr > max_occurance) {
-				max_occurance = next_addr;
+			if (n_count == 1) {
+				start_time = CLOCK();
+				spray(0, 0);
+				total_time = CLOCK() - start_time;
+			} else {
+				//printf("Calling recursive_spawn()\n");
+				fflush(stdout);
+				start_time = CLOCK();
+				cilk_spawn
+				recursive_spawn(0, n_count);
+				cilk_sync;
+				total_time = CLOCK() - start_time;
+				//printf("***Computation Complete***\n");
+				fflush(stdout);
 			}
 
-			if (hash_table[i] != -1) {
-				unique_keys++;
-			}
-		}
-		execution_time = (double) total_time / CLOCK_RATE;
-		printf("Datums Received: %ld\n", file_packets);
-		printf("Unique Keys: %ld\n", unique_keys);
-		printf("Max occurance of any key: %ld\n", max_occurance);
-		printf("Event Count: %ld\n", stats[0]);
-		printf("True Anomalies: %ld\n", stats[1]);
-		printf("False Positives: %ld\n", stats[2]);
-		printf("True Negatives: %ld\n", stats[3]);
-		printf("False Negatives: %ld\n", stats[4]);
-		printf("True Bias Flag Count: %ld\n", stats[5]);
-		printf("Execution Time = %lf msec.\n", execution_time * 1000);
-		printf("Datums per msec = %lf/ms \n", file_packets / (execution_time * 1000));
-		fflush(stdout);
+			long max_occurance = 0, next_addr, unique_keys = 0;
+			for (i = 0; i < 100000; i++) {
+				next_addr = payload_state[i] & 4294967295;
+				if (next_addr > max_occurance) {
+					max_occurance = next_addr;
+				}
 
-		cleanup();
+				if (hash_table[i] != -1) {
+					unique_keys++;
+				}
+			}
+			execution_time = (double) total_time / CLOCK_RATE;
+			printf("Datums Received: %ld\n", file_packets);
+			printf("Unique Keys: %ld\n", unique_keys);
+			printf("Max occurance of any key: %ld\n", max_occurance);
+			printf("Event Count: %ld\n", stats[0]);
+			printf("True Anomalies: %ld\n", stats[1]);
+			printf("False Positives: %ld\n", stats[2]);
+			printf("True Negatives: %ld\n", stats[3]);
+			printf("False Negatives: %ld\n", stats[4]);
+			printf("True Bias Flag Count: %ld\n", stats[5]);
+			printf("Execution Time = %lf msec.\n", execution_time * 1000);
+			printf("Datums per msec = %lf/ms \n", file_packets / (execution_time * 1000));
+			fflush(stdout);
+
+			cleanup();
+		}
 	}
 
     return 0;

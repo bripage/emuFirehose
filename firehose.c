@@ -66,7 +66,7 @@ noinline long main(int argc, char **argv) {
     printf("False Negatives: %ld\n", stats[4]);
     printf("True Bias Flag Count: %ld\n", stats[5]);
 	printf("Execution Time = %lf msec.\n", execution_time*1000);
-	printf("Datums per msec = %lf/ms \n", file_packets/(execution_time*1000);
+	printf("Datums per msec = %lf/ms \n", file_packets/(execution_time*1000));
     fflush(stdout);
 
     cleanup();

@@ -243,6 +243,11 @@ void cleanup(){
             hash_table[i] = -1;
             payload_state[i] = 0;
         }
+    } else {
+        for (i = 0; i < 100000; i++) {
+            hash_table[i] = -1;
+            payload_state[i] = 0;
+        }
     }
 
 	for (i = 0; i < nodelet_count; i++){

@@ -14,7 +14,3 @@
 #ifndef CLOCK_RATE
 #define CLOCK_RATE 175000000
 #endif
-
-#ifndef THREADS_PER_NODELET
-#define THREADS_PER_NODELET 8
-#endif

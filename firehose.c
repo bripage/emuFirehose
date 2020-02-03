@@ -17,7 +17,7 @@ noinline long main(int argc, char **argv) {
 	volatile uint64_t start_time, total_time;
 	volatile double execution_time;
 
-	printf("Nodelets = %ld, Threads per nodelet = %ld\n", NODELETS(), THREADS_PER_NODELET);
+	//printf("Nodelets = %ld, Threads per nodelet = %ld\n", NODELETS(), THREADS_PER_NODELET);
 
 	parse_args(argc, argv);
 
@@ -77,7 +77,7 @@ noinline long main(int argc, char **argv) {
 			printf("False Negatives: %ld\n", stats[4]);
 			printf("True Bias Flag Count: %ld\n", stats[5]);
 			printf("Execution Time = %lf msec.\n", execution_time * 1000);
-			printf("Datums per msec = %lf/s \n", file_packets / (execution_time * 1000));
+			printf("Datums per msec = %lf/s \n", (file_packets*nodelets_used) / (execution_time * 1000));
 			fflush(stdout);
 
 			cleanup();

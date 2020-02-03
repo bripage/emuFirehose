@@ -55,7 +55,7 @@ noinline long main(int argc, char **argv) {
 				total_time = CLOCK() - start_time;
 				//printf("***Computation Complete***\n");
 				fflush(stdout);
-			/}
+			//}
 
 			long max_occurance = 0, next_addr, unique_keys = 0;
 			//if (nodelets_used < 8){

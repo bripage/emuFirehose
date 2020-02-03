@@ -215,6 +215,7 @@ void init(long tph){
 }
 
 void cleanup(){
+	long i;
 	for (i = 0; i < 100000; i++){
 		hash_table[i] = -1;
 		payload_state[i] = 0;

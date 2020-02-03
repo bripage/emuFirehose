@@ -105,8 +105,8 @@ void spray(long i, long n){
 			        if (flag) { // if true then it SHOULD have been one
 				        REMOTE_ADD(&stats[4], 1);
 			        } else { // false means it wasnt supposed to be one! yay!
-			        	REMOTE_ADD(&stats[3], 1);
-		            }
+				        REMOTE_ADD(&stats[3], 1);
+			        }
 		        } else { // anomaly present
 			        if (flag) { // if true its a real one
 				        REMOTE_ADD(&stats[1], 1);

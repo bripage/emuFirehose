@@ -16,7 +16,6 @@ replicated long PACKET_COUNT;
 replicated long dist_end;
 replicated long nodelet_count;
 replicated unsigned long * hash_table;
-replicated long * address_hits;
 replicated long * payload_state;
 replicated long* stats;
 long * packet_index;

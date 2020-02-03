@@ -14,7 +14,6 @@ extern replicated long PACKET_COUNT;
 extern replicated long dist_end;
 extern replicated long nodelet_count;
 extern replicated unsigned long * hash_table;
-extern replicated long * address_hits;
 extern replicated long * payload_state;
 extern replicated long* stats;
 extern long * packet_index;

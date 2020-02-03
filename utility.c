@@ -29,11 +29,6 @@ void parse_args(int argc, char * argv[]) {
 	nodelets_used = atoi(argv[2]);
 	printf("Nodelets used = %ld\n", nodelets_used);
 	fflush(stdout);
-
-	long tpn = atoi(argv[3]);
-	mw_replicated_init(&threads_per_nodelet, tpn);
-	printf("Threads Per Nodelet = %ld\n", threads_per_nodelet);
-	fflush(stdout);
 }
 
 long init_dist_end(long nodelet) {
@@ -98,11 +93,11 @@ void get_data_and_distribute() {
 			//nodelet = index_i % nodelets_used;
 
 			for (j = 0; j < nodelets_used; j++) {
-				index_n = packet_index[nodelet]; // get the element ID of the next empty nnz struct on the nodelet
-				workload_dist[nodelet][index_n].address = packet_address;
-				workload_dist[nodelet][index_n].val = packet_val;
-				workload_dist[nodelet][index_n].flag = packet_flag;
-				packet_index[nodelet]++; // increase nnz count for the nodelet we just added it to
+				index_n = packet_index[j]; // get the element ID of the next empty nnz struct on the nodelet
+				workload_dist[j][index_n].address = packet_address;
+				workload_dist[j][index_n].val = packet_val;
+				workload_dist[j][index_n].flag = packet_flag;
+				packet_index[j]++; // increase nnz count for the nodelet we just added it to
 				index_i++;
 			}
 		}
@@ -183,20 +178,6 @@ void init(long tph){
 		hash_table[i] = -1;
 	}
 
-	long * ah = (long *) mw_malloc1dlong(100000);
-	printf("ah allocated\n");
-	fflush(stdout);
-	if (ah == NULL) {
-		printf("Cannot allocate memory for address_hits.\n");
-		exit(1);
-	}
-	printf("checked ah.\n");
-	fflush(stdout);
-	mw_replicated_init(&address_hits, ah);
-	for (i = 0; i < 100000; i++){
-		address_hits[i] = 0;
-	}
-
     long * ps = (long *) mw_malloc1dlong(100000);
     printf("ps allocated\n");
     fflush(stdout);
@@ -234,5 +215,12 @@ void init(long tph){
 }
 
 void cleanup(){
+	for (i = 0; i < 100000; i++){
+		hash_table[i] = -1;
+		payload_state[i] = 0;
+	}
 
+	for (i = 0; i < nodelet_count; i++){
+		stats[i] = 0;
+	}
 }

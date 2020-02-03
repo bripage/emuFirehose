@@ -41,7 +41,9 @@ noinline long main(int argc, char **argv) {
 
 			if (n_count == 1) {
 				start_time = CLOCK();
-				spray(0, 0);
+                for (i = 0; i < threads_per_nodelet; i++) {
+                    cilk_spawn spray(i, 0);
+                }
 				total_time = CLOCK() - start_time;
 			} else {
 				//printf("Calling recursive_spawn()\n");

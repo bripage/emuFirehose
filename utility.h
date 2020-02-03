@@ -6,7 +6,6 @@
 #include "unistd.h"
 #include "stddef.h"
 #include "fcntl.h"
-//#include "oah.h"
 #include <math.h>
 
 extern replicated struct packet ** workload_dist;

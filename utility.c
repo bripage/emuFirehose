@@ -165,11 +165,11 @@ void init(long tph){
     }
 
     unsigned long * h;
-    if (nodelets_used < 8){
-        h = (unsigned long *) mw_malloc1dlong(8*100000);
-    } else {
+    //if (nodelets_used < 8){
+    //    h = (unsigned long *) mw_malloc1dlong(8*100000);
+    //} else {
         h = (unsigned long *) mw_malloc1dlong(100000);
-    }
+    //}
         printf("h allocated\n");
         fflush(stdout);
         if (h == NULL) {
@@ -179,22 +179,22 @@ void init(long tph){
         printf("checked h.\n");
         fflush(stdout);
         mw_replicated_init(&hash_table, h);
-    if (nodelets_used < 8){
-        for (i = 0; i < 8*100000; i++) {
-            hash_table[i] = -1;
-        }
-    } else {
+    //if (nodelets_used < 8){
+    //    for (i = 0; i < 8*100000; i++) {
+    //        hash_table[i] = -1;
+    //    }
+    //} else {
         for (i = 0; i < 100000; i++) {
             hash_table[i] = -1;
         }
-    }
+    //}
 
     long * ps;
-    if (nodelets_used < 8){
-        ps = (unsigned long *) mw_malloc1dlong(8*100000);
-    } else {
+    //if (nodelets_used < 8){
+    //    ps = (unsigned long *) mw_malloc1dlong(8*100000);
+    //} else {
         ps = (unsigned long *) mw_malloc1dlong(100000);
-    }
+    //}
     printf("ps allocated\n");
     fflush(stdout);
     if (ps == NULL) {
@@ -204,15 +204,15 @@ void init(long tph){
     printf("checked ps.\n");
     fflush(stdout);
     mw_replicated_init(&payload_state, ps);
-    if (nodelets_used < 8){
-        for (i = 0; i < 8*100000; i++) {
-            payload_state[i] = 0;
-        }
-    } else {
+    //if (nodelets_used < 8){
+    //    for (i = 0; i < 8*100000; i++) {
+    //        payload_state[i] = 0;
+    //    }
+    //} else {
         for (i = 0; i < 100000; i++) {
             payload_state[i] = 0;
         }
-    }
+    //}
 
     struct element ** wd;
     long packets_per_nodelet;
@@ -238,17 +238,17 @@ void init(long tph){
 
 void cleanup(){
 	long i;
-    if (nodelets_used < 8) {
-        for (i = 0; i < 8*100000; i++) {
-            hash_table[i] = -1;
-            payload_state[i] = 0;
-        }
-    } else {
+    //if (nodelets_used < 8) {
+    //    for (i = 0; i < 8*100000; i++) {
+    //        hash_table[i] = -1;
+    //        payload_state[i] = 0;
+    //    }
+    //} else {
         for (i = 0; i < 100000; i++) {
             hash_table[i] = -1;
             payload_state[i] = 0;
         }
-    }
+    //}
 
 	for (i = 0; i < nodelet_count; i++){
 		stats[i] = 0;

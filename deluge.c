@@ -45,9 +45,7 @@ void spray(long i, long n){
             }
 
             hash = addr % 100000; // acquire global hash table slot id
-            l = hash/nodelets_used;     // determine new slot id becuase we want tables to be stripped across
-            k = hash % nodelets_used;   // a subset of nodelets as that mw_malloc1dlong stripes accross.
-            j = l + k;  // converted hash and payload elements to reside on node id of 0-nodelets_used
+            j = hash;
             acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
             if (acquire == -1 || acquire == addr){  // found an empty slot on the first try (woohoo)
                 // insert and update state table

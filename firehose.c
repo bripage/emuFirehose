@@ -39,13 +39,13 @@ noinline long main(int argc, char **argv) {
 			printf("Threads Per Nodelet = %ld\n", threads_per_nodelet);
 			fflush(stdout);
 
-			if (n_count == 1) {
-				start_time = CLOCK();
-                for (i = 0; i < threads_per_nodelet; i++) {
-                    cilk_spawn spray(i, 0);
-                }
-				total_time = CLOCK() - start_time;
-			} else {
+			//if (n_count == 1) {
+			//	start_time = CLOCK();
+            //    for (i = 0; i < threads_per_nodelet; i++) {
+            //        cilk_spawn spray(i, 0);
+            //    }
+			//	total_time = CLOCK() - start_time;
+			//} else {
 				//printf("Calling recursive_spawn()\n");
 				fflush(stdout);
 				start_time = CLOCK();
@@ -55,7 +55,7 @@ noinline long main(int argc, char **argv) {
 				total_time = CLOCK() - start_time;
 				//printf("***Computation Complete***\n");
 				fflush(stdout);
-			}
+			/}
 
 			long max_occurance = 0, next_addr, unique_keys = 0;
 			//if (nodelets_used < 8){

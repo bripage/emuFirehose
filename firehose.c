@@ -30,13 +30,16 @@ noinline long main(int argc, char **argv) {
     MIGRATE(&address_hits[0]);
 
     if (nodelets_used == 1){
+	    start_time = CLOCK();
 		spray(0,0);
 	} else {
-	    cilk_spawn
 	    printf("Calling recursive_spawn()\n");
 	    fflush(stdout);
+	    start_time = CLOCK();
+	    cilk_spawn
 	    recursive_spawn(0, NODELETS());
 	    cilk_sync;
+	    total_time = CLOCK() - start_time;
 	    printf("***Computation Complete***\n");
 	    fflush(stdout);
     }
@@ -52,6 +55,7 @@ noinline long main(int argc, char **argv) {
             unique_keys++;
         }
     }
+	execution_time = (double) total_time / CLOCK_RATE;
     printf("Datums Received: %ld\n", file_packets);
     printf("Unique Keys: %ld\n", unique_keys);
     printf("Max occurance of any key: %ld\n", max_occurance);
@@ -61,6 +65,8 @@ noinline long main(int argc, char **argv) {
     printf("True Negatives: %ld\n", stats[3]);
     printf("False Negatives: %ld\n", stats[4]);
     printf("True Bias Flag Count: %ld\n", stats[5]);
+	printf("Execution Time = %lf msec.\n", execution_time*1000);
+	printf("Datums per msec = %lf/ms \n", file_packets/(execution_time*1000);
     fflush(stdout);
 
     cleanup();

@@ -55,6 +55,7 @@ void spray(long i, long n){
                 payload = state >> 32;
                 if (payload < 0){
                     ATOMIC_ADDM(&payload_state[j], 1);
+                    continue;
                 }
                 state = ATOMIC_ADDM(&payload_state[j], (4294967296*val)+1);
                 hits = state & 4294967295;
@@ -99,7 +100,8 @@ void spray(long i, long n){
                 state = payload_state[j];
                 payload = state >> 32;
                 if (payload < 0){
-                    ATOMIC_ADDM(&payload_state[j], 1);
+                    ATOMIC_ADDM(&payload_state[j], 1)
+                    continue;
                 }
                 state = ATOMIC_ADDM(&payload_state[j], (4294967296*val)+1);
                 hits = state & 4294967295;
@@ -147,6 +149,7 @@ void spray(long i, long n){
                 payload = state >> 32;
                 if (payload < 0) {
                     ATOMIC_ADDM(&payload_state[j], 1);
+                    continue;
                 }
                 state = ATOMIC_ADDM(&payload_state[j], (4294967296 * val) + 1);
                 hits = state & 4294967295;
@@ -192,6 +195,7 @@ void spray(long i, long n){
                 payload = state >> 32;
                 if (payload < 0) {
                     ATOMIC_ADDM(&payload_state[j], 1);
+                    continue;
                 }
                 state = ATOMIC_ADDM(&payload_state[j], (4294967296 * val) + 1);
                 hits = state & 4294967295;

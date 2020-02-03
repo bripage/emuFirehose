@@ -205,6 +205,7 @@ void spray(long i, long n){
                 state = ATOMIC_ADDM(&payload_state[j], (4294967296 * val) + 1);
                 hits = state & 4294967295;
                 payload = state >> 32;
+                
                 if (hits == hit_threshold) {
                     REMOTE_ADD(&stats[0], 1);
                     if (payload > payload_threshold) { //too high to be anomaly

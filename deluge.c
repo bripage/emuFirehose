@@ -32,9 +32,9 @@ void spray(long i, long n){
 	long local_list_end = dist_end;
     long hash, j, k, l, hits = 0, payload = 0, swap_state, state = 0, temp = 0;
     long hit_threshold = 24 * nodelets_used;
-    long payload_hreashold = 4 * nodelets_used;
+    long payload_threshold = 4 * nodelets_used;
 
-    printf("%hit_threshold= %ld, payload_hreashold = %ld\n", hit_threshold, payload_hreashold);
+    printf("hit_threshold = %ld, payload_hreashold = %ld\n", hit_threshold, payload_threshold);
     fflush(stdout);
 
     if (nodelets_used < 8){
@@ -67,7 +67,7 @@ void spray(long i, long n){
                 payload = state >> 32;
                 if (hits == hit_threshold) {
                     REMOTE_ADD(&stats[0], 1);
-                    if (payload > payload_hreashold) { //too high to be anomaly
+                    if (payload > payload_threshold) { //too high to be anomaly
                         if (flag) { // if true then it SHOULD have been one
                             REMOTE_ADD(&stats[4], 1);
                         } else { // false means it wasnt supposed to be one! yay!
@@ -113,7 +113,7 @@ void spray(long i, long n){
                 payload = state >> 32;
                 if (hits == hit_threshold) {
                     REMOTE_ADD(&stats[0], 1);
-                    if (payload > payload_hreashold) { //too high to be anomaly
+                    if (payload > payload_threshold) { //too high to be anomaly
                         if (flag) { // if true then it SHOULD have been one
                             REMOTE_ADD(&stats[4], 1);
                         } else { // false means it wasnt supposed to be one! yay!
@@ -161,7 +161,7 @@ void spray(long i, long n){
                 payload = state >> 32;
                 if (hits == hit_threshold) {
                     REMOTE_ADD(&stats[0], 1);
-                    if (payload > payload_hreashold) { //too high to be anomaly
+                    if (payload > payload_threshold) { //too high to be anomaly
                         if (flag) { // if true then it SHOULD have been one
                             REMOTE_ADD(&stats[4], 1);
                         } else { // false means it wasnt supposed to be one! yay!
@@ -207,7 +207,7 @@ void spray(long i, long n){
                 payload = state >> 32;
                 if (hits == hit_threshold) {
                     REMOTE_ADD(&stats[0], 1);
-                    if (payload > payload_hreashold) { //too high to be anomaly
+                    if (payload > payload_threshold) { //too high to be anomaly
                         if (flag) { // if true then it SHOULD have been one
                             REMOTE_ADD(&stats[4], 1);
                         } else { // false means it wasnt supposed to be one! yay!

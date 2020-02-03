@@ -29,8 +29,8 @@ noinline long main(int argc, char **argv) {
 	//fflush(stdout);
 	//MIGRATE(&address_hits[0]);
 
-	for (thread_count = 1; thread_count <= 64; thread_count *= 2) {
-		MIGRATE(&address_hits[0]);
+	for (long thread_count = 1; thread_count <= 64; thread_count *= 2) {
+		MIGRATE(&payload_state[0]);
 		mw_replicated_init(&threads_per_nodelet, thread_count);
 		printf("Threads Per Nodelet = %ld\n", threads_per_nodelet);
 		fflush(stdout);
@@ -52,7 +52,7 @@ noinline long main(int argc, char **argv) {
 
 		long max_occurance = 0, next_addr, unique_keys = 0;
 		for (i = 0; i < 100000; i++) {
-			next_addr = address_hits[i] & 4294967295;
+			next_addr = payload_state[i] & 4294967295;
 			if (next_addr > max_occurance) {
 				max_occurance = next_addr;
 			}

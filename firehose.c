@@ -30,7 +30,7 @@ noinline long main(int argc, char **argv) {
 	//MIGRATE(&address_hits[0]);
 
 	for (long n_count = 1; n_count <= 8; n_count++) {
-		printf("***** %ld Nodelets *****\n", n_count);
+		printf("\n\n***** %ld Nodelets *****\n", n_count);
 		fflush(stdout);
 
 		for (long thread_count = 1; thread_count <= 64; thread_count *= 2) {
@@ -77,7 +77,7 @@ noinline long main(int argc, char **argv) {
 			printf("False Negatives: %ld\n", stats[4]);
 			printf("True Bias Flag Count: %ld\n", stats[5]);
 			printf("Execution Time = %lf msec.\n", execution_time * 1000);
-			printf("Datums per msec = %lf/ms \n\n\n", file_packets / (execution_time * 1000000));
+			printf("Datums per msec = %lf/ms \n", file_packets / (execution_time * 1000000));
 			fflush(stdout);
 
 			cleanup();

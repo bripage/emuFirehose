@@ -32,7 +32,7 @@ noinline long main(int argc, char **argv) {
 	for (long n_count = 1; n_count <= 8; n_count++) {
 		printf("\n\n***** %ld Nodelets *****\n", n_count);
 		fflush(stdout);
-        mw_replicated_init(&nodelet_count, n_count);
+        mw_replicated_init(&nodelets_used, n_count);
 
 		for (long thread_count = 1; thread_count <= 64; thread_count *= 2) {
 			MIGRATE(&payload_state[0]);

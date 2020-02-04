@@ -44,6 +44,7 @@ void spray(long i, long n){
 	        printf("@ Datum #%ld\n", i);
 	        fflush(stdout);
 	    }
+	    /*
 	    addr = wdn[i].address;
 	    val = wdn[i].val;
 	    flag = wdn[i].flag;
@@ -134,7 +135,7 @@ void spray(long i, long n){
 
 	    //printf("%ld handled packet %ld\n", n , i);
 	    //fflush(stdout);
-
+        */
 	    i += threads_per_nodelet;
     }
 }

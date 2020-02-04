@@ -49,6 +49,8 @@ void spray(long i, long n){
         val = wdn[i].val;
         flag = wdn[i].flag;
 
+        i += threads_per_nodelet;
+
         if (flag == 1) {
             REMOTE_ADD(&stats[5], 1);
         }
@@ -58,11 +60,10 @@ void spray(long i, long n){
         acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
         // insert and update state table
         state = payload_state[j];
+        //hits = state & 4294967295;
         payload = state >> 32;
         if (payload < 0) {
             ATOMIC_ADDM(&payload_state[j], 1);
-            printf("*** Continuing ***\n");
-            fflush(stdout);
             continue;
         }
         state = ATOMIC_ADDM(&payload_state[j], (4294967296 * val) + 1);
@@ -85,8 +86,6 @@ void spray(long i, long n){
             }
             state = ATOMIC_ADDM(&payload_state[j], -4294967296);
         }
-
-        i += threads_per_nodelet;
     }
 }
 

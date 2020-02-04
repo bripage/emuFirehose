@@ -34,8 +34,8 @@ void spray(long i, long n){
     long hit_threshold = 24 * nodelets_used;
     long payload_threshold = 4 * nodelets_used;
 
-    printf("hit_threshold = %ld, payload_hreashold = %ld\n", hit_threshold, payload_threshold);
-    fflush(stdout);
+    //printf("hit_threshold = %ld, payload_hreashold = %ld\n", hit_threshold, payload_threshold);
+    //fflush(stdout);
 /*
     if (nodelets_used < 8){
         while (i < local_list_end) {

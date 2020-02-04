@@ -29,10 +29,10 @@ noinline long main(int argc, char **argv) {
 	//fflush(stdout);
 	//MIGRATE(&address_hits[0]);
 
-	//for (long n_count = 1; n_count <= 1; n_count++) {
-	//	printf("\n\n*************** %ld Nodelets ***************\n", n_count);
-	//	fflush(stdout);
-    //    mw_replicated_init(&nodelets_used, n_count);
+	//for (long n_count = ; n_count <= 8; n_count++) {
+		//printf("\n\n*************** %ld Nodelets ***************\n", n_count);
+		//fflush(stdout);
+        //mw_replicated_init(&nodelets_used, n_count);
 
 		for (long thread_count = 64; thread_count <= 64; thread_count *= 2) {
 			MIGRATE(&payload_state[0]);
@@ -50,29 +50,16 @@ noinline long main(int argc, char **argv) {
 
 
 			long max_occurance = 0, next_addr, unique_keys = 0;
-			//if (nodelets_used < 8){
-            //    for (i = 0; i < 8*100000; i++) {
-            //        next_addr = payload_state[i] & 4294967295;
-            //        if (next_addr > max_occurance) {
-            //            max_occurance = next_addr;
-            //        }
-			//
-            //        if (hash_table[i] != -1) {
-            //            unique_keys++;
-            //        }
-            //    }
-			//} else {
-                for (i = 0; i < 100000; i++) {
-                    next_addr = payload_state[i] & 4294967295;
-                    if (next_addr > max_occurance) {
-                        max_occurance = next_addr;
-                    }
-
-                    if (hash_table[i] != -1) {
-                        unique_keys++;
-                    }
+			for (i = 0; i < 100000; i++) {
+                next_addr = payload_state[i] & 4294967295;
+                if (next_addr > max_occurance) {
+                    max_occurance = next_addr;
                 }
-            //}
+                if (hash_table[i] != -1) {
+                    unique_keys++;
+                }
+            }
+
 
 			execution_time = (double) total_time / CLOCK_RATE;
 			printf("Datums Received: %ld\n", file_packets);

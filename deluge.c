@@ -61,7 +61,7 @@ void spray(long i, long n){
         payload = state >> 32;
         if (payload < 0) {
             ATOMIC_ADDM(&payload_state[j], 1);
-            printf("*** Continuing ***\n",);
+            printf("*** Continuing ***\n");
             fflush(stdout);
             continue;
         }

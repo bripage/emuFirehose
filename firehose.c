@@ -42,7 +42,7 @@ noinline long main(int argc, char **argv) {
 
 			start_time = CLOCK();
 			cilk_spawn
-			recursive_spawn(0, n_count);
+			recursive_spawn(0, nodelets_used);
 			cilk_sync;
 			total_time = CLOCK() - start_time;
 			printf("***Computation Complete***\n");
@@ -73,7 +73,7 @@ noinline long main(int argc, char **argv) {
                     }
                 }
             //}
-            
+
 			execution_time = (double) total_time / CLOCK_RATE;
 			printf("Datums Received: %ld\n", file_packets);
 			printf("Unique Keys: %ld\n", unique_keys);

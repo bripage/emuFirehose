@@ -26,8 +26,8 @@ void parse_args(int argc, char * argv[]) {
 	fflush(stdout);
 	file_packets = fbuf;
 
-	nodelets_used = atoi(argv[2]);
-	mw_replicated_init(&nodelets_used, n_count);
+	long nu = atoi(argv[2]);
+	mw_replicated_init(&nodelets_used, nu);
 	printf("Nodelets used = %ld\n", nodelets_used);
 	fflush(stdout);
 }

@@ -141,10 +141,10 @@ void spray(long i, long n){
     } else {
     */
         while (i < local_list_end) {
-        	if (i % 100000 == 0){
-		        printf("@ Datum #%ld\n", i);
-		        fflush(stdout);
-        	}
+        	//if (i % 100000 == 0){
+		    //    printf("@ Datum #%ld\n", i);
+		    //    fflush(stdout);
+        	//}
             addr = wdn[i].address;
             val = wdn[i].val;
             flag = wdn[i].flag;

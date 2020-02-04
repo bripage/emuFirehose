@@ -15,7 +15,7 @@
 int main(int argc, char **argv) {
     std::string binName(argv[1]);
 
-    long address, val, flag;
+    long addr, val, flag;
 
     std::ifstream infile2(binName.c_str(), std::ios::in | std::ios::binary);
     if (!infile2) {

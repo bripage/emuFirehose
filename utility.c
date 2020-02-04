@@ -91,7 +91,7 @@ void get_data_and_distribute() {
 			packet_val = binBuffer[bufPtr].val;
 			packet_flag = binBuffer[bufPtr].flag;
 
-			//j = index_i % nodelets_used;
+			j = index_i % nodelets_used;
 
 			for (j = 0; j < nodelets_used; j++) {
 				index_n = packet_index[j]; // get the element ID of the next empty nnz struct on the nodelet

@@ -90,16 +90,16 @@ void get_data_and_distribute() {
 			packet_val = binBuffer[bufPtr].val;
 			packet_flag = binBuffer[bufPtr].flag;
 
-			//nodelet = index_i % nodelets_used;
+			j = index_i % nodelets_used;
 
-			for (j = 0; j < nodelets_used; j++) {
+			//for (j = 0; j < nodelets_used; j++) {
 				index_n = packet_index[j]; // get the element ID of the next empty nnz struct on the nodelet
 				workload_dist[j][index_n].address = packet_address;
 				workload_dist[j][index_n].val = packet_val;
 				workload_dist[j][index_n].flag = packet_flag;
 				packet_index[j]++; // increase nnz count for the nodelet we just added it to
 				index_i++;
-			}
+			//}
 		}
 
 		if (chunk_count > 1 && i != chunk_count-1) {

@@ -29,16 +29,17 @@ noinline long main(int argc, char **argv) {
 	//fflush(stdout);
 	//MIGRATE(&address_hits[0]);
 
-	//for (long n_count = ; n_count <= 8; n_count++) {
-		//printf("\n\n*************** %ld Nodelets ***************\n", n_count);
-		//fflush(stdout);
-        //mw_replicated_init(&nodelets_used, n_count);
+	for (long n_count = 1; n_count <= 8; n_count++) {
+		printf("\n\n*************** %ld Nodelets ***************\n", n_count);
+		fflush(stdout);
+        mw_replicated_init(&nodelets_used, n_count);
 
 		for (long thread_count = 1; thread_count <= 64; thread_count *= 2) {
-			MIGRATE(&payload_state[0]);
 			mw_replicated_init(&threads_per_nodelet, thread_count);
 			printf("\nThreads Per Nodelet = %ld\n", threads_per_nodelet);
 			fflush(stdout);
+
+			MIGRATE(&payload_state[0]);
 
 			start_time = CLOCK();
 			cilk_spawn
@@ -60,7 +61,6 @@ noinline long main(int argc, char **argv) {
                 }
             }
 
-
 			execution_time = (double) total_time / CLOCK_RATE;
 			printf("Datums Received: %ld\n", file_packets);
 			printf("Unique Keys: %ld\n", unique_keys);
@@ -77,7 +77,7 @@ noinline long main(int argc, char **argv) {
 
 			cleanup();
 		}
-	//}
+	}
 
     return 0;
 }

@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
         infile2.read((char *) &addr, sizeof(long));
         infile2.read((char *) &val, sizeof(long));
         infile2.read((char *) &flag, sizeof(long));
-        printf("%ld, %ld, %ld\n", addr, val, flag);
+        //printf("%ld, %ld, %ld\n", addr, val, flag);
 
         if (addr < 1000000000 || addr > 2000000000){
             printf("ERROR: Address out of range (%ld)\n", addr);

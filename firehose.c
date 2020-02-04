@@ -29,7 +29,7 @@ noinline long main(int argc, char **argv) {
 	//fflush(stdout);
 	//MIGRATE(&address_hits[0]);
 
-	//for (long n_count = 1; n_count <= 8; n_count++) {
+	//for (long n_count = ; n_count <= 8; n_count++) {
 	//	printf("\n\n*************** %ld Nodelets ***************\n", n_count);
 	//	fflush(stdout);
     //    mw_replicated_init(&nodelets_used, n_count);

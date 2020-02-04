@@ -31,10 +31,10 @@ void spray(long i, long n){
 	struct packet * wdn = workload_dist[n];
 	long local_list_end = dist_end;
     long hash, j, k, l, hits = 0, payload = 0, swap_state, state = 0, temp = 0;
-    //long hit_threshold = 24 * nodelets_used;
-	//long payload_threshold = 4 * nodelets_used;
-	long hit_threshold = 24;
-	long payload_threshold = 4;
+    long hit_threshold = 24 * nodelets_used;
+	long payload_threshold = 4 * nodelets_used;
+	//long hit_threshold = 24;
+	//long payload_threshold = 4;
 
     //printf("hit_threshold = %ld, payload_hreashold = %ld\n", hit_threshold, payload_threshold);
     //fflush(stdout);

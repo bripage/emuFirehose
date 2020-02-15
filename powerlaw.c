@@ -186,5 +186,5 @@ void generateDatums(long n){
     printf(stdout,"generation rate (datums/sec) = %g\n", ndatum/(timestop-timestart));
     fflush(stdout);
 */
-    power_law_destroy(power);
+    //power_law_destroy(power);
 }

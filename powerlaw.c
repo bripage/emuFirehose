@@ -115,7 +115,7 @@ void generateDatums(long n){
     fflush(stdout);
 
     for (i = 0; i < numPackets; i++) {
-        printf("packet loop: i = %ld (%ld)\n", i, n);
+        //printf("packet loop: i = %ld (%ld)\n", i, n);
         fflush(stdout);
         // packet header
         //int offset = snprintf(buf,buflen,"packet %" PRIu64 "\n",i*numgen+whichgen);
@@ -139,13 +139,19 @@ void generateDatums(long n){
 
             //offset += snprintf(buf+offset,buflen-offset, "%" PRIu64 ",%u,%u\n",key,value,bias);
             //printf("wdn[%ld] = %zu, %ld, %ld, (%ld)\n", w_index, key, value, bias, n);
-            fflush(stdout);
+            //fflush(stdout);
+
+            if (w_index > datumsPerPacket*numPackets){
+                printf("ERROR: %ld > %ld", w_index, datumsPerPacket*numPackets);
+                fflush(stdout);
+            }
+
             wdn[w_index].address = key;
             wdn[w_index].val = value;
             wdn[w_index].flag = bias;
             w_index++;
         }
-        printf("out of datum loop %ld (%ld)\n", i, n);
+        //printf("out of datum loop %ld (%ld)\n", i, n);
         fflush(stdout);
 
         // sleep if rate is throttled

@@ -107,9 +107,16 @@ void generateDatums(long n){
     //int *ycount = (int *) malloc(maxkeys*sizeof(int));
     //for (int i = 0; i < maxkeys; i++) ycount[i] = 0;
     double timestart = myclock();
+    printf("timestart set on %ld\n", n);
+    fflush(stdout);
 
     long w_index = 0;
+    printf("w_index on %ld\n", n);
+    fflush(stdout);
+
     for (i = 0; i < numPackets; i++) {
+        printf("packet loop: i = %ld (%ld)\n", i, n);
+        fflush(stdout);
         // packet header
         //int offset = snprintf(buf,buflen,"packet %" PRIu64 "\n",i*numgen+whichgen);
 
@@ -131,13 +138,18 @@ void generateDatums(long n){
             } else value = rand_r(&vseed) & 0x1;
 
             //offset += snprintf(buf+offset,buflen-offset, "%" PRIu64 ",%u,%u\n",key,value,bias);
+            printf("wdn[%ld] = %zu, %ld, %ld, (%ld)\n", key, value, bias, n);
+            fflush(stdout);
             wdn[w_index].address = key;
             wdn[w_index].val = value;
             wdn[w_index].flag = bias;
             w_index++;
         }
+        printf("out of datum loop %ld (%ld)\n", i, n);
+        fflush(stdout);
 
         // sleep if rate is throttled
+        /*
         if (rate) {
             double n = 1.0*(i+1)*datumsPerPacket;
             double elapsed = myclock() - timestart;
@@ -147,7 +159,10 @@ void generateDatums(long n){
                 usleep(1.0e6*delay);
             }
         }
+         */
     }
+    printf("after packet loop on %ld\n", n);
+    fflush(stdout);
 
     double timestop = myclock();
     unsigned long ndatum = numPackets * datumsPerPacket;

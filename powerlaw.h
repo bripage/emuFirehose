@@ -4,6 +4,11 @@
 
 #ifndef EMUFIREHOSE_POWERLAW_H
 #define EMUFIREHOSE_POWERLAW_H
+#include "emu.h"
+#include "stdlib.h"
+#include "unistd.h"
+#include "stddef.h"
+#include "fcntl.h"
 #include <math.h>
 #include "gammafunction.h"
 

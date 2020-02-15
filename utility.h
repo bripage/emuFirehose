@@ -7,6 +7,7 @@
 #include "stddef.h"
 #include "fcntl.h"
 #include <math.h>
+#include "powerlaw.h"
 
 extern replicated struct packet ** workload_dist;
 extern replicated long PACKET_COUNT;

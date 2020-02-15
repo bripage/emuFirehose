@@ -184,8 +184,6 @@ void get_data_and_distribute() {
         fflush(stdout);
     }
 
-    cilk_sync;
-
 	for (i = 0; i < nodelet_count; i++){
 		printf("index[%d] = %d\n", i, packet_index[i]);
 	}

@@ -112,7 +112,7 @@ void generateDatums(long n){
 
             //offset += snprintf(buf+offset,buflen-offset, "%" PRIu64 ",%u,%u\n",key,value,bias);
             wdn[w_index].address = key;
-            wdn[w_index].value = value;
+            wdn[w_index].val = value;
             wdn[w_index].flag = bias;
             w_index++;
         }

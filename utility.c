@@ -188,7 +188,8 @@ void get_data_and_distribute() {
 		printf("index[%d] = %d\n", i, packet_index[i]);
 	}
 
-	mw_replicated_init_multiple(&dist_end, init_dist_end);
+	long num = file_packets/nodelets_used;
+	mw_replicated_init_multiple(&dist_end, num);
 }
 
 void init(long tph){

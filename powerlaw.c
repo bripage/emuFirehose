@@ -138,7 +138,7 @@ void generateDatums(long n){
             } else value = rand_r(&vseed) & 0x1;
 
             //offset += snprintf(buf+offset,buflen-offset, "%" PRIu64 ",%u,%u\n",key,value,bias);
-            printf("wdn[%ld] = %zu, %ld, %ld, (%ld)\n", key, value, bias, n);
+            //printf("wdn[%ld] = %zu, %ld, %ld, (%ld)\n", w_index, key, value, bias, n);
             fflush(stdout);
             wdn[w_index].address = key;
             wdn[w_index].val = value;

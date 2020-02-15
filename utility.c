@@ -47,8 +47,28 @@ long init_dist_end(long nodelet) {
 	return packet_index[nodelet];
 }
 
+void recursive_init_spawn(long low, long high){
+    long i;
+    long nodelet = NODE_ID();
+    // Want a grainsize of 1 to spawn a threadlet at each nodelet
+    for (;;) {
+        unsigned long count = high - low;
+        // spawn a threadlet at each nodelet
+        if (count <= 1) break;
+        // Invariant: count >= 2
+        unsigned long mid = low + count / 2;
+        cilk_migrate_hint(&hash_table[mid]);
+        cilk_spawn recursive_init_spawn(mid, high);
+
+        high = mid;
+    }
+
+    cilk_spawn generateDatums(nodelet);
+}
+
 void get_data_and_distribute() {
     size_t status;
+    long i;
 
 /*
     long i, file_size, file_pin, j;
@@ -159,25 +179,6 @@ void get_data_and_distribute() {
 	}
 
 	mw_replicated_init_multiple(&dist_end, init_dist_end);
-}
-
-void recursive_init_spawn(long low, long high){
-    long i;
-    long nodelet = NODE_ID();
-    // Want a grainsize of 1 to spawn a threadlet at each nodelet
-    for (;;) {
-        unsigned long count = high - low;
-        // spawn a threadlet at each nodelet
-        if (count <= 1) break;
-        // Invariant: count >= 2
-        unsigned long mid = low + count / 2;
-        cilk_migrate_hint(&hash_table[mid]);
-        cilk_spawn recursive_init_spawn(mid, high);
-
-        high = mid;
-    }
-
-    cilk_spawn generateDatums(nodelet);
 }
 
 void init(long tph){

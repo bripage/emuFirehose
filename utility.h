@@ -22,12 +22,13 @@ extern FILE * ifp;
 struct packet;
 extern replicated long nodelets_used;
 extern replicated long threads_per_nodelet;
-extern replicated long* numPackets;
-extern replicated long* datumsPerPacket;
+extern replicated long numPackets;
+extern replicated long datumsPerPacket;
 
 void parse_args(int argc, char * argv[]);
 void init();
 void cleanup();
+void recursive_init_spawn(long low, long high);
 
 
 //#endif //EMUFIREHOSE_UTILITY_H

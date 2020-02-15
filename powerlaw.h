@@ -15,8 +15,8 @@
 extern replicated struct packet ** workload_dist;
 extern replicated long dist_end;
 extern replicated long nodelets_used;
-extern replicated long* numPackets;
-extern replicated long* datumsPerPacket;
+extern replicated long numPackets;
+extern replicated long datumsPerPacket;
 void generateDatums(long n);
 
 typedef struct {

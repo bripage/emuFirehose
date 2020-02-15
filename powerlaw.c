@@ -76,9 +76,17 @@ void generateDatums(long n){
     // initialize RNG and seeds
     // use different keyoffsets in parallel, so key spaces are disjoint
     if (!kseed) kseed = (unsigned long) time(NULL);
+    printf("kseed reset on %%ld\n", n);
+    fflush(stdout);
     kseed += whichgen;
+    printf("kseed+whichgen on %%ld\n", n);
+    fflush(stdout);
     vseed += whichgen;
+    printf("vseed set on %%ld\n", n);
+    fflush(stdout);
     srand(kseed);
+    printf("srand set on %%ld\n", n);
+    fflush(stdout);
     keyoffset += whichgen*keyoffset;
 
     // create power-law distribution

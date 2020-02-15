@@ -19,8 +19,10 @@ extern long * packet_index;
 extern long file_packets;
 extern FILE * ifp;
 struct packet;
-extern long nodelets_used;
+extern replicated long nodelets_used;
 extern replicated long threads_per_nodelet;
+extern replicated long* numPackets;
+extern replicated long* datumsPerPacket;
 
 void parse_args(int argc, char * argv[]);
 void init();

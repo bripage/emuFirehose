@@ -18,9 +18,11 @@ replicated long nodelet_count;
 replicated unsigned long * hash_table;
 replicated long * payload_state;
 replicated long* stats;
+replicated long* numPackets;
+replicated long* datumsPerPacket;
 long * packet_index;
 long file_packets;
-long nodelets_used;
+long replicated nodelets_used;
 replicated long threads_per_nodelet;
 
 FILE * ifp;

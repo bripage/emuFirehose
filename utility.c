@@ -6,7 +6,7 @@
 
 void parse_args(int argc, char * argv[]) {
     size_t status;
-
+/*
     // Open Input File
     ifp = fopen(argv[1], "rb");
     if (ifp == NULL) {
@@ -25,11 +25,22 @@ void parse_args(int argc, char * argv[]) {
 	printf("Packet Count = %ld\n", fbuf);
 	fflush(stdout);
 	file_packets = fbuf;
-
-	long nu = atoi(argv[2]);
+*/
+	long nu = atoi(argv[1]);
 	mw_replicated_init(&nodelets_used, nu);
 	printf("Nodelets used = %ld\n", nodelets_used);
 	fflush(stdout);
+
+    long np = atoi(argv[2]);
+    mw_replicated_init(&numPackets, np);
+    printf("Packet Count = %ld\n", numPackets);
+    fflush(stdout);
+
+    long dpp = atoi(argv[3]);
+    mw_replicated_init(&datumsPerPacket, dpp);
+    printf("Datums Per Packet = %ld\n", datumsPerPacket);
+    fflush(stdout);
+    file_packets = datumsPerPacket * numPackets;
 }
 
 long init_dist_end(long nodelet) {
@@ -38,6 +49,8 @@ long init_dist_end(long nodelet) {
 
 void get_data_and_distribute() {
     size_t status;
+
+/*
     long i, file_size, file_pin, j;
     unsigned long packet_address;
     long packet_val, packet_flag;
@@ -136,12 +149,35 @@ void get_data_and_distribute() {
 	free(binBuffer);
 	printf("done reading matrix from buffer\n");
 	fflush(stdout);
+*/
+
+    cilk_spawn recursive_init_spawn(0, nodelets_used);
+    cilk_sync;
 
 	for (i = 0; i < nodelet_count; i++){
 		printf("index[%d] = %d\n", i, packet_index[i]);
 	}
 
 	mw_replicated_init_multiple(&dist_end, init_dist_end);
+}
+
+void recursive_init_spawn(long low, long high){
+    long i;
+    long nodelet = NODE_ID();
+    // Want a grainsize of 1 to spawn a threadlet at each nodelet
+    for (;;) {
+        unsigned long count = high - low;
+        // spawn a threadlet at each nodelet
+        if (count <= 1) break;
+        // Invariant: count >= 2
+        unsigned long mid = low + count / 2;
+        cilk_migrate_hint(&hash_table[mid]);
+        cilk_spawn recursive_init_spawn(mid, high);
+
+        high = mid;
+    }
+
+    cilk_spawn generateDatums(nodelet);
 }
 
 void init(long tph){

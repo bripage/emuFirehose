@@ -1,49 +1,96 @@
-407999951000000020,1,0
-407999951000000001,1,0
-407999951000000001,1,0
-407999951000000001,0,0
-407999951000000001,1,0
-407999951000000003,1,0
-407999951000000001,1,0
-407999951000000002,0,0
-407999951000000001,0,0
-407999961000000003,1,0
-407999961000000001,1,0
-407999961000000002,0,0
-407999961000000001,1,0
-407999961000000002,1,0
-407999961000000001,0,0
-407999961000000005,1,0
-407999961000000002,1,0
-407999961000000058,1,0
-407999961000000032,1,0
-407999971000000004,0,0
-407999971000000003,0,0
-407999971000000001,1,0
-407999971000000013,1,0
-407999971000000001,1,0
-407999971000000002,1,0
-407999971000000001,0,0
-407999971000000007,0,0
-407999971000000012,0,0
-407999971000000001,1,0
-407999981000000448,1,0
-407999981000000009,0,0
-407999981000000004,0,0
-407999981000000001,0,0
-407999981000000001,1,0
-407999981000000026,1,0
-407999981000000006,0,0
-407999981000000001,1,0
-407999981000000012,1,0
-407999981000000002,1,0
-407999991000000001,1,0
-407999991000000001,0,0
-407999991000000003,1,0
-407999991000000014,0,0
-407999991000000002,1,0
-407999991000000023,0,0
-407999991000000038,1,0
-407999991000000002,0,0
-407999991000000007,0,0
-407999991000000006,1,0
+cd bmw3_2
+rm *.bin
+../../emuSpMV/converter bmw3_2.mtx bmw3_2.bin 0 0 0
+cd ..
+cd CO
+rm *.bin
+../../emuSpMV/converter CO.mtx CO.bin 0 0 0
+cd ..
+cd comsol
+rm *.bin
+../../emuSpMV/converter comsol.mtx comsol.bin 0 0 0
+cd ..
+cd consph
+rm *.bin
+../../emuSpMV/converter consph.mtx consph.bin 0 0 0
+cd ..
+cd crankseg_2
+rm *.bin
+../../emuSpMV/converter crankseg_2.mtx crankseg_2.bin 0 0 0
+cd ..
+cd CurlCurl_3
+rm *.bin
+../../emuSpMV/converter CurlCurl_3.mtx CurlCurl_3.bin 0 0 0
+cd ..
+cd dielFilterV3real
+rm *.bin
+../../emuSpMV/converter dielFilterV3real.mtx dielFilterV3real.bin 0 0 0
+cd ..
+cd F2
+rm *.bin
+../../emuSpMV/converter F2.mtx F2.bin 0 0 0
+cd ..
+cd FEM_3D_thermal2
+rm *.bin
+../../emuSpMV/converter FEM_3D_thermal2.mtx FEM_3D_thermal2.bin 0 0 0
+cd ..
+cd gsm_106857
+rm *.bin
+../../emuSpMV/converter gsm_106857.mtx gsm_106857.bin 0 0 0
+cd ..
+cd human_gene1
+rm *.bin
+../../emuSpMV/converter human_gene1.mtx human_gene1.bin 0 0 0
+cd ..
+cd mouse_gene
+rm *.bin
+../../emuSpMV/converter mouse_gene.mtx mouse_gene.bin 0 0 0
+cd ..
+cd msdoor
+rm *.bin
+../../emuSpMV/converter msdoor.mtx msdoor.bin 0 0 0
+cd ..
+cd m_t1
+rm *.bin
+../../emuSpMV/converter m_t1.mtx m_t1.bin 0 0 0
+cd ..
+cd nd24k
+rm *.bin
+../../emuSpMV/converter nd24k.mtx nd24k.bin 0 0 0
+cd ..
+cd nlpkkt80
+rm *.bin
+../../emuSpMV/converter nlpkkt80.mtx nlpkkt80.bin 0 0 0
+cd ..
+cd offshore
+rm *.bin
+../../emuSpMV/converter offshore.mtx offshore.bin 0 0 0
+cd ..
+cd parabolic_fem
+rm *.bin
+../../emuSpMV/converter parabolic_fem.mtx parabolic_fem.bin 0 0 0
+cd ..
+cd rajat30
+rm *.bin
+../../emuSpMV/converter rajat30.mtx rajat30.bin 0 0 0
+cd ..
+cd RM07R
+rm *.bin
+../../emuSpMV/converter RM07R.mtx RM07R.bin 0 0 0
+cd ..
+cd SiO2
+rm *.bin
+../../emuSpMV/converter SiO2.mtx SiO2.bin 0 0 0
+cd ..
+cd t3dh
+rm *.bin
+../../emuSpMV/converter t3dh.mtx t3dh.bin 0 0 0
+cd ..
+cd torso1
+rm *.bin
+../../emuSpMV/converter torso1.mtx torso1.bin 0 0 0
+cd ..
+cd TSOPF_RS_b2383
+rm *.bin
+../../emuSpMV/converter TSOPF_RS_b2383.mtx TSOPF_RS_b2383.bin 0 0 0
+cd ..

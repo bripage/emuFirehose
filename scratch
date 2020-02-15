@@ -1,96 +1,50 @@
-cd bmw3_2
-rm *.bin
-../../emuSpMV/converter bmw3_2.mtx bmw3_2.bin 0 0 0
-cd ..
-cd CO
-rm *.bin
-../../emuSpMV/converter CO.mtx CO.bin 0 0 0
-cd ..
-cd comsol
-rm *.bin
-../../emuSpMV/converter comsol.mtx comsol.bin 0 0 0
-cd ..
-cd consph
-rm *.bin
-../../emuSpMV/converter consph.mtx consph.bin 0 0 0
-cd ..
-cd crankseg_2
-rm *.bin
-../../emuSpMV/converter crankseg_2.mtx crankseg_2.bin 0 0 0
-cd ..
-cd CurlCurl_3
-rm *.bin
-../../emuSpMV/converter CurlCurl_3.mtx CurlCurl_3.bin 0 0 0
-cd ..
-cd dielFilterV3real
-rm *.bin
-../../emuSpMV/converter dielFilterV3real.mtx dielFilterV3real.bin 0 0 0
-cd ..
-cd F2
-rm *.bin
-../../emuSpMV/converter F2.mtx F2.bin 0 0 0
-cd ..
-cd FEM_3D_thermal2
-rm *.bin
-../../emuSpMV/converter FEM_3D_thermal2.mtx FEM_3D_thermal2.bin 0 0 0
-cd ..
-cd gsm_106857
-rm *.bin
-../../emuSpMV/converter gsm_106857.mtx gsm_106857.bin 0 0 0
-cd ..
-cd human_gene1
-rm *.bin
-../../emuSpMV/converter human_gene1.mtx human_gene1.bin 0 0 0
-cd ..
-cd mouse_gene
-rm *.bin
-../../emuSpMV/converter mouse_gene.mtx mouse_gene.bin 0 0 0
-cd ..
-cd msdoor
-rm *.bin
-../../emuSpMV/converter msdoor.mtx msdoor.bin 0 0 0
-cd ..
-cd m_t1
-rm *.bin
-../../emuSpMV/converter m_t1.mtx m_t1.bin 0 0 0
-cd ..
-cd nd24k
-rm *.bin
-../../emuSpMV/converter nd24k.mtx nd24k.bin 0 0 0
-cd ..
-cd nlpkkt80
-rm *.bin
-../../emuSpMV/converter nlpkkt80.mtx nlpkkt80.bin 0 0 0
-cd ..
-cd offshore
-rm *.bin
-../../emuSpMV/converter offshore.mtx offshore.bin 0 0 0
-cd ..
-cd parabolic_fem
-rm *.bin
-../../emuSpMV/converter parabolic_fem.mtx parabolic_fem.bin 0 0 0
-cd ..
-cd rajat30
-rm *.bin
-../../emuSpMV/converter rajat30.mtx rajat30.bin 0 0 0
-cd ..
-cd RM07R
-rm *.bin
-../../emuSpMV/converter RM07R.mtx RM07R.bin 0 0 0
-cd ..
-cd SiO2
-rm *.bin
-../../emuSpMV/converter SiO2.mtx SiO2.bin 0 0 0
-cd ..
-cd t3dh
-rm *.bin
-../../emuSpMV/converter t3dh.mtx t3dh.bin 0 0 0
-cd ..
-cd torso1
-rm *.bin
-../../emuSpMV/converter torso1.mtx torso1.bin 0 0 0
-cd ..
-cd TSOPF_RS_b2383
-rm *.bin
-../../emuSpMV/converter TSOPF_RS_b2383.mtx TSOPF_RS_b2383.bin 0 0 0
-cd ..
+spawned on 0.
+spawned on 1.
+spawned on 6.
+spawned on 3.
+spawned on 4.
+spawned on 4.
+spawned on 2.
+spawned on 1.
+spawned on 7.
+spawned on 1.
+spawned on 5.
+spawned on 2.
+spawned on 4.
+spawned on 2.
+spawned on 3.
+spawned on 7.
+spawned on 5.
+spawned on 3.
+spawned on 3.
+spawned on 7.
+spawned on 5.
+spawned on 0.
+spawned on 6.
+spawned on 0.
+spawned on 0.
+spawned on 5.
+spawned on 5.
+spawned on 7.
+spawned on 1.
+spawned on 4.
+spawned on 2.
+spawned on 6.
+spawned on 1.
+spawned on 6.
+spawned on 5.
+spawned on 7.
+spawned on 4.
+spawned on 6.
+spawned on 6.
+spawned on 2.
+spawned on 0.
+spawned on 0.
+spawned on 2.
+spawned on 0.
+spawned on 1.
+spawned on 7.
+spawned on 3.
+spawned on 1.
+spawned on 3.
+spawned on 4.

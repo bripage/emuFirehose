@@ -65,7 +65,7 @@ void recursive_init_spawn(long low, long high){
         high = mid;
     }
 
-    cilk_spawn generateDatums(nodelet);
+    generateDatums(nodelet);
 }
 
 void get_data_and_distribute() {

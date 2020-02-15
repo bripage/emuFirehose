@@ -138,8 +138,8 @@ void generateDatums(long n){
             } else value = rand_r(&vseed) & 0x1;
 
             //offset += snprintf(buf+offset,buflen-offset, "%" PRIu64 ",%u,%u\n",key,value,bias);
-            printf("wdn[%ld] = %zu, %ld, %ld, (%ld)\n", w_index, key, value, bias, n);
-            fflush(stdout);
+            //printf("wdn[%ld] = %zu, %ld, %ld, (%ld)\n", w_index, key, value, bias, n);
+            //fflush(stdout);
 
             if (w_index > datumsPerPacket*numPackets){
                 printf("ERROR: %ld > %ld", w_index, datumsPerPacket*numPackets);
@@ -186,5 +186,5 @@ void generateDatums(long n){
     printf(stdout,"generation rate (datums/sec) = %g\n", ndatum/(timestop-timestart));
     fflush(stdout);
 */
-    //power_law_destroy(power);
+    power_law_destroy(power);
 }

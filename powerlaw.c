@@ -15,7 +15,7 @@
 
 //#include "../include/udp_throw.h"
 #include "powerlaw.h"
-#include "../include/evahash.h"
+#include "evahash.h"
 
 // UDP ports
 

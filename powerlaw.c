@@ -171,11 +171,18 @@ void generateDatums(long n){
     fflush(stdout);
 
     double timestop = myclock();
+    printf("after get stop time (%ld)\n", n);
+    fflush(stdout);
     unsigned long ndatum = numPackets * datumsPerPacket;
+    printf("after ndatum calc (%ld)\n", n);
+    fflush(stdout);
 
     printf(stdout,"packets emitted = %zu\n",npacket);
+    fflush(stdout);
     printf(stdout,"datums emitted = %zu\n",ndatum);
+    fflush(stdout);
     printf(stdout,"elapsed time (secs) = %g\n",timestop-timestart);
+    fflush(stdout);
     printf(stdout,"generation rate (datums/sec) = %g\n", ndatum/(timestop-timestart));
     fflush(stdout);
 

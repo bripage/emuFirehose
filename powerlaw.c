@@ -62,6 +62,9 @@ void generateDatums(long n){
     whichgen = n;
     struct packet * wdn = workload_dist[n];
 
+    printf("local wdn set on %%ld\n", n);
+    fflush(stdout);
+
     if (numPackets <= 0 || datumsPerPacket <= 0 || rate < 0 || whichgen < 0
         || whichgen >= numgen || kseed < 0 || mask <= 0){
         printf(stderr, "ERROR: invalid command-line switch\n");
@@ -139,6 +142,7 @@ void generateDatums(long n){
     printf(stdout,"datums emitted = %zu\n",ndatum);
     printf(stdout,"elapsed time (secs) = %g\n",timestop-timestart);
     printf(stdout,"generation rate (datums/sec) = %g\n", ndatum/(timestop-timestart));
+    fflush(stdout);
 
     power_law_destroy(power);
 }

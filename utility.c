@@ -189,7 +189,8 @@ void get_data_and_distribute() {
 	}
 
 	long num = file_packets/nodelets_used;
-	mw_replicated_init_multiple(&dist_end, num);
+	//mw_replicated_init_multiple(&dist_end, init_dist_end);
+    mw_replicated_init(&dist_end, num);
 }
 
 void init(long tph){

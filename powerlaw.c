@@ -176,7 +176,7 @@ void generateDatums(long n){
     unsigned long ndatum = numPackets * datumsPerPacket;
     printf("after ndatum calc (%ld)\n", n);
     fflush(stdout);
-
+/*
     printf(stdout,"packets emitted = %zu\n",npacket);
     fflush(stdout);
     printf(stdout,"datums emitted = %zu\n",ndatum);
@@ -185,6 +185,6 @@ void generateDatums(long n){
     fflush(stdout);
     printf(stdout,"generation rate (datums/sec) = %g\n", ndatum/(timestop-timestart));
     fflush(stdout);
-
+*/
     power_law_destroy(power);
 }

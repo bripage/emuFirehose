@@ -50,6 +50,8 @@ long init_dist_end(long nodelet) {
 void recursive_init_spawn(long low, long high){
     long i;
     long nodelet = NODE_ID();
+    printf("spawned on %ld.\n", nodelet);
+    fflush(stdout);
     // Want a grainsize of 1 to spawn a threadlet at each nodelet
     for (;;) {
         unsigned long count = high - low;
@@ -170,6 +172,9 @@ void get_data_and_distribute() {
 	printf("done reading matrix from buffer\n");
 	fflush(stdout);
 */
+    printf("Migrating back to nodelet 0.\n");
+    fflush(stdout);
+    MIGRATE(&payload_state[0]);
 
     cilk_spawn recursive_init_spawn(0, nodelets_used);
     cilk_sync;

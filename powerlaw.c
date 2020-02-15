@@ -94,13 +94,13 @@ void generateDatums(long n){
     fflush(stdout);
 
     // create power-law distribution
-    printf(stdout,"initializing power-law distribution ...\n");
+    printf("initializing power-law distribution ...\n");
     fflush(stdout);
 
     power_law_distribution_t * power = power_law_initialize(concentration,maxkeys,RAND_MAX);
 
     // generate the datums in packets
-    printf(stdout,"starting generator ...\n");
+    printf("starting generator ...\n");
     fflush(stdout);
 
     // plot

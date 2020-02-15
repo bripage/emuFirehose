@@ -180,6 +180,8 @@ void get_data_and_distribute() {
     for (i = 0; i < nodelets_used; i++){
         cilk_migrate_hint(&hash_table[i]);
         cilk_spawn generateDatums(i);
+        printf("after cilk spawn\n");
+        fflush(stdout);
     }
 
     cilk_sync;

@@ -176,7 +176,12 @@ void get_data_and_distribute() {
     fflush(stdout);
     MIGRATE(&payload_state[0]);
 
-    cilk_spawn recursive_init_spawn(0, nodelets_used);
+//    cilk_spawn recursive_init_spawn(0, nodelets_used);
+    for (i = 0; i < nodelets_used; i++){
+        cilk_migrate_hint(&hash_table[i]);
+        cilk_spawn generateDatums(i);
+    }
+
     cilk_sync;
 
 	for (i = 0; i < nodelet_count; i++){

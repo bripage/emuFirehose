@@ -55,6 +55,9 @@ double myclock()
 }
 
 void generateDatums(long n){
+    printf("spawned on %ld (n_used = %ld)\n", n, nodelets_used);
+    fflush(stdout);
+
     numgen = nodelets_used;
     whichgen = n;
     struct packet * wdn = workload_dist[n];

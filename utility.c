@@ -285,6 +285,7 @@ void init(long tph){
     printf("workload_dist replicated\n");
     fflush(stdout);
 
+    /*
     for(i = 0; i < nodelets_used; i++) {
         for (j = 0; j < packets_per_nodelet; j++) {
             workload_dist[i][j].address = 0;
@@ -292,7 +293,15 @@ void init(long tph){
             workload_dist[i][j].flag = 0;
         }
     }
+    */
 
+    for (i = 0; i < nodelets_used; i++) {
+        cilk_migrate_hint(&hash_table[i]);
+        cilk_spawn generateDatums(i);
+    }
+    cilk_sync;
+    printf("Done zeroing out packet memory\n");
+    fflush(stdout);
 
 
     packet_index = (long *) malloc(nodelet_count * sizeof(long));
@@ -302,7 +311,15 @@ void init(long tph){
 
     get_data_and_distribute();
 }
-
+void init_wd(long n){
+    long i;
+    struct packet * wdn = workload_dist[n];
+    for (i = 0; i < file_packets; i++){
+        wdn[i].address = 0;
+        wdn[i].val = 0;
+        wdn[i].flag = 0;
+    }
+}
 void cleanup(){
 	long i;
     //if (nodelets_used < 8) {

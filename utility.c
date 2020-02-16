@@ -285,13 +285,7 @@ void init(long tph){
         packet_index[i] = 0;
     }
 
-    //get_data_and_distribute();
-
-    //for(i = 0; i < nodelets_used; i++) {
-        generateDatums(0);
-    //}
-    long num = file_packets/nodelets_used;
-    mw_replicated_init(&dist_end, num);
+    get_data_and_distribute();
 }
 
 void cleanup(){

@@ -297,7 +297,7 @@ void init(long tph){
 
     for (i = 0; i < nodelets_used; i++) {
         cilk_migrate_hint(&hash_table[i]);
-        cilk_spawn generateDatums(i);
+        cilk_spawn init_wd(i);
     }
     cilk_sync;
     printf("Done zeroing out packet memory\n");

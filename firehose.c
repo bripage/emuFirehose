@@ -62,7 +62,7 @@ noinline long main(int argc, char **argv) {
             }
 
 			execution_time = (double) total_time / CLOCK_RATE;
-			printf("Datums Received: %ld\n", file_packets);
+			printf("Datums Received: %ld\n", file_packets*nodelets_used);
 			printf("Unique Keys: %ld\n", unique_keys);
 			printf("Max occurance of any key: %ld\n", max_occurance);
 			printf("Event Count: %ld\n", stats[0]);

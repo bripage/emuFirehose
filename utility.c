@@ -41,7 +41,7 @@ void parse_args(int argc, char * argv[]) {
     printf("Datums Per Packet = %ld\n", datumsPerPacket);
     fflush(stdout);
     file_packets = datumsPerPacket * numPackets;
-    file_packets *= nodelets_used;
+    //file_packets *= nodelets_used;
 }
 
 long init_dist_end(long nodelet) {
@@ -194,9 +194,9 @@ void get_data_and_distribute() {
 
 	generateDatums(0);
 
-	long num = file_packets/nodelets_used;
+	//long num = file_packets/nodelets_used;
 	//mw_replicated_init_multiple(&dist_end, init_dist_end);
-    mw_replicated_init(&dist_end, num);
+    mw_replicated_init(&dist_end, file_packets);
 }
 
 void init(long tph){

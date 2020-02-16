@@ -103,12 +103,12 @@ void generateDatums(long n){
     printf("starting generator ...\n");
     fflush(stdout);
 
-    long w_index = 0, nodelet = 0;
+    long w_index = 0;
     //struct packet * wdn;
     printf("w_index on %ld\n", n);
     fflush(stdout);
 
-    cilk_for (nodelet = 0; nodelet < nodelets_used; nodelet++) {
+    cilk_for (long nodelet = 0; nodelet < nodelets_used; nodelet++) {
         make_packets(nodelet, kseed, vseed, keyoffset, numgen, whichgen, power);
     }
 /*
@@ -171,7 +171,7 @@ void generateDatums(long n){
 
 void make_packets(long nodelet, long kseed, long vseed, long keyoffset, long numgen, long whichgen, power_law_distribution_t * power) {
     struct packet * wdn = workload_dist[nodelet];
-    long w_index = 0;
+    long i, j, w_index = 0;
 
     for (i = 0; i < numPackets; i++) {
         //printf("packet loop: i = %ld (%ld)\n", i, n);
@@ -200,7 +200,7 @@ void make_packets(long nodelet, long kseed, long vseed, long keyoffset, long num
                 printf("ERROR: %ld > %ld", w_index, datumsPerPacket * numPackets);
                 fflush(stdout);
             }
-            
+
             REMOTE_ADD(&wdn[w_index].address, key);
             REMOTE_ADD(&wdn[w_index].val, value);
             REMOTE_ADD(&wdn[w_index].flag, bias);

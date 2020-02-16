@@ -58,8 +58,8 @@ void generateDatums(long n){
     printf("spawned on %ld (n_used = %ld)\n", n, nodelets_used);
     fflush(stdout);
 
-    //numgen = nodelets_used;
-    //whichgen = n;
+    numgen = nodelets_used;
+    whichgen = n;
     //struct packet * wdn = workload_dist[n];
 
     //printf("local wdn set on %%ld\n", n);
@@ -103,18 +103,15 @@ void generateDatums(long n){
     printf("starting generator ...\n");
     fflush(stdout);
 
-    // plot
-    //int *ycount = (int *) malloc(maxkeys*sizeof(int));
-    //for (int i = 0; i < maxkeys; i++) ycount[i] = 0;
-    double timestart = myclock();
-    printf("timestart set on %ld\n", n);
-    fflush(stdout);
-
     long w_index = 0, nodelet = 0;
-    struct packet * wdn;
+    //struct packet * wdn;
     printf("w_index on %ld\n", n);
     fflush(stdout);
 
+    cilk_for (nodelet = 0; nodelet < nodelets_used; nodelet++) {
+        make_packets(nodelet, kseed, vseed, keyoffset, numgen, whichgen, power);
+    }
+/*
     for (nodelet = 0; nodelet < nodelets_used; nodelet++) {
         wdn = workload_dist[nodelet];
         w_index = 0;
@@ -163,39 +160,55 @@ void generateDatums(long n){
             }
             //printf("out of datum loop %ld (%ld)\n", i, n);
             //fflush(stdout);
-
-            // sleep if rate is throttled
-            /*
-            if (rate) {
-                double n = 1.0*(i+1)*datumsPerPacket;
-                double elapsed = myclock() - timestart;
-                double actual_rate = n/elapsed;
-                if (actual_rate > rate) {
-                    double delay = n/rate - elapsed;
-                    usleep(1.0e6*delay);
-                }
-            }
-            */
         }
     }
     printf("after packet loop on %ld\n", n);
     fflush(stdout);
-/*
-    double timestop = myclock();
-    printf("after get stop time (%ld)\n", n);
-    fflush(stdout);
-    unsigned long ndatum = numPackets * datumsPerPacket;
-    printf("after ndatum calc (%ld)\n", n);
-    fflush(stdout);
-/*
-    printf(stdout,"packets emitted = %zu\n",npacket);
-    fflush(stdout);
-    printf(stdout,"datums emitted = %zu\n",ndatum);
-    fflush(stdout);
-    printf(stdout,"elapsed time (secs) = %g\n",timestop-timestart);
-    fflush(stdout);
-    printf(stdout,"generation rate (datums/sec) = %g\n", ndatum/(timestop-timestart));
-    fflush(stdout);
 */
     power_law_destroy(power);
+}
+
+
+void make_packets(long nodelet, long kseed, long vseed, long keyoffset, long numgen, long whichgen, power_law_distribution_t * power) {
+    struct packet * wdn = workload_dist[nodelet];
+    long w_index = 0;
+
+    for (i = 0; i < numPackets; i++) {
+        //printf("packet loop: i = %ld (%ld)\n", i, n);
+        fflush(stdout);
+        // packet header
+        //int offset = snprintf(buf,buflen,"packet %" PRIu64 "\n",i*numgen+whichgen);
+
+        // generate one packet with perpacket datums
+        uint64_t key;
+        for (j = 0; j < datumsPerPacket; j++) {
+            uint64_t rn = rand_r(&kseed);
+            while ((key = power_law_simulate(rn, power)) >= maxkeys)
+                rn = rand_r(&kseed);
+
+            // plot
+            //ycount[key]++;
+            key += keyoffset;
+            uint32_t value = 0;
+            uint32_t bias = 0;
+            if ((evahash((uint8_t * ) & key, sizeof(uint64_t), mask) & 0xFF) == 0x11) {
+                bias = 1;
+                value = ((rand_r(&vseed) & 0xF) == 0);
+            } else value = rand_r(&vseed) & 0x1;
+
+            if (w_index > datumsPerPacket * numPackets) {
+                printf("ERROR: %ld > %ld", w_index, datumsPerPacket * numPackets);
+                fflush(stdout);
+            }
+            
+            REMOTE_ADD(&wdn[w_index].address, key);
+            REMOTE_ADD(&wdn[w_index].val, value);
+            REMOTE_ADD(&wdn[w_index].flag, bias);
+
+            w_index++;
+        }
+    }
+
+    printf("after packet loop on %ld\n", nodelet);
+    fflush(stdout);
 }

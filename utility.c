@@ -199,6 +199,16 @@ void get_data_and_distribute() {
     mw_replicated_init(&dist_end, file_packets);
 }
 
+void init_wd(long n){
+    long i;
+    struct packet * wdn = workload_dist[n];
+    for (i = 0; i < file_packets; i++){
+        wdn[i].address = 0;
+        wdn[i].val = 0;
+        wdn[i].flag = 0;
+    }
+}
+
 void init(long tph){
     long i, j;
     long nc = NODELETS();
@@ -311,15 +321,7 @@ void init(long tph){
 
     get_data_and_distribute();
 }
-void init_wd(long n){
-    long i;
-    struct packet * wdn = workload_dist[n];
-    for (i = 0; i < file_packets; i++){
-        wdn[i].address = 0;
-        wdn[i].val = 0;
-        wdn[i].flag = 0;
-    }
-}
+
 void cleanup(){
 	long i;
     //if (nodelets_used < 8) {

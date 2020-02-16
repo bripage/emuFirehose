@@ -41,6 +41,7 @@ void parse_args(int argc, char * argv[]) {
     printf("Datums Per Packet = %ld\n", datumsPerPacket);
     fflush(stdout);
     file_packets = datumsPerPacket * numPackets;
+    file_packets *= nodelets_used;
 }
 
 long init_dist_end(long nodelet) {

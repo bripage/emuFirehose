@@ -54,6 +54,50 @@ double myclock()
     return time;
 }
 
+void make_packets(long nodelet, long kseed, long vseed, long keyoffset, long numgen, long whichgen, power_law_distribution_t * power) {
+    struct packet * wdn = workload_dist[nodelet];
+    long i, j, w_index = 0;
+
+    for (i = 0; i < numPackets; i++) {
+        //printf("packet loop: i = %ld (%ld)\n", i, n);
+        fflush(stdout);
+        // packet header
+        //int offset = snprintf(buf,buflen,"packet %" PRIu64 "\n",i*numgen+whichgen);
+
+        // generate one packet with perpacket datums
+        uint64_t key;
+        for (j = 0; j < datumsPerPacket; j++) {
+            uint64_t rn = rand_r(&kseed);
+            while ((key = power_law_simulate(rn, power)) >= maxkeys)
+                rn = rand_r(&kseed);
+
+            // plot
+            //ycount[key]++;
+            key += keyoffset;
+            uint32_t value = 0;
+            uint32_t bias = 0;
+            if ((evahash((uint8_t * ) & key, sizeof(uint64_t), mask) & 0xFF) == 0x11) {
+                bias = 1;
+                value = ((rand_r(&vseed) & 0xF) == 0);
+            } else value = rand_r(&vseed) & 0x1;
+
+            if (w_index > datumsPerPacket * numPackets) {
+                printf("ERROR: %ld > %ld", w_index, datumsPerPacket * numPackets);
+                fflush(stdout);
+            }
+
+            REMOTE_ADD(&wdn[w_index].address, key);
+            REMOTE_ADD(&wdn[w_index].val, value);
+            REMOTE_ADD(&wdn[w_index].flag, bias);
+
+            w_index++;
+        }
+    }
+
+    printf("after packet loop on %ld\n", nodelet);
+    fflush(stdout);
+}
+
 void generateDatums(long n){
     printf("spawned on %ld (n_used = %ld)\n", n, nodelets_used);
     fflush(stdout);
@@ -166,49 +210,4 @@ void generateDatums(long n){
     fflush(stdout);
 */
     power_law_destroy(power);
-}
-
-
-void make_packets(long nodelet, long kseed, long vseed, long keyoffset, long numgen, long whichgen, power_law_distribution_t * power) {
-    struct packet * wdn = workload_dist[nodelet];
-    long i, j, w_index = 0;
-
-    for (i = 0; i < numPackets; i++) {
-        //printf("packet loop: i = %ld (%ld)\n", i, n);
-        fflush(stdout);
-        // packet header
-        //int offset = snprintf(buf,buflen,"packet %" PRIu64 "\n",i*numgen+whichgen);
-
-        // generate one packet with perpacket datums
-        uint64_t key;
-        for (j = 0; j < datumsPerPacket; j++) {
-            uint64_t rn = rand_r(&kseed);
-            while ((key = power_law_simulate(rn, power)) >= maxkeys)
-                rn = rand_r(&kseed);
-
-            // plot
-            //ycount[key]++;
-            key += keyoffset;
-            uint32_t value = 0;
-            uint32_t bias = 0;
-            if ((evahash((uint8_t * ) & key, sizeof(uint64_t), mask) & 0xFF) == 0x11) {
-                bias = 1;
-                value = ((rand_r(&vseed) & 0xF) == 0);
-            } else value = rand_r(&vseed) & 0x1;
-
-            if (w_index > datumsPerPacket * numPackets) {
-                printf("ERROR: %ld > %ld", w_index, datumsPerPacket * numPackets);
-                fflush(stdout);
-            }
-
-            REMOTE_ADD(&wdn[w_index].address, key);
-            REMOTE_ADD(&wdn[w_index].val, value);
-            REMOTE_ADD(&wdn[w_index].flag, bias);
-
-            w_index++;
-        }
-    }
-
-    printf("after packet loop on %ld\n", nodelet);
-    fflush(stdout);
 }

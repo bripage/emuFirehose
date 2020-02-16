@@ -58,9 +58,9 @@ void generateDatums(long n){
     printf("spawned on %ld (n_used = %ld)\n", n, nodelets_used);
     fflush(stdout);
 
-    numgen = nodelets_used;
-    whichgen = n;
-    struct packet * wdn = workload_dist[n];
+    //numgen = nodelets_used;
+    //whichgen = n;
+    //struct packet * wdn = workload_dist[n];
 
     printf("local wdn set on %%ld\n", n);
     fflush(stdout);
@@ -110,62 +110,67 @@ void generateDatums(long n){
     printf("timestart set on %ld\n", n);
     fflush(stdout);
 
-    long w_index = 0;
+    long w_index = 0, nodelet = 0;
+    struct packet * wdn;
     printf("w_index on %ld\n", n);
     fflush(stdout);
+    for (nodelet = 0; nodelet < nodelets_used; nodelet++) {
+        wdn = workload_dist[nodelet];
+        w_index = 0;
+        
+        for (i = 0; i < numPackets; i++) {
+            //printf("packet loop: i = %ld (%ld)\n", i, n);
+            fflush(stdout);
+            // packet header
+            //int offset = snprintf(buf,buflen,"packet %" PRIu64 "\n",i*numgen+whichgen);
 
-    for (i = 0; i < numPackets; i++) {
-        //printf("packet loop: i = %ld (%ld)\n", i, n);
-        fflush(stdout);
-        // packet header
-        //int offset = snprintf(buf,buflen,"packet %" PRIu64 "\n",i*numgen+whichgen);
+            // generate one packet with perpacket datums
+            uint64_t key;
+            for (j = 0; j < datumsPerPacket; j++) {
+                uint64_t rn = rand_r(&kseed);
+                while ((key = power_law_simulate(rn, power)) >= maxkeys)
+                    rn = rand_r(&kseed);
 
-        // generate one packet with perpacket datums
-        uint64_t key;
-        for (j = 0; j < datumsPerPacket; j++) {
-            uint64_t rn = rand_r(&kseed);
-            while ((key = power_law_simulate(rn,power)) >= maxkeys)
-                rn = rand_r(&kseed);
+                // plot
+                //ycount[key]++;
+                key += keyoffset;
+                uint32_t value = 0;
+                uint32_t bias = 0;
+                if ((evahash((uint8_t * ) & key, sizeof(uint64_t), mask) & 0xFF) == 0x11) {
+                    bias = 1;
+                    value = ((rand_r(&vseed) & 0xF) == 0);
+                } else value = rand_r(&vseed) & 0x1;
 
-            // plot
-            //ycount[key]++;
-            key += keyoffset;
-            uint32_t value = 0;
-            uint32_t bias = 0;
-            if ((evahash((uint8_t*) &key,sizeof(uint64_t),mask) & 0xFF) == 0x11) {
-                bias = 1;
-                value = ((rand_r(&vseed) & 0xF) == 0);
-            } else value = rand_r(&vseed) & 0x1;
+                //offset += snprintf(buf+offset,buflen-offset, "%" PRIu64 ",%u,%u\n",key,value,bias);
+                //printf("wdn[%ld] = %zu, %ld, %ld, (%ld)\n", w_index, key, value, bias, n);
+                //fflush(stdout);
 
-            //offset += snprintf(buf+offset,buflen-offset, "%" PRIu64 ",%u,%u\n",key,value,bias);
-            //printf("wdn[%ld] = %zu, %ld, %ld, (%ld)\n", w_index, key, value, bias, n);
+                if (w_index > datumsPerPacket * numPackets) {
+                    printf("ERROR: %ld > %ld", w_index, datumsPerPacket * numPackets);
+                    fflush(stdout);
+                }
+
+                wdn[w_index].address = key;
+                wdn[w_index].val = value;
+                wdn[w_index].flag = bias;
+                w_index++;
+            }
+            //printf("out of datum loop %ld (%ld)\n", i, n);
             //fflush(stdout);
 
-            if (w_index > datumsPerPacket*numPackets){
-                printf("ERROR: %ld > %ld", w_index, datumsPerPacket*numPackets);
-                fflush(stdout);
+            // sleep if rate is throttled
+            /*
+            if (rate) {
+                double n = 1.0*(i+1)*datumsPerPacket;
+                double elapsed = myclock() - timestart;
+                double actual_rate = n/elapsed;
+                if (actual_rate > rate) {
+                    double delay = n/rate - elapsed;
+                    usleep(1.0e6*delay);
+                }
             }
-
-            wdn[w_index].address = key;
-            wdn[w_index].val = value;
-            wdn[w_index].flag = bias;
-            w_index++;
+            */
         }
-        //printf("out of datum loop %ld (%ld)\n", i, n);
-        //fflush(stdout);
-
-        // sleep if rate is throttled
-        /*
-        if (rate) {
-            double n = 1.0*(i+1)*datumsPerPacket;
-            double elapsed = myclock() - timestart;
-            double actual_rate = n/elapsed;
-            if (actual_rate > rate) {
-                double delay = n/rate - elapsed;
-                usleep(1.0e6*delay);
-            }
-        }
-        */
     }
     printf("after packet loop on %ld\n", n);
     fflush(stdout);

@@ -287,9 +287,9 @@ void init(long tph){
 
     //get_data_and_distribute();
 
-    for(i = 0; i < nodelets_used; i++) {
-        generateDatums(i);
-    }
+    //for(i = 0; i < nodelets_used; i++) {
+        generateDatums(0);
+    //}
     long num = file_packets/nodelets_used;
     mw_replicated_init(&dist_end, num);
 }

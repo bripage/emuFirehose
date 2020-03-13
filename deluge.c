@@ -100,7 +100,7 @@ void spray_count(long i, long n){
     unsigned long hits = 0, payload = 0, state = 0, temp;
     struct packet *wdn = workload_dist[n];
     long local_list_end = dist_end;
-    long hash, j;
+    long hash, j, check;
     long hashSize = 6400000;
 
     while (i < local_list_end) {

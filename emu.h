@@ -9,7 +9,7 @@
 #include "timing.h"
 #include "stdio.h"
 
-#define DEBUG 0
+//#define DEBUG 0
 
 #ifndef CLOCK_RATE
 #define CLOCK_RATE 175000000

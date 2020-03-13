@@ -16,8 +16,9 @@
 extern replicated struct packet ** workload_dist;
 extern replicated long dist_end;
 extern replicated long nodelet_count;
-extern replicated unsigned long * hash_table;
 extern replicated long * payload_state;
+extern replicated long * thread_migrations;
+extern replicated long ** delegate_payload_state;
 extern replicated long* stats;
 extern long * packet_index;
 struct packet;
@@ -26,5 +27,6 @@ extern replicated long threads_per_nodelet;
 
 void recursive_spawn(long low, long high);
 void spray(long i, long n);
+void spray_count(long i, long n);
 
 #endif //EMUFIREHOSE_DELUGE_H

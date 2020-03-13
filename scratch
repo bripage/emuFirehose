@@ -1,50 +1,39 @@
-spawned on 0.
-spawned on 1.
-spawned on 6.
-spawned on 3.
-spawned on 4.
-spawned on 4.
-spawned on 2.
-spawned on 1.
-spawned on 7.
-spawned on 1.
-spawned on 5.
-spawned on 2.
-spawned on 4.
-spawned on 2.
-spawned on 3.
-spawned on 7.
-spawned on 5.
-spawned on 3.
-spawned on 3.
-spawned on 7.
-spawned on 5.
-spawned on 0.
-spawned on 6.
-spawned on 0.
-spawned on 0.
-spawned on 5.
-spawned on 5.
-spawned on 7.
-spawned on 1.
-spawned on 4.
-spawned on 2.
-spawned on 6.
-spawned on 1.
-spawned on 6.
-spawned on 5.
-spawned on 7.
-spawned on 4.
-spawned on 6.
-spawned on 6.
-spawned on 2.
-spawned on 0.
-spawned on 0.
-spawned on 2.
-spawned on 0.
-spawned on 1.
-spawned on 7.
-spawned on 3.
-spawned on 1.
-spawned on 3.
-spawned on 4.
+while (i < local_list_end) {
+    addr = wdn[i].address;
+    val = wdn[i].val;
+    flag = wdn[i].flag;
+    i += threads_per_nodelet;
+    hash = addr % 100000; //inline this
+    j = hash;
+
+    // insert and update state table
+    acquire = ATOMIC_CAS(&hash_table[j], addr, -1);
+    state = payload_state[j];
+    payload = state >> 32;
+    if (payload < 0) {
+        ATOMIC_ADDM(&payload_state[j], 1);
+        continue;
+    }
+
+    state = ATOMIC_ADDM(&payload_state[j], (4294967296 * val) + 1);
+    hits = state & 4294967295;
+    payload = state >> 32;
+
+    if (hits == hit_threshold) {
+        REMOTE_ADD(&stats[0], 1);
+        if (payload > payload_threshold) { //too high to be anomaly
+            if (flag) { // if true then it SHOULD have been one
+                REMOTE_ADD(&stats[4], 1);
+            } else { // false means it wasnt supposed to be one! yay!
+                REMOTE_ADD(&stats[3], 1);
+            }
+        } else { // anomaly present
+            if (flag) { // if true its a real one
+                REMOTE_ADD(&stats[1], 1);
+            } else { // wasnt supposed to be one
+                REMOTE_ADD(&stats[2], 1);
+            }
+        }
+        state = ATOMIC_ADDM(&payload_state[j], -4294967296);
+    }
+}

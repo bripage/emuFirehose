@@ -15,14 +15,13 @@ replicated struct packet ** workload_dist;
 replicated long PACKET_COUNT;
 replicated long dist_end;
 replicated long nodelet_count;
-replicated unsigned long * hash_table;
 replicated long * payload_state;
+replicated long * thread_migrations;
+replicated long ** delegate_payload_state;
 replicated long* stats;
-replicated long numPackets;
-replicated long datumsPerPacket;
+replicated long numDatums;
 long * packet_index;
-long file_packets;
-long replicated nodelets_used;
+replicated long nodelets_used;
 replicated long threads_per_nodelet;
 
 FILE * ifp;
